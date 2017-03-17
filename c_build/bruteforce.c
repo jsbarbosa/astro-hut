@@ -1,11 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "bruteforce.h"
 #define DOUBLE double
-
-void __init__();
-void force();
-void solver(double t0, double tmax, double dt);
 
 int N=1000;
 double m=2.0, G = 44.97, epsilon = 20*0.001;
@@ -17,20 +13,13 @@ int main(int argc, char **argv)
     int i = 0;
     __init__();
     solver(0.0, 2.5, 0.01);
-    //for (i = 0; i<N; i++)
-    //{
-        
-        //printf("ax=%f, ay=%f, az=%f\n", acc_x[i], acc_y[i], acc_z[i]);
-        ////printf("x=%f, y=%f, z=%f\n", pos_x[i], pos_y[i], pos_z[i]);
-        ////printf("vx=%f, vy=%f, vz=%f\n", speed_x[i], speed_y[i], speed_z[i]);
-    //}
 	return 0;
 }
 
 void solver(double t0, double tmax, double dt)
 {
-    int i = 0, cont = 1;
-    double dt2 = pow(dt, 2);//, v_hx, v_hy, v_hz;
+    int i = 0, cont = 0;
+    double dt2 = pow(dt, 2);
     double *v_hx = malloc(N*sizeof(DOUBLE));
     double *v_hy = malloc(N*sizeof(DOUBLE));
     double *v_hz = malloc(N*sizeof(DOUBLE));
@@ -40,9 +29,9 @@ void solver(double t0, double tmax, double dt)
     while(t0 < tmax)
     {
         sprintf(buff_pos, "%d_instant.dat", cont);
-        printf("%s\n", buff_pos);
+        sprintf(buff_sp, "%d_speed.dat", cont);
         FILE *pos = fopen(buff_pos, "w");
-        //FILE *speeds = fopen("0_speed.dat", "r
+        FILE *speeds = fopen(buff_sp, "w");
         force();
         for(i=0; i<N; i++)
         {
@@ -60,10 +49,13 @@ void solver(double t0, double tmax, double dt)
             speed_x[i] = v_hx[i] + 0.5*acc_x[i]*dt;
             speed_y[i] = v_hy[i] + 0.5*acc_y[i]*dt;
             speed_z[i] = v_hz[i] + 0.5*acc_z[i]*dt;
+            fprintf(speeds, "%f %f %f\n", speed_x[i], speed_y[i], speed_z[i]);
         }
         t0 += dt;
         cont += 1;
+        printf("iter: %d", cont);
         fclose(pos);
+        fclose(speeds);
     }
 }
 
