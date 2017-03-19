@@ -10,16 +10,17 @@ lib = ctypes.CDLL(wd)#'/home/juan/Documents/astro-hut/c_build/bruteforce.so')
 """
 argtypes
 """
-lib.init_conditions.argtypes = (ctypes.c_int, ctypes.c_double, ctypes.c_double, ctypes.c_double)
+lib.init_conditions.argtypes = (ctypes.c_int, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
 lib.solver.argtypes = (ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_char_p)
 """
 """
 
 class simulation:
-    def __init__(self, M, G, epsilon, pos = None, speeds = None, pos_name = None, speed_name = None, output="Data/"):
+    def __init__(self, M, G, epsilon = 0.01, tolerance = 1, pos = None, speeds = None, pos_name = None, speed_name = None, output="Data/"):
         self.M = M
         self.G = G
         self.epsilon = epsilon
+        self.tolerance = tolerance
         if pos_name != None and speed_name != None:
             self.pos = np.genfromtxt(pos_name).T
             self.speeds = np.genfromtxt(speed_name).T
@@ -33,7 +34,7 @@ class simulation:
         """
         c init
         """
-        lib.init_conditions(self.N, self.M, self.G, self.epsilon)
+        lib.init_conditions(self.N, self.M, self.G, self.epsilon, self.tolerance)
         c_double_p = ctypes.POINTER(ctypes.c_double)
         lib.init_from_ram.argtypes = (c_double_p, c_double_p, c_double_p,
                             c_double_p, c_double_p, c_double_p)
@@ -59,7 +60,7 @@ class simulation:
         del self
 
     def box(self):
-        lib.temp()
+        lib.init_tree()
 
 def read_output(output="Data/"):
     files = glob("%s*_instant.dat"%output)

@@ -4,17 +4,15 @@
 #include "bruteforce.h"
 
 int N;
-DOUBLE M, G, epsilon;
+DOUBLE M, G, EPSILON, TOLERANCE;
 DOUBLE *pos_x, *pos_y, *pos_z, *speed_x, *speed_y, *speed_z;
 DOUBLE *acc_x, *acc_y, *acc_z;
 
-box *create_box(int n, int *points,  DOUBLE *lb, DOUBLE cs, DOUBLE mass);
-
 int main(int argc, char **argv)
 {
-    init_conditions(1000, 2.0, 44.97, 0.02);
+    init_conditions(1000, 2.0, 44.97, 0.02, 1);
     init_from_files("pos_init.txt", "speed_init.txt");
-    temp();
+    solver(0, 0.1, 0.05, "Data/");
 	return 0;
 }
 
@@ -28,13 +26,16 @@ void solver(DOUBLE t0, DOUBLE tmax, DOUBLE dt, const char *dir)
     char buff_pos[256];
     char buff_sp[256];
     
+    box *tree;
+    
     while(t0 < tmax)
     {
         sprintf(buff_pos, "%s%d_instant.dat", dir, cont);
         sprintf(buff_sp, "%s%d_speed.dat", dir,cont);
         FILE *pos = fopen(buff_pos, "w");
         FILE *speeds = fopen(buff_sp, "w");
-        force();
+        tree = init_tree();
+        force(tree);
         for(i=0; i<N; i++)
         {
             v_hx[i] = speed_x[i] + 0.5*acc_x[i]*dt;
@@ -45,7 +46,8 @@ void solver(DOUBLE t0, DOUBLE tmax, DOUBLE dt, const char *dir)
             pos_z[i] += v_hz[i]*dt;
             fprintf(pos, "%f %f %f\n", pos_x[i], pos_y[i], pos_z[i]);
         }
-        force();
+        tree = init_tree();
+        force(tree);
         for(i=0; i<N; i++)
         {
             speed_x[i] = v_hx[i] + 0.5*acc_x[i]*dt;
@@ -64,43 +66,73 @@ void solver(DOUBLE t0, DOUBLE tmax, DOUBLE dt, const char *dir)
     }
 }
 
-void force()
+void single_particle_force(int i, box *tree)
+{
+    DOUBLE *cm, mass;
+    cm = tree-> center_of_mass;
+    
+    if ((pos_x[i] != cm[0]) && (pos_y[i] != cm[1]) && (pos_z[i] != cm[2]))
+    {
+        DOUBLE cs = tree-> coordinate_size, x, y, z, r, theta;
+        mass = tree-> mass;
+        int j;
+        x = cm[0] - pos_x[i];
+        y = cm[1] - pos_y[i];
+        z = cm[2] - pos_z[i];
+        r = pow(x, 2.0) + pow(y, 2.0) + pow(z, 2.0) + EPSILON;
+        theta = cs/pow(r, 0.5);
+        if(theta > TOLERANCE)
+        {
+            if(tree-> number_of_points == 1)
+            {
+                acc_x[i] += (x/fabs(x))*mass/r;
+                acc_y[i] += (y/fabs(y))*mass/r;
+                acc_z[i] += (z/fabs(z))*mass/r;
+            }
+            else
+            {
+                box *sub = malloc(sizeof(box));
+                for(j = 0; j < tree-> number_of_subs; j++)
+                {
+                    *sub = tree->subBoxes[j];
+                    single_particle_force(i, sub);
+                }
+                free(sub);
+            }
+        }
+        else
+        {
+            acc_x[i] += (x/fabs(x))*mass/r;
+            acc_y[i] += (y/fabs(y))*mass/r;
+            acc_z[i] += (z/fabs(z))*mass/r;
+        }
+    }
+}
+
+void force(box *tree)
 {
     int i, j;
     DOUBLE x, y, z, r;
+
     for(i=0; i<N; i++)
     {
-        for(j=0; j<N; j++)
-        {
-            if(j == 0)
-            {
-                acc_x[i] = 0;
-                acc_y[i] = 0;
-                acc_z[i] = 0;
-            }
-            if(j!=i)
-            {
-                x = pos_x[i] - pos_x[j];
-                y = pos_y[i] - pos_y[j];
-                z = pos_z[i] - pos_z[j];
-                r = pow(x, 2.0) + pow(y, 2.0) + pow(z, 2.0) + epsilon;
-                acc_x[i] += -(x/fabs(x))/r;
-                acc_y[i] += -(y/fabs(y))/r;
-                acc_z[i] += -(z/fabs(z))/r;
-            }
-        }
-        acc_x[i] *= M*G;
-        acc_y[i] *= M*G;
-        acc_z[i] *= M*G;
+        acc_x[i] = 0;
+        acc_y[i] = 0;
+        acc_z[i] = 0;
+    }
+    for(i=0; i<N; i++)
+    {
+        single_particle_force(i, tree);
     }
 }    
 
-void init_conditions(int n, DOUBLE m, DOUBLE g, DOUBLE e)
+void init_conditions(int n, DOUBLE m, DOUBLE g, DOUBLE epsilon, DOUBLE tolerance)
 {
     N = n;
     M = m;
     G = g;
-    epsilon = e;
+    EPSILON = epsilon;
+    TOLERANCE = tolerance;
 }
 
 void init_from_ram(DOUBLE *x, DOUBLE *y, DOUBLE *z, DOUBLE *vx, DOUBLE *vy, DOUBLE *vz)
@@ -127,7 +159,7 @@ void init_from_ram(DOUBLE *x, DOUBLE *y, DOUBLE *z, DOUBLE *vx, DOUBLE *vy, DOUB
     }
 }
 
-void temp()
+box *init_tree()
 {
     int n = N, i;
     int *points = malloc(sizeof(int)*n);
@@ -139,7 +171,7 @@ void temp()
         points[i] = i;
     }
     bounds(low_bounds, &rank);
-    tree = create_box(n, points, low_bounds, rank, 1);
+    return create_box(n, points, low_bounds, rank, 1);
 }
 
 void bounds(DOUBLE *low_bounds, DOUBLE *size)
@@ -247,8 +279,9 @@ box *create_box(int n, int *points, DOUBLE *lb, DOUBLE cs, DOUBLE mass)
     current_box-> upper_bound[0] = lb[0] + cs;
     current_box-> upper_bound[1] = lb[1] + cs;
     current_box-> upper_bound[2] = lb[2] + cs;
-    printf("%f %f %f\n", cm[0], cm[1], cm[2]);
-    int i = 0, j, k;
+    //printf("%f %f %f\n", cm[0], cm[1], cm[2]);
+    
+    int i = 0, j = 0, k;
     DOUBLE *min_bound = malloc(3*sizeof(DOUBLE));
     DOUBLE *max_bound = malloc(3*sizeof(DOUBLE));
     int *sub_pos;
@@ -261,11 +294,12 @@ box *create_box(int n, int *points, DOUBLE *lb, DOUBLE cs, DOUBLE mass)
         min_bound[2] = lb[2];
         max_bound[0] = lb[0] + current_box-> box_half_size;
         max_bound[1] = lb[1] + current_box-> box_half_size;
-        max_bound[2] =  lb[2] + current_box-> box_half_size;
+        max_bound[2] = lb[2] + current_box-> box_half_size;
         sub_pos = where(&k, points, min_bound, max_bound);
         if (k > 0)
         {
-            current_box-> subBoxes[0] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            current_box-> subBoxes[j] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            j ++;
         }
         k = n;
         min_bound[0] = lb[0] + current_box-> box_half_size;
@@ -277,7 +311,8 @@ box *create_box(int n, int *points, DOUBLE *lb, DOUBLE cs, DOUBLE mass)
         sub_pos = where(&k, points, min_bound, max_bound);
         if (k > 0)
         {
-            current_box-> subBoxes[1] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            current_box-> subBoxes[j] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            j ++;
         }
         k = n;
         min_bound[0] = lb[0];
@@ -289,7 +324,8 @@ box *create_box(int n, int *points, DOUBLE *lb, DOUBLE cs, DOUBLE mass)
         sub_pos = where(&k, points, min_bound, max_bound);
         if (k > 0)
         {
-            current_box-> subBoxes[2] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            current_box-> subBoxes[j] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            j ++;
         }
         k = n;
         min_bound[0] = lb[0];
@@ -301,7 +337,8 @@ box *create_box(int n, int *points, DOUBLE *lb, DOUBLE cs, DOUBLE mass)
         sub_pos = where(&k, points, min_bound, max_bound);
         if (k > 0)
         {
-            current_box-> subBoxes[3] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            current_box-> subBoxes[j] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            j ++;
         }
         k = n;
         min_bound[0] = lb[0] + current_box-> box_half_size;
@@ -313,7 +350,8 @@ box *create_box(int n, int *points, DOUBLE *lb, DOUBLE cs, DOUBLE mass)
         sub_pos = where(&k, points, min_bound, max_bound);
         if (k > 0)
         {
-            current_box-> subBoxes[4] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            current_box-> subBoxes[j] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            j ++;
         }
         k = n;
         min_bound[0] = lb[0] + current_box-> box_half_size;
@@ -325,7 +363,8 @@ box *create_box(int n, int *points, DOUBLE *lb, DOUBLE cs, DOUBLE mass)
         sub_pos = where(&k, points, min_bound, max_bound);
         if (k > 0)
         {
-            current_box-> subBoxes[5] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            current_box-> subBoxes[j] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            j ++;
         }
         k = n;
         min_bound[0] = lb[0];
@@ -337,7 +376,8 @@ box *create_box(int n, int *points, DOUBLE *lb, DOUBLE cs, DOUBLE mass)
         sub_pos = where(&k, points, min_bound, max_bound);
         if (k > 0)
         {
-            current_box-> subBoxes[6] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            current_box-> subBoxes[j] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            j ++;
         }
         k = n;
         min_bound[0] = lb[0] + current_box-> box_half_size;
@@ -349,8 +389,14 @@ box *create_box(int n, int *points, DOUBLE *lb, DOUBLE cs, DOUBLE mass)
         sub_pos = where(&k, points, min_bound, max_bound);
         if (k > 0)
         {
-            current_box-> subBoxes[6] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            current_box-> subBoxes[j] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+            j ++;
         }
+        if (j!=8)
+        {
+            current_box->subBoxes = realloc(current_box->subBoxes, j*sizeof(box));
+        }
+        current_box-> number_of_subs = j;
         //j += 1;
     }
     //free(sub_pos);
@@ -387,6 +433,7 @@ int *where(int *n, int *pos, DOUBLE *min_bound, DOUBLE *max_bound)
     *n = j;
     return the_ones;
 }
+
 void init_from_files(const char *pos_name, const char *speed_name)
 {
     /*

@@ -2,12 +2,11 @@
 
 void init_from_files(const char *pos_name, const char *speed_name);
 void init_from_ram(DOUBLE *x, DOUBLE *y, DOUBLE *z, DOUBLE *vx, DOUBLE *vy, DOUBLE *vz);
-void force();
 void solver(DOUBLE t0, DOUBLE tmax, DOUBLE dt, const char *dir);
-void init_conditions(int n, DOUBLE m, DOUBLE g, DOUBLE e);
+void init_conditions(int n, DOUBLE m, DOUBLE g, DOUBLE epsilon, DOUBLE tolerance);
 void bounds(DOUBLE *low_bounds, DOUBLE *size);
 int *where(int *n, int *pos, DOUBLE *min_bound, DOUBLE *max_bound);
-void temp();
+
 
 typedef struct box_str
 {
@@ -19,7 +18,13 @@ typedef struct box_str
     DOUBLE box_half_size;
     DOUBLE mass_unit;
     DOUBLE mass;
+    DOUBLE number_of_subs;
     int number_of_points;
     
     struct box_str *subBoxes;
 } box;
+
+
+box *create_box(int n, int *points,  DOUBLE *lb, DOUBLE cs, DOUBLE mass);
+void force(box *tree);
+box *init_tree();
