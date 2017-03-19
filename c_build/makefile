@@ -1,11 +1,11 @@
-run : 1_instant.dat
-	python animate.py
+#run : 1_instant.dat
+#	python animate.py
 
-1_instant.dat : a.out
-	./a.out
+1_instant.dat : bruteforce.so core.py test.py
+	python test.py
 	
-a.out : bruteforce.c
-	gcc -lm bruteforce.c
+bruteforce.so : bruteforce.c bruteforce.h
+	gcc -fPIC -shared -O3 -o bruteforce.so bruteforce.c
 
 clean :
-	rm -f a.out *.dat
+	rm -f -r bruteforce.so *.dat __pycache__

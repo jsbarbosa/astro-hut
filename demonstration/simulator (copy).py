@@ -55,8 +55,8 @@ galaxy2 = np.dot(rotx, galaxy2)
 speeds2 = np.dot(rotx, speeds2)       
        
 system = np.zeros((3, N))
-system[:, :N_half] = galaxy1 - 0.5*diameter
-system[:, N_half:] = galaxy2 + 0.5*diameter 
+system[:, :N_half] = 2*galaxy1 - 0.5*diameter
+system[:, N_half:] = 2*galaxy2 + 0.5*diameter 
 speeds = np.zeros_like(system)
 
 speeds[:, :N_half] = speeds1
