@@ -18,13 +18,14 @@ typedef struct box_str
     DOUBLE box_half_size;
     DOUBLE mass_unit;
     DOUBLE mass;
-    DOUBLE number_of_subs;
+    int number_of_subs;
     int number_of_points;
     
     struct box_str *subBoxes;
 } box;
 
 
-box *create_box(int n, int *points,  DOUBLE *lb, DOUBLE cs, DOUBLE mass);
+box *create_box(int n, int *points,  DOUBLE *lb, DOUBLE cs);
 void force(box *tree);
 box *init_tree();
+void clean_tree(box *tree);

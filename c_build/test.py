@@ -82,7 +82,7 @@ speeds = np.zeros_like(system)
 speeds[:, :N_half] = speeds1
 speeds[:, N_half:] = speeds2
 
-sim = simulation(M, G, epsilon, tolerance = 0, pos = system, speeds = speeds)#, pos_name = "pos_init.txt", speed_name = "speed_init.txt")
+sim = simulation(M, G, epsilon, tolerance = 1.0, pos = system, speeds = speeds)
 sim.start(0, 2.5, 0.01)
 
 data = read_output()
