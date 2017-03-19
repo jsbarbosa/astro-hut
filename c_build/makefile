@@ -3,6 +3,7 @@
 
 1_instant.dat : bruteforce.so core.py test.py
 	python test.py
+	rm -r __pycache__
 	
 bruteforce.so : bruteforce.c bruteforce.h
 	gcc -fPIC -shared -O3 -o bruteforce.so bruteforce.c
