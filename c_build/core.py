@@ -12,7 +12,6 @@ argtypes
 """
 lib.init_conditions.argtypes = (ctypes.c_int, ctypes.c_double, ctypes.c_double, ctypes.c_double)
 lib.solver.argtypes = (ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_char_p)
-lib.init_from_files.argtypes = (ctypes.c_char_p, ctypes.c_char_p)
 """
 """
 
@@ -24,7 +23,7 @@ class simulation:
         if pos_name != None and speed_name != None:
             self.pos = np.genfromtxt(pos_name).T
             self.speeds = np.genfromtxt(speed_name).T
-        elif pos != None and speeds != None:
+        elif type(pos) == np.ndarray and type(speeds) == np.ndarray:
             self.pos = pos
             self.speeds = speeds
         else:

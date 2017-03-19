@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "bruteforce.h"
 
 int N;
@@ -11,6 +12,9 @@ box *create_box(int n, int *points,  DOUBLE *lb, DOUBLE cs, DOUBLE mass);
 
 int main(int argc, char **argv)
 {
+    init_conditions(1000, 2.0, 44.97, 0.02);
+    init_from_files("pos_init.txt", "speed_init.txt");
+    temp();
 	return 0;
 }
 
@@ -136,7 +140,6 @@ void temp()
     }
     bounds(low_bounds, &rank);
     tree = create_box(n, points, low_bounds, rank, 1);
-    printf("Im here\n");
 }
 
 void bounds(DOUBLE *low_bounds, DOUBLE *size)
@@ -223,7 +226,7 @@ DOUBLE *calc_center_of_mass(int n, int *pos)
 
 box *create_box(int n, int *points, DOUBLE *lb, DOUBLE cs, DOUBLE mass)
 {
-    box *current_box;
+    box *current_box = malloc(sizeof(box));
     current_box-> points = malloc(n*sizeof(DOUBLE));
     current_box-> lower_bound = malloc(3*sizeof(DOUBLE));
     current_box-> upper_bound = malloc(3*sizeof(DOUBLE));
@@ -244,9 +247,10 @@ box *create_box(int n, int *points, DOUBLE *lb, DOUBLE cs, DOUBLE mass)
     current_box-> upper_bound[0] = lb[0] + cs;
     current_box-> upper_bound[1] = lb[1] + cs;
     current_box-> upper_bound[2] = lb[2] + cs;
-    
+    printf("%f %f %f\n", cm[0], cm[1], cm[2]);
     int i = 0, j, k;
-    DOUBLE min_bound[3], max_bound[3];
+    DOUBLE *min_bound = malloc(3*sizeof(DOUBLE));
+    DOUBLE *max_bound = malloc(3*sizeof(DOUBLE));
     int *sub_pos;
     if(n > 1)
     {
@@ -255,12 +259,103 @@ box *create_box(int n, int *points, DOUBLE *lb, DOUBLE cs, DOUBLE mass)
         min_bound[0] = lb[0];
         min_bound[1] = lb[1];
         min_bound[2] = lb[2];
-        max_bound[1] = lb[0] + cs;
-        max_bound[2] = lb[1] + cs;
-        max_bound[3] =  lb[2] + cs;
-        //where(&k, points, min_bound, max_bound);
+        max_bound[0] = lb[0] + current_box-> box_half_size;
+        max_bound[1] = lb[1] + current_box-> box_half_size;
+        max_bound[2] =  lb[2] + current_box-> box_half_size;
+        sub_pos = where(&k, points, min_bound, max_bound);
+        if (k > 0)
+        {
+            current_box-> subBoxes[0] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+        }
+        k = n;
+        min_bound[0] = lb[0] + current_box-> box_half_size;
+        min_bound[1] = lb[1];
+        min_bound[2] = lb[2];
+        max_bound[0] = lb[0] + cs;
+        max_bound[1] = lb[1] + current_box-> box_half_size;
+        max_bound[2] =  lb[2] + current_box-> box_half_size;
+        sub_pos = where(&k, points, min_bound, max_bound);
+        if (k > 0)
+        {
+            current_box-> subBoxes[1] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+        }
+        k = n;
+        min_bound[0] = lb[0];
+        min_bound[1] = lb[1] + current_box-> box_half_size;
+        min_bound[2] = lb[2];
+        max_bound[0] = lb[0] + current_box-> box_half_size;
+        max_bound[1] = lb[1] + cs;
+        max_bound[2] =  lb[2] + current_box-> box_half_size;
+        sub_pos = where(&k, points, min_bound, max_bound);
+        if (k > 0)
+        {
+            current_box-> subBoxes[2] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+        }
+        k = n;
+        min_bound[0] = lb[0];
+        min_bound[1] = lb[1];
+        min_bound[2] = lb[2] + current_box-> box_half_size;
+        max_bound[0] = lb[0] + current_box-> box_half_size;
+        max_bound[1] = lb[1] + current_box-> box_half_size;
+        max_bound[2] =  lb[2] + cs;
+        sub_pos = where(&k, points, min_bound, max_bound);
+        if (k > 0)
+        {
+            current_box-> subBoxes[3] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+        }
+        k = n;
+        min_bound[0] = lb[0] + current_box-> box_half_size;
+        min_bound[1] = lb[1] + current_box-> box_half_size;
+        min_bound[2] = lb[2];
+        max_bound[0] = lb[0] + cs;
+        max_bound[1] = lb[1] + cs;
+        max_bound[2] =  lb[2] + current_box-> box_half_size;
+        sub_pos = where(&k, points, min_bound, max_bound);
+        if (k > 0)
+        {
+            current_box-> subBoxes[4] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+        }
+        k = n;
+        min_bound[0] = lb[0] + current_box-> box_half_size;
+        min_bound[1] = lb[1];
+        min_bound[2] = lb[2] + current_box-> box_half_size;
+        max_bound[0] = lb[0] + cs;
+        max_bound[1] = lb[1] + current_box-> box_half_size;
+        max_bound[2] =  lb[2] + cs;
+        sub_pos = where(&k, points, min_bound, max_bound);
+        if (k > 0)
+        {
+            current_box-> subBoxes[5] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+        }
+        k = n;
+        min_bound[0] = lb[0];
+        min_bound[1] = lb[1] + current_box-> box_half_size;
+        min_bound[2] = lb[2] + current_box-> box_half_size;
+        max_bound[0] = lb[0] + current_box-> box_half_size;
+        max_bound[1] = lb[1] + cs;
+        max_bound[2] =  lb[2] + cs;
+        sub_pos = where(&k, points, min_bound, max_bound);
+        if (k > 0)
+        {
+            current_box-> subBoxes[6] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+        }
+        k = n;
+        min_bound[0] = lb[0] + current_box-> box_half_size;
+        min_bound[1] = lb[1] + current_box-> box_half_size;
+        min_bound[2] = lb[2] + current_box-> box_half_size;
+        max_bound[0] = lb[0] + cs;
+        max_bound[1] = lb[1] + cs;
+        max_bound[2] =  lb[2] + cs;
+        sub_pos = where(&k, points, min_bound, max_bound);
+        if (k > 0)
+        {
+            current_box-> subBoxes[6] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size, mass);
+        }
         //j += 1;
     }
+    //free(sub_pos);
+    free(min_bound);
+    free(max_bound);
     //printf("%d\n", j);
     return current_box;
 }
@@ -269,30 +364,29 @@ int *where(int *n, int *pos, DOUBLE *min_bound, DOUBLE *max_bound)
 {
     int i = 0, j = 0;
     DOUBLE x, y, z;
-    int *the_ones = malloc(5*sizeof(int));
+    int *the_ones = malloc(*n*sizeof(int));
     
-    //for(i = 0; i<*n; i++)
-    //{
-        //x = pos_x[pos[i]];
-        //y = pos_y[pos[i]];
-        //z = pos_z[pos[i]];
-        //if((x > min_bound[0]) && (x < max_bound[0]))
-        //{
-            //if((y > min_bound[1]) && (y < max_bound[1]))
-            //{
-                //if((z > min_bound[1]) && (z < max_bound[2]))
-                //{
-                    //the_ones[j] = pos[i];
-                    //j++;
-                //}
-            //}
-        //}
-    //}
-//    the_ones = realloc(the_ones, j*sizeof(int));
-    //*n = j;
+    for(i = 0; i<*n; i++)
+    {
+        x = pos_x[pos[i]];
+        y = pos_y[pos[i]];
+        z = pos_z[pos[i]];
+        if((x >= min_bound[0]) && (x < max_bound[0]))
+        {
+            if((y >= min_bound[1]) && (y < max_bound[1]))
+            {
+                if((z >= min_bound[2]) && (z < max_bound[2]))
+                {
+                    the_ones[j] = pos[i];
+                    j++;
+                }
+            }
+        }
+    }
+    the_ones = realloc(the_ones, j*sizeof(int));
+    *n = j;
     return the_ones;
-}    
-
+}
 void init_from_files(const char *pos_name, const char *speed_name)
 {
     /*
