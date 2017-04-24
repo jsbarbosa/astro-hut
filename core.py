@@ -2,6 +2,9 @@ import os
 import ctypes
 import numpy as np
 from glob import glob
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.animation import FuncAnimation
 
 class simulation:
     def __init__(self, M, G, epsilon = 0.01, tolerance = 1, pos = None, speeds = None, pos_name = None, speed_name = None, output="Data/"):
@@ -41,7 +44,7 @@ class simulation:
 
     def init_lib(self):
         cwd = os.getcwd()
-        wd = '%s/bruteforce.so'%cwd
+        wd = '%s/c_build/bruteforce.so'%cwd
         self.lib = ctypes.CDLL(wd)
 
         self.lib.init_conditions.argtypes = (ctypes.c_int, ctypes.c_double,
@@ -81,8 +84,8 @@ class Galaxy(object):
         r = 0.5*self.diameter*np.random.normal(size = self.N_particles)
         self.positions[0] = r*np.cos(theta)
         self.positions[1] = r*np.sin(theta)
-        self.positions[2] = 0.1*np.exp(-r**2/self.diameter**2)*self.diameter\
-                        *2.0*(np.random.random(self.N_particles)-0.5)
+        self.positions[2] = 0.01*self.diameter*2.0*(np.random.random(self.N_particles)-0.5)
+                            # 0.1*np.exp(-r**2/self.diameter**2)*self.diameter
 
         self.center_of_mass = np.mean(self.positions, axis = 1)
         self.positions = np.array([self.positions[i] - self.center_of_mass[i]\
@@ -110,7 +113,7 @@ def speeds_generator(galaxy, G, m = 1):
             s[:2, i] = -r[i]*np.sin(theta), r[i]*np.cos(theta)
             s[:2, i] *= 1/np.sqrt(np.dot(s[:, i], s[:, i]))
             s[:2, i] *= mag
-            s[2, i] = 10*(np.random.random() - 0.5)
+            #s[2, i] = 10*(np.random.random() - 0.5)
         else:
             s[:, i] = 0
     return s
@@ -147,3 +150,46 @@ def example(N, M, G, epsilon):
     speeds[:, N_first:] = speeds2
 
     return system, speeds
+
+
+"""
+plotting
+"""
+def animate(data, N, name = "animation.mp4", show = True, save = False):
+    fig = plt.figure(figsize=(16,9))
+    ax1 = fig.add_subplot(1, 2, 1, projection='3d')
+    ax1.set_aspect("equal")
+    plot1 = ax1.plot([], [], [], "o", ms=0.5, c="g", alpha = 0.5)[0]
+    plot2 = ax1.plot([],[],[], "o", ms=0.5, c="b", alpha = 0.5)[0]
+    ax1.set_xlabel("$x$ (kpc)")
+    ax1.set_ylabel("$y$ (kpc)")
+    ax1.set_zlabel("$z$ (kpc)")
+    ax2 = fig.add_subplot(1, 2, 2)
+    plot2d1 = ax2.plot([], [], "o", ms=0.5, c="g", alpha = 0.5)[0]
+    plot2d2 = ax2.plot([],[], "o", ms=0.5, c="b", alpha = 0.5)[0]
+    ax2.set_xlabel("$y$ (kpc)")
+    ax2.set_ylabel("$z$ (kpc)")
+    N_first = int(0.5*N)
+
+    def update(i):
+        temp = data[i]
+        plot1.set_data(temp[:N_first,0], temp[:N_first,1])
+        plot1.set_3d_properties(temp[:N_first, 2])
+        plot2.set_data(temp[N_first:,0], temp[N_first:,1])
+        plot2.set_3d_properties(temp[N_first:, 2])
+
+        plot2d1.set_data(temp[:N_first,1], temp[:N_first,2])
+        plot2d2.set_data(temp[N_first:,1], temp[N_first:,2])
+
+    min_value, max_value = -100, 200
+    ax1.set_xlim(min_value, max_value)
+    ax1.set_ylim(min_value, max_value)
+    ax1.set_zlim(min_value, max_value)
+    ax2.set_xlim(min_value, max_value)
+    ax2.set_ylim(min_value, max_value)
+    # fig.tight_layout()
+    ani = FuncAnimation(fig, update, frames=len(data), interval=0.1)
+    if save:
+        ani.save(name, writer='ffmpeg', fps=24, dpi=120)
+    if show:
+        plt.show()

@@ -1,25 +1,19 @@
-#run : 1_instant.dat
-#	python animate.py
-
 CC = gcc
 CC_OPTIONS = -O3 -Wall -fPIC -fopenmp
 C_SCRIPTS = init.h box.h bruteforce.h
 OBJS = init.o box.o bruteforce.o
 
-# EXEC = bruteforce.x
 EXEC = bruteforce.so
 LIBS = -lm
 
-all: $(EXEC) #core.py test.py
-	python test.py
+all: $(EXEC)
 
 .c.o:
 	$(CC) $(CC_OPTIONS) -c $<
 
 $(EXEC):$(OBJS)
 	$(CC) -shared $(LIBS) -o $(EXEC) $(OBJS)
-	# $(CC) $(LIBS) -o $(EXEC) $(OBJS)
+	rm -f $(OBJS)
 
 clean:
 	rm -f $(OBJS) *~ ${EXEC}
-	rm -r __pycache__
