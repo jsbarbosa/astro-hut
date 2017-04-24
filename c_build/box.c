@@ -1,5 +1,6 @@
 #include "init.h"
 #include "box.h"
+#include "omp.h"
 #include <stdlib.h>
 
 void clean_tree(box *tree)
@@ -7,6 +8,7 @@ void clean_tree(box *tree)
     int j = 0;
     int n = tree->number_of_subs;
     box temp;
+    #pragma omp parallel for private(temp)
     for(j = 0; j<n; j++)
     {
         temp = tree->subBoxes[j];
@@ -28,6 +30,7 @@ box *init_tree()
     int *points = malloc(sizeof(int)*n);
     DOUBLE *low_bounds = malloc(sizeof(DOUBLE)*3);
     DOUBLE rank = 0;
+    #pragma omp parallel for
     for(i=0; i<n; i++)
     {
         points[i] = i;
@@ -47,6 +50,7 @@ void bounds(DOUBLE *low_bounds, DOUBLE *size)
     y_min = y_max = pos_y[0];
     z_min = z_max = pos_z[0];
     DOUBLE *rank = malloc(3*sizeof(DOUBLE));
+    #pragma omp parallel for private(x, y, z)
     for(i = 0; i<N; i++)
     {
         x = pos_x[i];
@@ -250,10 +254,10 @@ box *create_box(int n, int *points, DOUBLE *lb, DOUBLE cs)
             current_box-> subBoxes[j] = *create_box(k, sub_pos, min_bound, current_box-> box_half_size);
             j ++;
         }
-        // if((j!=8) && (j>0))
-        // {
-        //     current_box->subBoxes = realloc(current_box->subBoxes, j*sizeof(box));
-        // }
+        if((j!=8) && (j>0))
+        {
+            current_box->subBoxes = realloc(current_box->subBoxes, j*sizeof(box));
+        }
     }
     current_box-> number_of_subs = j;
     free(min_bound);

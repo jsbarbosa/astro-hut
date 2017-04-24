@@ -4,6 +4,7 @@
 #include "init.h"
 #include "box.h"
 #include "bruteforce.h"
+#include "omp.h"
 
 int main(int argc, char **argv)
 {
@@ -42,6 +43,7 @@ void solver(DOUBLE t0, DOUBLE tmax, DOUBLE dt, const char *dir)
         force(tree);
 
         // Leapfrog
+        #pragma omp parallel for
         for(i=0; i<N; i++)
         {
             v_hx[i] = speed_x[i] + 0.5*acc_x[i]*dt;
@@ -50,16 +52,20 @@ void solver(DOUBLE t0, DOUBLE tmax, DOUBLE dt, const char *dir)
             pos_x[i] += v_hx[i]*dt;
             pos_y[i] += v_hy[i]*dt;
             pos_z[i] += v_hz[i]*dt;
-            fprintf(pos, "%f %f %f\n", pos_x[i], pos_y[i], pos_z[i]);
         }
         clean_tree(tree);
         tree = init_tree();
         force(tree);
+        #pragma omp parallel for
         for(i=0; i<N; i++)
         {
             speed_x[i] = v_hx[i] + 0.5*acc_x[i]*dt;
             speed_y[i] = v_hy[i] + 0.5*acc_y[i]*dt;
             speed_z[i] = v_hz[i] + 0.5*acc_z[i]*dt;
+        }
+        for(i=0; i<N; i++)
+        {
+            fprintf(pos, "%f %f %f\n", pos_x[i], pos_y[i], pos_z[i]);
             fprintf(speeds, "%f %f %f\n", speed_x[i], speed_y[i], speed_z[i]);
         }
         t0 += dt;
@@ -118,7 +124,7 @@ void force(box *tree)
 {
     int i;
     // DOUBLE x, y, z, r, *a;
-
+    #pragma omp parallel for
     for(i=0; i<N; i++)
     {
         acc_x[i] = 0;
