@@ -7,21 +7,14 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
 
 class simulation:
-    def __init__(self, M, G, epsilon = 0.01, tolerance = 1, pos = None, speeds = None, pos_name = None, speed_name = None, output="Data/"):
+    def __init__(self, M, G, epsilon = 0.01, tolerance = 1, pos = None, speeds = None, output="Data/"):
         self.M = M
         self.G = G
         self.epsilon = epsilon
         self.tolerance = tolerance
-        if pos_name != None and speed_name != None:
-            self.pos = np.genfromtxt(pos_name).T
-            self.speeds = np.genfromtxt(speed_name).T
-        elif type(pos) == np.ndarray and type(speeds) == np.ndarray:
-            self.pos = pos
-            self.speeds = speeds
-        else:
-            raise("simulation init failed.")
+        self.pos = pos
+        self.speeds = speeds
         self.N = self.pos.shape[1]
-
         """
         c init
         """
@@ -32,6 +25,9 @@ class simulation:
         self.vx = self.speeds[0].ctypes.data_as(self.c_double_p)
         self.vy = self.speeds[1].ctypes.data_as(self.c_double_p)
         self.vz = self.speeds[2].ctypes.data_as(self.c_double_p)
+        
+        cwd = os.path.abspath(__file__)[:-len('core.py')]
+        self.path = glob("%sbruteforce*.so"%cwd)[0]
 
         self.init_lib()
         self.output = output
@@ -43,9 +39,7 @@ class simulation:
             os.makedirs(self.output)
 
     def init_lib(self):
-        cwd = os.getcwd()
-        wd = '%s/c_build/bruteforce.so'%cwd
-        self.lib = ctypes.CDLL(wd)
+        self.lib = ctypes.CDLL(self.path)
 
         self.lib.init_conditions.argtypes = (ctypes.c_int, ctypes.c_double,
                             ctypes.c_double, ctypes.c_double, ctypes.c_double)
@@ -53,8 +47,7 @@ class simulation:
                             ctypes.c_double, ctypes.c_char_p)
 
         self.lib.init_conditions(self.N, self.M, self.G, self.epsilon, self.tolerance)
-        self.lib.init_from_ram.argtypes = (self.c_double_p, self.c_double_p, self.c_double_p,
-                            self.c_double_p, self.c_double_p, self.c_double_p)
+        self.lib.init_from_ram.argtypes = (self.c_double_p, self.c_double_p, self.c_double_p, self.c_double_p, self.c_double_p, self.c_double_p)
 
         self.lib.init_from_ram(self.x, self.y, self.z, self.vx, self.vy, self.vz)
 
@@ -84,8 +77,7 @@ class Galaxy(object):
         r = 0.5*self.diameter*np.random.normal(size = self.N_particles)
         self.positions[0] = r*np.cos(theta)
         self.positions[1] = r*np.sin(theta)
-        self.positions[2] = 0.01*self.diameter*2.0*(np.random.random(self.N_particles)-0.5)
-                            # 0.1*np.exp(-r**2/self.diameter**2)*self.diameter
+        self.positions[2] = 0.05*self.diameter*2.0*(np.random.random(self.N_particles)-0.5)
 
         self.center_of_mass = np.mean(self.positions, axis = 1)
         self.positions = np.array([self.positions[i] - self.center_of_mass[i]\
@@ -96,6 +88,12 @@ class Galaxy(object):
 
 def read_output(output="Data/"):
     files = glob("%s*_instant.dat"%output)
+    for file_name in files:
+        with open(file_name, "r") as reading:
+            text = reading.read()
+        text = text.replace(',', '.')
+        with open(file_name, "w") as writing:
+            writing.write(text)
     return [np.genfromtxt("%s%d_instant.dat"%(output, i)) for i in range(len(files))]
 
 def speeds_generator(galaxy, G, m = 1):
@@ -105,6 +103,9 @@ def speeds_generator(galaxy, G, m = 1):
     n = len(r)
     s = np.zeros((3, n))
     for i in range(n):
+        my_pos = distances[:, i]
+        others_pos = np.array([(distances[0, :] - my_pos[i])**2 for i in range(3)]).sum(axis=0)
+        speed_mag = np.sqrt(G*m*(1/np.sqrt(others_pos)).sum())
         pos = np.where(r < r[i])[0]
         M = m*pos.shape[0]
         theta = np.arctan2(distances[1, i], distances[0, i])
@@ -113,10 +114,11 @@ def speeds_generator(galaxy, G, m = 1):
             s[:2, i] = -r[i]*np.sin(theta), r[i]*np.cos(theta)
             s[:2, i] *= 1/np.sqrt(np.dot(s[:, i], s[:, i]))
             s[:2, i] *= mag
-            #s[2, i] = 10*(np.random.random() - 0.5)
+            if speed_mag > mag:
+                s[2, i] = (speed_mag - mag)*(np.random.random() - 0.5)
         else:
             s[:, i] = 0
-    return s
+    return 0.93*s
 
 def rotation_matrixes(theta):
     x = np.array([[1, 0, 0], [0, np.cos(theta), - np.sin(theta)], [0, np.sin(theta), np.cos(theta)]])
@@ -124,7 +126,7 @@ def rotation_matrixes(theta):
     z = np.array([[np.cos(theta), -np.sin(theta), 0], [np.sin(theta), np.cos(theta), 0], [0, 0, 1]])
     return x, y, z
 
-def example(N, M, G, epsilon):
+def example(N, M, G):
     N_first = int(0.5*N)
     N_second = int(N-N_first)
     theta = np.pi/4
@@ -137,8 +139,8 @@ def example(N, M, G, epsilon):
     speeds1 = speeds_generator(galaxy1, G, M)
     speeds2 = speeds_generator(galaxy2, G, M)
 
-    galaxy2.positions = np.dot(rotx, galaxy2.positions)
-    speeds2 = np.dot(rotx, speeds2)
+    # galaxy2.positions = np.dot(rotx, galaxy2.positions)
+    # speeds2 = np.dot(rotx, speeds2)
 
     displacement = 2.5*55
     system = np.zeros((3, N))
@@ -151,11 +153,18 @@ def example(N, M, G, epsilon):
 
     return system, speeds
 
+def systemEnergy(directory = "Data/"):
+    files = glob("%s*_energy.dat"%directory)
+    energies = [np.genfromtxt("%s%d_energy.dat"%(directory, i)) for i in range(len(files))]
+    total = np.array([energy.sum() for energy in energies])
+    total = (total - total[0])/total[0]
+    return total
+
 
 """
 plotting
 """
-def animate(data, N, name = "animation.mp4", show = True, save = False):
+def animate(data, N, dt = 0.01):
     fig = plt.figure(figsize=(16,9))
     ax1 = fig.add_subplot(1, 2, 1, projection='3d')
     ax1.set_aspect("equal")
@@ -169,6 +178,7 @@ def animate(data, N, name = "animation.mp4", show = True, save = False):
     plot2d2 = ax2.plot([],[], "o", ms=0.5, c="b", alpha = 0.5)[0]
     ax2.set_xlabel("$y$ (kpc)")
     ax2.set_ylabel("$z$ (kpc)")
+    fig.suptitle('Time: 0')
     N_first = int(0.5*N)
 
     def update(i):
@@ -180,6 +190,7 @@ def animate(data, N, name = "animation.mp4", show = True, save = False):
 
         plot2d1.set_data(temp[:N_first,1], temp[:N_first,2])
         plot2d2.set_data(temp[N_first:,1], temp[N_first:,2])
+        fig.suptitle('Time: %.2f Gy'%(i*dt))
 
     min_value, max_value = -100, 200
     ax1.set_xlim(min_value, max_value)
@@ -187,9 +198,5 @@ def animate(data, N, name = "animation.mp4", show = True, save = False):
     ax1.set_zlim(min_value, max_value)
     ax2.set_xlim(min_value, max_value)
     ax2.set_ylim(min_value, max_value)
-    # fig.tight_layout()
     ani = FuncAnimation(fig, update, frames=len(data), interval=0.1)
-    if save:
-        ani.save(name, writer='ffmpeg', fps=24, dpi=120)
-    if show:
-        plt.show()
+    return ani

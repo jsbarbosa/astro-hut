@@ -11,9 +11,6 @@ int main(int argc, char **argv)
     /*
     If executed directly
     */
-    init_conditions(1000, 2.0, 44.97, 0.02, 1);
-    init_from_files("pos_init.txt", "speed_init.txt");
-    solver(0, 0.2, 0.05, "Data/");
 	return 0;
 }
 
@@ -24,20 +21,19 @@ void solver(DOUBLE t0, DOUBLE tmax, DOUBLE dt, const char *dir)
     DOUBLE *v_hx = malloc(N*sizeof(DOUBLE));
     DOUBLE *v_hy = malloc(N*sizeof(DOUBLE));
     DOUBLE *v_hz = malloc(N*sizeof(DOUBLE));
-    char buff_pos[256];
-    char buff_sp[256];
+
 
     box *tree = malloc(sizeof(box));
 
     while(t0 < tmax)
     {
-        sprintf(buff_pos, "%s%d_instant.dat", dir, cont);
-        sprintf(buff_sp, "%s%d_speed.dat", dir,cont);
-        FILE *pos = fopen(buff_pos, "w");
-        FILE *speeds = fopen(buff_sp, "w");
         if(cont > 0)
         {
             clean_tree(tree);
+        }
+        else
+        {
+            print_status(dir, 0);
         }
         tree = init_tree();
         force(tree);
@@ -62,20 +58,17 @@ void solver(DOUBLE t0, DOUBLE tmax, DOUBLE dt, const char *dir)
             speed_x[i] = v_hx[i] + 0.5*acc_x[i]*dt;
             speed_y[i] = v_hy[i] + 0.5*acc_y[i]*dt;
             speed_z[i] = v_hz[i] + 0.5*acc_z[i]*dt;
+            // energy[i] += 0.5*M*(speed_x[i]*speed_x[i]
+                                // + speed_y[i]*speed_y[i]
+                                // + speed_z[i]*speed_z[i]);
         }
-        for(i=0; i<N; i++)
-        {
-            fprintf(pos, "%f %f %f\n", pos_x[i], pos_y[i], pos_z[i]);
-            fprintf(speeds, "%f %f %f\n", speed_x[i], speed_y[i], speed_z[i]);
-        }
+        print_status(dir, cont+1);
         t0 += dt;
         if(cont != 0)
         {
             printf("iter: %d of %d\n", cont, number);
         }
         cont += 1;
-        fclose(pos);
-        fclose(speeds);
     }
 }
 
@@ -84,22 +77,27 @@ void single_particle_force(int i, box *tree)
     if ((pos_x[i] != tree-> center_of_mass[0]) && (pos_y[i] != tree-> center_of_mass[1]) && (pos_z[i] != tree-> center_of_mass[2]))
     {
         int j;
-        DOUBLE cs = tree-> coordinate_size, x, y, z, r, theta, mass;
+        DOUBLE cs = tree-> coordinate_size, x, y, z, r, r2, theta, mass;
         mass = tree-> mass;
 
         x = tree-> center_of_mass[0] - pos_x[i];
         y = tree-> center_of_mass[1] - pos_y[i];
         z = tree-> center_of_mass[2] - pos_z[i];
-        r = pow(x, 2.0) + pow(y, 2.0) + pow(z, 2.0);
-        theta = cs/pow(r, 0.5);
-        r += EPSILON;
+        r2 = x*x + y*y + z*z;
+        r = sqrt(r2);
+        theta = cs/r;
+        r2 += EPSILON;
         if(theta > TOLERANCE)
         {
             if(tree-> number_of_points == 1)
             {
-                acc_x[i] += (x/fabs(x))*mass/r;
-                acc_y[i] += (y/fabs(y))*mass/r;
-                acc_z[i] += (z/fabs(z))*mass/r;
+                acc_x[i] += x*mass/pow(r2, 1.5);
+                acc_y[i] += y*mass/pow(r2, 1.5);
+                acc_z[i] += z*mass/pow(r2, 1.5);
+                // acc_x[i] += (x/fabs(x))*mass/r;
+                // acc_y[i] += (y/fabs(y))*mass/r;
+                // acc_z[i] += (z/fabs(z))*mass/r;
+                // energy[i] += mass/r;
             }
             else
             {
@@ -113,9 +111,13 @@ void single_particle_force(int i, box *tree)
         }
         else
         {
-            acc_x[i] += (x/fabs(x))*mass/r;
-            acc_y[i] += (y/fabs(y))*mass/r;
-            acc_z[i] += (z/fabs(z))*mass/r;
+            acc_x[i] += x*mass/pow(r2, 1.5);
+            acc_y[i] += y*mass/pow(r2, 1.5);
+            acc_z[i] += z*mass/pow(r2, 1.5);
+            // acc_x[i] += (x/fabs(x))*mass/r2;
+            // acc_y[i] += (y/fabs(y))*mass/r2;
+            // acc_z[i] += (z/fabs(z))*mass/r2;
+            // energy[i] += mass/r;
         }
     }
 }
@@ -130,9 +132,62 @@ void force(box *tree)
         acc_x[i] = 0;
         acc_y[i] = 0;
         acc_z[i] = 0;
+        // energy[i] = 0;
         single_particle_force(i, tree);
         acc_x[i] *= G;
         acc_y[i] *= G;
         acc_z[i] *= G;
+        // energy[i] *= 0.5*G*M;
     }
 }
+
+void print_status(const char *dir, int contador)
+{
+    int i;
+    char buff_pos[256];
+    char buff_sp[256];
+    char buff_en[256];
+
+    sprintf(buff_pos, "%s%d_instant.dat", dir, contador);
+    sprintf(buff_sp, "%s%d_speed.dat", dir, contador);
+    // sprintf(buff_en, "%s%d_energy.dat", dir, contador);
+    FILE *pos = fopen(buff_pos, "w");
+    FILE *speeds = fopen(buff_sp, "w");
+    // FILE *energies = fopen(buff_en, "w");
+
+    for(i=0; i<N; i++)
+    {
+        fprintf(pos, "%f %f %f\n", pos_x[i], pos_y[i], pos_z[i]);
+        fprintf(speeds, "%f %f %f\n", speed_x[i], speed_y[i], speed_z[i]);
+        // fprintf(energies, "%f \n", energy[i]);
+        
+    }
+    fclose(pos);
+    fclose(speeds);
+    // fclose(energies);
+}
+
+// void calculateEnergy()
+// {
+//     int i, j;
+//     DOUBLE x, y, z;
+//     #pragma omp parallel for private(i, j, x, y, z)
+//     for(i = 0; i<N; i++)
+//     {
+//         kinetic[i] = 0.5*M*(speed_x[i]*speed_x[i]
+//                             +speed_y[i]*speed_y[i]
+//                             +speed_z[i]*speed_z[i]);
+//
+//         for(j = 0; j<N; j++)
+//         {
+//             if(i != j)
+//             {
+//                 x = pos_x[i] - pos_x[j];
+//                 y = pos_y[i] - pos_y[j];
+//                 z = pos_z[i] - pos_z[j];
+//
+//             }
+//         }
+//
+//     }
+// }

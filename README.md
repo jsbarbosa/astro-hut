@@ -1,2 +1,0 @@
-# astro-hut
-Barnes-Hut
