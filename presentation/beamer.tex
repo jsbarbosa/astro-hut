@@ -106,7 +106,7 @@
 			\begin{itemize}
 				\item Se define un coeficiente de precisi\'on.
 			\end{itemize}
-			$\tau = 0.5$
+			$\tau = \dfrac{size}{distance} = 0.5$
 			\pause
 		\vspace{1cm}
 		
@@ -128,7 +128,7 @@
 				\item {\color{blue} Segundo nodo} \pause
 				\boxed{\dfrac{s}{d} = \dfrac{25}{77.4} \approx 0.3 < \tau}
 				\pause
-				\item {\color{green} Tercer nodo} \pause
+				\item {\color{green} Cuarto nodo} \pause
 				\boxed{\text{Nodo externo, contribuye}}
 			\end{enumerate}
 		\end{column}
@@ -170,7 +170,7 @@
 	\end{equation}\pause
 	es posible obtener las ecuaciones que describen la din\'amica del sistema.\pause
 	\begin{equation}
-		\vec{\ddot{r}}_i = - \sum\limits_{j\neq i}^N G\dfrac{m_j}{|\vec{r}_{ij}|^3}\left(\vec{r}_i - \vec{r}_j\right)
+		\vec{\ddot{r}}_i = - \sum\limits_{j\neq i}^N G\dfrac{m_j}{\left(|\vec{r}_{ij}|^2 + \epsilon^2\right)^{3/2}}\left(\vec{r}_i - \vec{r}_j\right)
 	\end{equation}
 \end{frame}
 \begin{frame}{Condiciones iniciales}
@@ -194,7 +194,7 @@
 			\includegraphics[height=0.35\textheight]{sources/images/galaxy_shape.pdf}\\\pause
 			\includegraphics[height=0.35\textheight]{sources/images/rotation_curve.pdf}\pause
 		\end{column}
-		\begin{column}{0.5\textwidth}
+		\begin{column}{0.65\textwidth}
 			\includegraphics[width=\linewidth]{sources/images/galaxy_distribution.pdf}\\\pause
 			\footnotesize
 			\begin{itemize}
@@ -257,7 +257,7 @@
 		\end{column}
 	\end{columns}
 	\begin{enumerate}
-		\item \texttt{system, speeds = example(N, M, G, epsilon)} \pause
+		\item \texttt{system, speeds = example(N, M, G)} \pause
 		\item {\footnotesize\texttt{sim = simulation(M, G, epsilon, tolerance = 1.0, pos = system, speeds = speeds)}} \pause
 		\item \texttt{sim.start(0.0, 1.0, 0.01)}
 	\end{enumerate}
@@ -277,14 +277,14 @@
 	\normalsize
 \end{frame}
 \begin{frame}{Resultados}
-	\begin{columns}
-		\begin{column}{0.5\textwidth}
-			$\tau$ = 0.0
-		\end{column}
-		\begin{column}{0.5\textwidth}
-			$\tau$ = 1.0
-		\end{column}
-	\end{columns}
+	\centering
+	\movie[height = 0.55\textwidth, width = 0.8\textwidth, poster, showcontrols]{}{sources/animations/exact.mp4}
+	\\
+\end{frame}
+\begin{frame}{Resultados}
+	\centering
+	\movie[height = 0.55\textwidth, width = 0.8\textwidth, poster, showcontrols]{}{sources/animations/approx.mp4}
+	\\
 \end{frame}
 \begin{frame}{Resultados}
 	Efecto del coeficiente de precisi\'on en el tiempo de c\'omputo.

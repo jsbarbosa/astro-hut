@@ -9,7 +9,7 @@ epsilon = 0.01
 system, speeds = example(N, M, G)
 
 sim = simulation(M, G, epsilon, tolerance = 1.0, pos = system, speeds = speeds)
-sim.start(0, 5.0, 0.01)
+sim.start(0, 10.0, 0.01)
 
 data = read_output()
 N_data = len(data)
@@ -22,7 +22,7 @@ ani.save("approx.mp4", writer = "ffmpeg", fps = 24, dpi = 120)
 
 sim.tolerance = 0
 
-sim.start(0, 5.00, 0.01)
+sim.start(0, 10.00, 0.01)
 
 data = read_output()
 N_data = len(data)
