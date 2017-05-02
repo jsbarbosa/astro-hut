@@ -1,4 +1,5 @@
-\documentclass{beamer}
+%\documentclass{beamer}
+\documentclass[handout]{beamer}
 \usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
@@ -55,19 +56,24 @@
 				\includegraphics[width=\textwidth]{sources/images/DEC-VAX-11-780} \\
 				VAX 11/780
 			\end{tabular}
+			\begin{itemize}
+				\item CPU 5 MHz, 2 kB cache.
+				\item Memoria 8 MB.
+			\end{itemize}
 		\end{column}
 		\begin{column}{.5\textwidth}
+			Barnes y Hut realizaron una simulaci\'on con su m\'etodo.
 			\begin{itemize}
-				\item<2-> Simulaci\'on con 4096 cuerpos.
-				\item<3-> Tiempo: 10 horas de CPU.
+				\item<2-> 4096 cuerpos.
+				\item<3-> 10 horas de CPU.
 			\end{itemize}
 		\end{column}
 	\end{columns}
 \end{frame}
 \begin{frame}{Funcionamiento}
-	El algoritmo propuesto por Barnes y Hut consta de dos pasos fundamentales, la divisi\'on recursiva del espacio y la forma como se calcula la fuerza sobre un cuerpo. \pause
+	El algoritmo propuesto por Barnes y Hut consta de dos pasos fundamentales, la divisi\'on recursiva del espacio y aproximaciones en la fuerza sobre un cuerpo. \pause
 	\begin{enumerate}
-		\item Divisi\'on jer\'arquica del espacio. \pause
+		\item Divisi\'on jer\'arquica del espacio. $\rightarrow$ Construcci\'on de un \'arbol.\pause
 		\seti
 	\end{enumerate}
 	\begin{columns}
@@ -89,7 +95,7 @@
 		\item Fuerza sobre un cuerpo.
 	\end{enumerate}
 	\small
-	El n\'umero de iteraciones se reduce al considerar centros de masa y distancias. \pause
+	El n\'umero de iteraciones se reduce al considerar centros de masa, y un coeficiente de precisi\'on $\tau$. \pause
 	\begin{itemize}
 		\item Cada caja tiene una longitud espec\'ifica \pause
 		\item Un centro de masa \pause
@@ -99,12 +105,34 @@
 	\includegraphics[width=0.5\linewidth]{sources/images/quadtree.png}
 \end{frame}
 \begin{frame}{Funcionamiento}
+	Pasos en el c\'alculo de la fuerza sobre un cuerpo. El proceso empieza desde el nodo superior.
+	\begin{enumerate}
+		\item Se calcula la distancia entre el centro de masa del nodo y el cuerpo.
+		\item Si la distancia es lo suficientemente grande, los cuerpos contenidos en el nodo se toman como un solo cuerpo.
+		\item De lo contrario el proceso se repite con los nodos inferiores.
+	\end{enumerate}
+\end{frame}
+\begin{frame}{Funcionamiento}
+	Para determinar si un nodo se encuentra lo suficientemente lejos de un cuerpo.
+	\begin{equation}
+		\tau' = \dfrac{s}{d}
+	\end{equation}
+	
+	Donde $s$ corresponde con la longitud de la caja, y $d$ con la distancia.
+	
+	Se define un coeficiente de precisi\'on $\tau$ para la simulaci\'on tal que:
+	\begin{itemize}
+		\item Si $\tau' > \tau$, el nodo es cercano.
+		\item Si $\tau' \leq \tau$, el nodo es distante. 
+	\end{itemize}
+\end{frame}
+\begin{frame}{Funcionamiento}
 	\begin{columns}
 		\begin{column}{0.6\textwidth}
 			\centering
 			\includegraphics[width=\linewidth]{sources/images/force.png}\\
 			\begin{itemize}
-				\item Se define un coeficiente de precisi\'on.
+				\item Coeficiente de precisi\'on.
 			\end{itemize}
 			$\tau = \dfrac{size}{distance} = 0.5$
 			\pause
@@ -172,6 +200,8 @@
 	\begin{equation}
 		\vec{\ddot{r}}_i = - \sum\limits_{j\neq i}^N G\dfrac{m_j}{\left(|\vec{r}_{ij}|^2 + \epsilon^2\right)^{3/2}}\left(\vec{r}_i - \vec{r}_j\right)
 	\end{equation}
+	
+	donde $\epsilon$ corresponde con el \textit{softening length}.
 \end{frame}
 \begin{frame}{Condiciones iniciales}
 	Suponiendo \'orbitas circulares y teniendo en cuenta la masa encerrada en las \'orbitas de menor tama\~no:

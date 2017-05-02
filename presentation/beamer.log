@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.1.9)  1 MAY 2017 19:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.1.9)  2 MAY 2017 16:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1373,20 +1373,20 @@ LaTeX Info: Redefining \% on input line 29.
 )
 \openout1 = `beamer.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1439,7 +1439,7 @@ e
 ))
 ABD: EveryShipout initializing macros
 \AtBeginShipoutBox=\box83
-Package hyperref Info: Link coloring OFF on input line 20.
+Package hyperref Info: Link coloring OFF on input line 21.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1449,66 +1449,66 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count331
 )
-LaTeX Info: Redefining \ref on input line 20.
-LaTeX Info: Redefining \pageref on input line 20.
-LaTeX Info: Redefining \nameref on input line 20.
+LaTeX Info: Redefining \ref on input line 21.
+LaTeX Info: Redefining \pageref on input line 21.
+LaTeX Info: Redefining \nameref on input line 21.
 
 (./beamer.out) (./beamer.out)
 \@outlinefile=\write7
 \openout7 = `beamer.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 20.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 21.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 20.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 21.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 20.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 20.
+(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 21.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 21.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 20.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 21.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 20.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 20.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 21.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 21.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 20.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 21.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 20.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 20.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 21.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 21.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 20.
+(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 21.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 20.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 20.
+(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 21.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 21.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 20.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 21.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 20.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 21.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 20.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 21.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 20.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 21.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 20.
+(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 21.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 20.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 21.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 20.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 21.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 20.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 21.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 20.
-LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 20.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 21.
+LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 21.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
 (Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 2
-0.
+1.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/cmss/bx/it --> OT1/mathkerncmss/m/sl on input line 
-20.
+21.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on inp
-ut line 20.
+ut line 21.
 
 (/usr/share/texlive/texmf-dist/tex/latex/beamer/translator/dicts/translator-bas
 ic-dictionary/translator-basic-dictionary-English.dict
@@ -1534,33 +1534,33 @@ Dictionary: translator-numbers-dictionary, Language: English
 orem-dictionary/translator-theorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
-LaTeX Info: Redefining \includegraphics on input line 20.
-LaTeX Info: Redefining \. on input line 20.
-LaTeX Info: Redefining \% on input line 20.
+LaTeX Info: Redefining \includegraphics on input line 21.
+LaTeX Info: Redefining \. on input line 21.
+LaTeX Info: Redefining \% on input line 21.
  (./beamer.nav)
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <6> not available
-(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 20.
+(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 21.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <10.95> not available
-(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 30.
+(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 31.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <17.28> not available
-(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 30.
+(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 31.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 30.
+LaTeX Font Info:    Try loading font information for U+msa on input line 31.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 30.
+LaTeX Font Info:    Try loading font information for U+msb on input line 31.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 30.
+line 31.
 
 (/usr/share/texlive/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
@@ -1570,576 +1570,241 @@ thkerncmss.
 File: sources/images/template_main.jpg Graphic file (type jpg)
 
 <use sources/images/template_main.jpg>
-Package pdftex.def Info: sources/images/template_main.jpg used on input line 30
+Package pdftex.def Info: sources/images/template_main.jpg used on input line 31
 .
 (pdftex.def)             Requested size: 364.19536pt x 265.34483pt.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/sc' in size <4> not available
-(Font)              size <5> substituted on input line 30.
+(Font)              size <5> substituted on input line 31.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
-(Font)              size <5> substituted on input line 30.
+(Font)              size <5> substituted on input line 31.
 
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./sources/images/template_
-main.jpg>] <sources/images/barnes1986.pdf, id=47, 614.295pt x 794.97pt>
+main.jpg>] <sources/images/barnes1986.pdf, id=25, 614.295pt x 794.97pt>
 File: sources/images/barnes1986.pdf Graphic file (type pdf)
 
 <use sources/images/barnes1986.pdf>
-Package pdftex.def Info: sources/images/barnes1986.pdf used on input line 49.
+Package pdftex.def Info: sources/images/barnes1986.pdf used on input line 50.
 (pdftex.def)             Requested size: 161.43762pt x 208.91809pt.
 
-Overfull \hbox (7.7927pt too wide) in paragraph at lines 49--49
+Overfull \hbox (7.7927pt too wide) in paragraph at lines 50--50
 [][]  
  []
 
-<sources/images/barnes.jpg, id=48, 321.2pt x 385.44pt>
+<sources/images/barnes.jpg, id=26, 321.2pt x 385.44pt>
 File: sources/images/barnes.jpg Graphic file (type jpg)
 
 <use sources/images/barnes.jpg>
-Package pdftex.def Info: sources/images/barnes.jpg used on input line 49.
+Package pdftex.def Info: sources/images/barnes.jpg used on input line 50.
 (pdftex.def)             Requested size: 65.28279pt x 78.34477pt.
 
-<sources/images/hut.jpg, id=49, 526.96875pt x 702.625pt>
+<sources/images/hut.jpg, id=27, 526.96875pt x 702.625pt>
 File: sources/images/hut.jpg Graphic file (type jpg)
 
 <use sources/images/hut.jpg>
-Package pdftex.def Info: sources/images/hut.jpg used on input line 49.
+Package pdftex.def Info: sources/images/hut.jpg used on input line 50.
 (pdftex.def)             Requested size: 58.75475pt x 78.34477pt.
 
-<sources/images/template_internal.jpg, id=50, 1242.6425pt x 895.345pt>
+<sources/images/template_internal.jpg, id=28, 1242.6425pt x 895.345pt>
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 49.
+e 50.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
  [2
 
  <./sources/images/template_internal.jpg> <./sources/images/barnes1986.pdf> <./
 sources/images/barnes.jpg> <./sources/images/hut.jpg>]
-<sources/images/DEC-VAX-11-780.jpg, id=92, 803.0pt x 536.0025pt>
+<sources/images/DEC-VAX-11-780.jpg, id=50, 803.0pt x 536.0025pt>
 File: sources/images/DEC-VAX-11-780.jpg Graphic file (type jpg)
 
 <use sources/images/DEC-VAX-11-780.jpg>
-Package pdftex.def Info: sources/images/DEC-VAX-11-780.jpg used on input line 6
-6.
+Package pdftex.def Info: sources/images/DEC-VAX-11-780.jpg used on input line 7
+2.
 (pdftex.def)             Requested size: 153.64493pt x 102.55307pt.
 
-Overfull \hbox (12.0pt too wide) in paragraph at lines 66--66
-[][]  
+Overfull \hbox (12.0pt too wide) in paragraph at lines 72--72
+[][] 
  []
 
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 66.
+e 72.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
  [3
 
- <./sources/images/DEC-VAX-11-780.jpg>]
-File: sources/images/DEC-VAX-11-780.jpg Graphic file (type jpg)
- <use sources/images/DEC-VAX-11-780.jpg>
-Package pdftex.def Info: sources/images/DEC-VAX-11-780.jpg used on input line 6
-6.
-(pdftex.def)             Requested size: 153.64493pt x 102.55307pt.
-
-Overfull \hbox (12.0pt too wide) in paragraph at lines 66--66
-[][]  
- []
-
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 66.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [4
-
-]
-File: sources/images/DEC-VAX-11-780.jpg Graphic file (type jpg)
-
-<use sources/images/DEC-VAX-11-780.jpg>
-Package pdftex.def Info: sources/images/DEC-VAX-11-780.jpg used on input line 6
-6.
-(pdftex.def)             Requested size: 153.64493pt x 102.55307pt.
-
-Overfull \hbox (12.0pt too wide) in paragraph at lines 66--66
-[][]  
- []
-
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 66.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [5
-
-]
-<sources/images/quadtree.png, id=170, 632.3625pt x 321.2pt>
+ <./sources/images/DEC-VAX-11-780.jpg>] <sources/images/quadtree.png, id=57, 63
+2.3625pt x 321.2pt>
 File: sources/images/quadtree.png Graphic file (type png)
 
 <use sources/images/quadtree.png>
-Package pdftex.def Info: sources/images/quadtree.png used on input line 85.
+Package pdftex.def Info: sources/images/quadtree.png used on input line 91.
 (pdftex.def)             Requested size: 153.64493pt x 78.04039pt.
 
-<sources/images/octree.png, id=172, 803.0pt x 460.72125pt>
+<sources/images/octree.png, id=59, 803.0pt x 460.72125pt>
 File: sources/images/octree.png Graphic file (type png)
 
 <use sources/images/octree.png>
-Package pdftex.def Info: sources/images/octree.png used on input line 85.
+Package pdftex.def Info: sources/images/octree.png used on input line 91.
 (pdftex.def)             Requested size: 153.64493pt x 88.14955pt.
 File: sources/images/template_internal.jpg Graphic file (type jpg)
  <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 85.
+e 91.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
 
-[6
+[4
 
  <./sources/images/quadtree.png> <./sources/images/octree.png>]
-File: sources/images/quadtree.png Graphic file (type png)
 
+LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <10> not available
+(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 106.
+
+File: sources/images/quadtree.png Graphic file (type png)
 <use sources/images/quadtree.png>
-Package pdftex.def Info: sources/images/quadtree.png used on input line 85.
+Package pdftex.def Info: sources/images/quadtree.png used on input line 106.
 (pdftex.def)             Requested size: 153.64493pt x 78.04039pt.
-File: sources/images/octree.png Graphic file (type png)
- <use sources/images/octree.png>
-Package pdftex.def Info: sources/images/octree.png used on input line 85.
-(pdftex.def)             Requested size: 153.64493pt x 88.14955pt.
+File: sources/images/template_internal.jpg Graphic file (type jpg)
+ <use sources/images/template_internal.jpg>
+Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
+e 106.
+(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
+
+[5
+
+]
+File: sources/images/template_internal.jpg Graphic file (type jpg)
+ <use sources/images/template_internal.jpg>
+Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
+e 114.
+(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
+ [6
+
+]
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 85.
+e 128.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
  [7
 
 ]
-File: sources/images/quadtree.png Graphic file (type png)
-
-<use sources/images/quadtree.png>
-Package pdftex.def Info: sources/images/quadtree.png used on input line 85.
-(pdftex.def)             Requested size: 153.64493pt x 78.04039pt.
-File: sources/images/octree.png Graphic file (type png)
- <use sources/images/octree.png>
-Package pdftex.def Info: sources/images/octree.png used on input line 85.
-(pdftex.def)             Requested size: 153.64493pt x 88.14955pt.
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 85.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [8
-
-]
-File: sources/images/quadtree.png Graphic file (type png)
-
-<use sources/images/quadtree.png>
-Package pdftex.def Info: sources/images/quadtree.png used on input line 85.
-(pdftex.def)             Requested size: 153.64493pt x 78.04039pt.
-File: sources/images/octree.png Graphic file (type png)
- <use sources/images/octree.png>
-Package pdftex.def Info: sources/images/octree.png used on input line 85.
-(pdftex.def)             Requested size: 153.64493pt x 88.14955pt.
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 85.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [9
-
-]
-
-LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <10> not available
-(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 100.
-
-File: sources/images/quadtree.png Graphic file (type png)
-<use sources/images/quadtree.png>
-Package pdftex.def Info: sources/images/quadtree.png used on input line 100.
-(pdftex.def)             Requested size: 153.64493pt x 78.04039pt.
-File: sources/images/template_internal.jpg Graphic file (type jpg)
- <use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 100.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
-
-[10
-
-]
-File: sources/images/quadtree.png Graphic file (type png)
- <use sources/images/quadtree.png>
-Package pdftex.def Info: sources/images/quadtree.png used on input line 100.
-(pdftex.def)             Requested size: 153.64493pt x 78.04039pt.
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 100.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [11
-
-]
-File: sources/images/quadtree.png Graphic file (type png)
-
-<use sources/images/quadtree.png>
-Package pdftex.def Info: sources/images/quadtree.png used on input line 100.
-(pdftex.def)             Requested size: 153.64493pt x 78.04039pt.
-File: sources/images/template_internal.jpg Graphic file (type jpg)
- <use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 100.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
-
-[12
-
-]
-File: sources/images/quadtree.png Graphic file (type png)
- <use sources/images/quadtree.png>
-Package pdftex.def Info: sources/images/quadtree.png used on input line 100.
-(pdftex.def)             Requested size: 153.64493pt x 78.04039pt.
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 100.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [13
-
-]
-File: sources/images/quadtree.png Graphic file (type png)
-
-<use sources/images/quadtree.png>
-Package pdftex.def Info: sources/images/quadtree.png used on input line 100.
-(pdftex.def)             Requested size: 153.64493pt x 78.04039pt.
-File: sources/images/template_internal.jpg Graphic file (type jpg)
- <use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 100.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
-
-[14
-
-] <sources/images/force.png, id=404, 690.58pt x 333.245pt>
+<sources/images/force.png, id=87, 690.58pt x 333.245pt>
 File: sources/images/force.png Graphic file (type png)
 
 <use sources/images/force.png>
-Package pdftex.def Info: sources/images/force.png used on input line 136.
+Package pdftex.def Info: sources/images/force.png used on input line 164.
 (pdftex.def)             Requested size: 184.3758pt x 88.97054pt.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <9> not available
-(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 136.
+(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 164.
 
 
-Overfull \hbox (3.63243pt too wide) in paragraph at lines 136--136
+Overfull \hbox (3.63243pt too wide) in paragraph at lines 164--164
 []  
  []
 
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 136.
+e 164.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [15
+ [8
 
  <./sources/images/force.png>]
-File: sources/images/force.png Graphic file (type png)
-
-<use sources/images/force.png>
-Package pdftex.def Info: sources/images/force.png used on input line 136.
-(pdftex.def)             Requested size: 184.3758pt x 88.97054pt.
-
-Overfull \hbox (3.63243pt too wide) in paragraph at lines 136--136
-[]  
- []
-
 File: sources/images/template_internal.jpg Graphic file (type jpg)
+
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 136.
+e 171.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [16
-
-]
-File: sources/images/force.png Graphic file (type png)
- <use sources/images/force.png>
-Package pdftex.def Info: sources/images/force.png used on input line 136.
-(pdftex.def)             Requested size: 184.3758pt x 88.97054pt.
-
-Overfull \hbox (3.63243pt too wide) in paragraph at lines 136--136
-[]  
- []
-
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 136.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [17
-
-]
-File: sources/images/force.png Graphic file (type png)
- <use sources/images/force.png>
-Package pdftex.def Info: sources/images/force.png used on input line 136.
-(pdftex.def)             Requested size: 184.3758pt x 88.97054pt.
-
-Overfull \hbox (3.63243pt too wide) in paragraph at lines 136--136
-[]  
- []
-
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 136.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [18
-
-]
-File: sources/images/force.png Graphic file (type png)
- <use sources/images/force.png>
-Package pdftex.def Info: sources/images/force.png used on input line 136.
-(pdftex.def)             Requested size: 184.3758pt x 88.97054pt.
-
-Overfull \hbox (3.63243pt too wide) in paragraph at lines 136--136
-[]  
- []
-
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 136.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [19
-
-]
-File: sources/images/force.png Graphic file (type png)
- <use sources/images/force.png>
-Package pdftex.def Info: sources/images/force.png used on input line 136.
-(pdftex.def)             Requested size: 184.3758pt x 88.97054pt.
-
-Overfull \hbox (3.63243pt too wide) in paragraph at lines 136--136
-[]  
- []
-
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 136.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [20
-
-]
-File: sources/images/force.png Graphic file (type png)
- <use sources/images/force.png>
-Package pdftex.def Info: sources/images/force.png used on input line 136.
-(pdftex.def)             Requested size: 184.3758pt x 88.97054pt.
-
-Overfull \hbox (3.63243pt too wide) in paragraph at lines 136--136
-[]  
- []
-
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 136.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [21
-
-]
-File: sources/images/force.png Graphic file (type png)
- <use sources/images/force.png>
-Package pdftex.def Info: sources/images/force.png used on input line 136.
-(pdftex.def)             Requested size: 184.3758pt x 88.97054pt.
-
-Overfull \hbox (3.63243pt too wide) in paragraph at lines 136--136
-[]  
- []
-
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 136.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [22
-
-]
-File: sources/images/force.png Graphic file (type png)
- <use sources/images/force.png>
-Package pdftex.def Info: sources/images/force.png used on input line 136.
-(pdftex.def)             Requested size: 184.3758pt x 88.97054pt.
-
-Overfull \hbox (3.63243pt too wide) in paragraph at lines 136--136
-[]  
- []
-
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 136.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [23
-
-]
-File: sources/images/force.png Graphic file (type png)
- <use sources/images/force.png>
-Package pdftex.def Info: sources/images/force.png used on input line 136.
-(pdftex.def)             Requested size: 184.3758pt x 88.97054pt.
-
-Overfull \hbox (3.63243pt too wide) in paragraph at lines 136--136
-[]  
- []
-
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 136.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [24
+ [9
 
 ]
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 143.
+e 178.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [25
+ [10
 
 ]
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 150.
+e 185.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [26
+ [11
 
 ]
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 157.
+e 193.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [27
+ [12
 
 ]
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 165.
+e 205.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [28
+ [13
 
 ]
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 165.
+e 220.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [29
+ [14
 
 ]
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 165.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [30
-
-]
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 165.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [31
-
-]
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 175.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [32
-
-]
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 175.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [33
-
-]
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 175.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [34
-
-]
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 190.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [35
-
-]
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 190.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [36
-
-]
-<sources/images/galaxy_shape.pdf, id=979, 433.62pt x 289.08pt>
+<sources/images/galaxy_shape.pdf, id=137, 433.62pt x 289.08pt>
 File: sources/images/galaxy_shape.pdf Graphic file (type pdf)
 
 <use sources/images/galaxy_shape.pdf>
-Package pdftex.def Info: sources/images/galaxy_shape.pdf used on input line 209
+Package pdftex.def Info: sources/images/galaxy_shape.pdf used on input line 239
 .
 (pdftex.def)             Requested size: 137.1005pt x 91.40291pt.
 
-<sources/images/rotation_curve.pdf, id=980, 433.62pt x 289.08pt>
+<sources/images/rotation_curve.pdf, id=138, 433.62pt x 289.08pt>
 File: sources/images/rotation_curve.pdf Graphic file (type pdf)
 
 <use sources/images/rotation_curve.pdf>
 Package pdftex.def Info: sources/images/rotation_curve.pdf used on input line 2
-09.
+39.
 (pdftex.def)             Requested size: 137.1005pt x 91.40291pt.
 
-<sources/images/galaxy_distribution.pdf, id=981, 722.7pt x 216.81pt>
+<sources/images/galaxy_distribution.pdf, id=139, 722.7pt x 216.81pt>
 File: sources/images/galaxy_distribution.pdf Graphic file (type pdf)
 
 <use sources/images/galaxy_distribution.pdf>
 Package pdftex.def Info: sources/images/galaxy_distribution.pdf used on input l
-ine 209.
+ine 239.
 (pdftex.def)             Requested size: 199.73653pt x 59.91902pt.
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 209.
+e 239.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [37
+ [15
 
  <./sources/images/galaxy_shape.pdf> <./sources/images/rotation_curve.pdf
 
@@ -2150,231 +1815,126 @@ DF inclusion: multiple pdfs with page group included in a single page
 pdfTeX warning: /usr/bin/pdflatex (file ./sources/images/galaxy_distribution.pd
 f): PDF inclusion: multiple pdfs with page group included in a single page
 >]
-File: sources/images/galaxy_shape.pdf Graphic file (type pdf)
- <use sources/images/galaxy_shape.pdf>
-Package pdftex.def Info: sources/images/galaxy_shape.pdf used on input line 209
-.
-(pdftex.def)             Requested size: 137.1005pt x 91.40291pt.
-File: sources/images/rotation_curve.pdf Graphic file (type pdf)
-
-<use sources/images/rotation_curve.pdf>
-Package pdftex.def Info: sources/images/rotation_curve.pdf used on input line 2
-09.
-(pdftex.def)             Requested size: 137.1005pt x 91.40291pt.
-File: sources/images/galaxy_distribution.pdf Graphic file (type pdf)
-
-<use sources/images/galaxy_distribution.pdf>
-Package pdftex.def Info: sources/images/galaxy_distribution.pdf used on input l
-ine 209.
-(pdftex.def)             Requested size: 199.73653pt x 59.91902pt.
 File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
+ <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 209.
+e 250.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [38
+ [16
 
 ]
 File: sources/images/galaxy_shape.pdf Graphic file (type pdf)
 
 <use sources/images/galaxy_shape.pdf>
-Package pdftex.def Info: sources/images/galaxy_shape.pdf used on input line 209
+Package pdftex.def Info: sources/images/galaxy_shape.pdf used on input line 262
 .
 (pdftex.def)             Requested size: 137.1005pt x 91.40291pt.
 File: sources/images/rotation_curve.pdf Graphic file (type pdf)
  <use sources/images/rotation_curve.pdf>
 Package pdftex.def Info: sources/images/rotation_curve.pdf used on input line 2
-09.
-(pdftex.def)             Requested size: 137.1005pt x 91.40291pt.
-File: sources/images/galaxy_distribution.pdf Graphic file (type pdf)
-
-<use sources/images/galaxy_distribution.pdf>
-Package pdftex.def Info: sources/images/galaxy_distribution.pdf used on input l
-ine 209.
-(pdftex.def)             Requested size: 199.73653pt x 59.91902pt.
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 209.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [39
-
-]
-File: sources/images/galaxy_shape.pdf Graphic file (type pdf)
-
-<use sources/images/galaxy_shape.pdf>
-Package pdftex.def Info: sources/images/galaxy_shape.pdf used on input line 209
-.
-(pdftex.def)             Requested size: 137.1005pt x 91.40291pt.
-File: sources/images/rotation_curve.pdf Graphic file (type pdf)
- <use sources/images/rotation_curve.pdf>
-Package pdftex.def Info: sources/images/rotation_curve.pdf used on input line 2
-09.
-(pdftex.def)             Requested size: 137.1005pt x 91.40291pt.
-File: sources/images/galaxy_distribution.pdf Graphic file (type pdf)
-
-<use sources/images/galaxy_distribution.pdf>
-Package pdftex.def Info: sources/images/galaxy_distribution.pdf used on input l
-ine 209.
-(pdftex.def)             Requested size: 199.73653pt x 59.91902pt.
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 209.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [40
-
-]
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 220.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [41
-
-]
-File: sources/images/galaxy_shape.pdf Graphic file (type pdf)
-
-<use sources/images/galaxy_shape.pdf>
-Package pdftex.def Info: sources/images/galaxy_shape.pdf used on input line 232
-.
-(pdftex.def)             Requested size: 137.1005pt x 91.40291pt.
-File: sources/images/rotation_curve.pdf Graphic file (type pdf)
- <use sources/images/rotation_curve.pdf>
-Package pdftex.def Info: sources/images/rotation_curve.pdf used on input line 2
-32.
+62.
 (pdftex.def)             Requested size: 137.1005pt x 91.40291pt.
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 232.
+e 262.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [42
+ [17
 
 ]
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 242.
+e 272.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [43
+ [18
 
 ]
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 249.
+e 279.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [44
+ [19
 
 ]
-<sources/images/code.png, id=1288, 1100.11pt x 674.52pt>
+<sources/images/code.png, id=268, 1100.11pt x 674.52pt>
 File: sources/images/code.png Graphic file (type png)
 
 <use sources/images/code.png>
-Package pdftex.def Info: sources/images/code.png used on input line 264.
+Package pdftex.def Info: sources/images/code.png used on input line 294.
 (pdftex.def)             Requested size: 212.95107pt x 130.5733pt.
 File: sources/images/template_internal.jpg Graphic file (type jpg)
  <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 264.
+e 294.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
 
-[45
+[20
 
  <./sources/images/code.png>]
-File: sources/images/code.png Graphic file (type png)
- <use sources/images/code.png>
-Package pdftex.def Info: sources/images/code.png used on input line 264.
-(pdftex.def)             Requested size: 212.95107pt x 130.5733pt.
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 264.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [46
-
-]
-File: sources/images/code.png Graphic file (type png)
- <use sources/images/code.png>
-Package pdftex.def Info: sources/images/code.png used on input line 264.
-(pdftex.def)             Requested size: 212.95107pt x 130.5733pt.
-File: sources/images/template_internal.jpg Graphic file (type jpg)
-
-<use sources/images/template_internal.jpg>
-Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 264.
-(pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [47
-
-]
-<sources/images/screen.png, id=1367, 1282.7925pt x 657.45625pt>
+<sources/images/screen.png, id=276, 1282.7925pt x 657.45625pt>
 File: sources/images/screen.png Graphic file (type png)
 
 <use sources/images/screen.png>
-Package pdftex.def Info: sources/images/screen.png used on input line 278.
+Package pdftex.def Info: sources/images/screen.png used on input line 308.
 (pdftex.def)             Requested size: 254.75316pt x 130.5733pt.
 
-Overfull \hbox (24.28577pt too wide) in paragraph at lines 278--278
+Overfull \hbox (24.28577pt too wide) in paragraph at lines 308--308
 [][]  
  []
 
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 278.
+e 308.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [48
+ [21
 
  <./sources/images/screen.png>]
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 283.
+e 313.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [49
+ [22
 
 ]
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 288.
+e 318.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [50
+ [23
 
 ]
-<sources/images/Tolerance_results.pdf, id=1450, 462.52798pt x 346.89601pt>
+<sources/images/Tolerance_results.pdf, id=297, 462.52798pt x 346.89601pt>
 File: sources/images/Tolerance_results.pdf Graphic file (type pdf)
 
 <use sources/images/Tolerance_results.pdf>
 Package pdftex.def Info: sources/images/Tolerance_results.pdf used on input lin
-e 299.
+e 329.
 (pdftex.def)             Requested size: 153.64493pt x 115.23296pt.
 
-<sources/images/Particles_results.pdf, id=1451, 462.52798pt x 346.89601pt>
+<sources/images/Particles_results.pdf, id=298, 462.52798pt x 346.89601pt>
 File: sources/images/Particles_results.pdf Graphic file (type pdf)
 
 <use sources/images/Particles_results.pdf>
 Package pdftex.def Info: sources/images/Particles_results.pdf used on input lin
-e 299.
+e 329.
 (pdftex.def)             Requested size: 153.64493pt x 115.23296pt.
 File: sources/images/template_internal.jpg Graphic file (type jpg)
 
 <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 299.
+e 329.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
- [51
+ [24
 
  <./sources/images/Tolerance_results.pdf> <./sources/images/Particles_results.p
 df
@@ -2385,10 +1945,10 @@ pdfTeX warning: /usr/bin/pdflatex (file ./sources/images/Particles_results.pdf)
 File: sources/images/template_internal.jpg Graphic file (type jpg)
  <use sources/images/template_internal.jpg>
 Package pdftex.def Info: sources/images/template_internal.jpg used on input lin
-e 302.
+e 332.
 (pdftex.def)             Requested size: 364.19536pt x 262.40309pt.
-Package atenddvi Info: Last page = 52.
- [52
+Package atenddvi Info: Last page = 25.
+ [25
 
 ]
 \tf@nav=\write8
@@ -2400,14 +1960,14 @@ Package atenddvi Info: Last page = 52.
 \tf@snm=\write10
 \openout10 = `beamer.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 303.
-Package atveryend Info: Executing hook `AfterLastShipout' on input line 303.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 333.
+Package atveryend Info: Executing hook `AfterLastShipout' on input line 333.
  (./beamer.aux
 LaTeX Info: Redefining \. on input line 29.
 LaTeX Info: Redefining \% on input line 29.
 )
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 303.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 303.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 333.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 333.
 Package rerunfilecheck Info: File `beamer.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -2415,16 +1975,16 @@ Package rerunfilecheck Info: File `beamer.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 303.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 333.
  ) 
 Here is how much of TeX's memory you used:
- 28808 strings out of 493029
- 560479 string characters out of 6136235
- 631464 words of memory out of 5000000
- 31680 multiletter control sequences out of 15000+600000
- 21368 words of font info for 78 fonts, out of 8000000 for 9000
+ 28760 strings out of 493029
+ 559881 string characters out of 6136235
+ 628451 words of memory out of 5000000
+ 31685 multiletter control sequences out of 15000+600000
+ 22709 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 56i,14n,75p,10410b,643s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,14n,75p,10410b,625s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></u
 sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/tex
@@ -2446,10 +2006,10 @@ fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmtt9.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/symbols/msam10.pfb></usr/share/texmf/fonts/type1/public/tex-gyre/
 qhvb.pfb></usr/share/texmf/fonts/type1/public/tex-gyre/qhvr.pfb>
-Output written on beamer.pdf (52 pages, 1446563 bytes).
+Output written on beamer.pdf (25 pages, 1369978 bytes).
 PDF statistics:
- 1674 PDF objects out of 1728 (max. 8388607)
- 1413 compressed objects within 15 object streams
- 105 named destinations out of 1000 (max. 500000)
+ 471 PDF objects out of 1000 (max. 8388607)
+ 249 compressed objects within 3 object streams
+ 51 named destinations out of 1000 (max. 500000)
  127 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -2,13 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void init_conditions(int n, DOUBLE m, DOUBLE g, DOUBLE epsilon, DOUBLE tolerance)
+void init_conditions(int n, DOUBLE m, DOUBLE g, DOUBLE epsilon, DOUBLE tolerance, int energy_print)
 {
     N = n;
     M = m;
     G = g;
     EPSILON = epsilon;
     TOLERANCE = tolerance;
+    print_energy = energy_print;
 }
 
 void allocate_space()
@@ -22,7 +23,6 @@ void allocate_space()
     acc_x = malloc(N*sizeof(DOUBLE));
     acc_y = malloc(N*sizeof(DOUBLE));
     acc_z = malloc(N*sizeof(DOUBLE));
-    energy = malloc(N*sizeof(DOUBLE));
 }
 
 void init_from_ram(DOUBLE *x, DOUBLE *y, DOUBLE *z, DOUBLE *vx, DOUBLE *vy, DOUBLE *vz)

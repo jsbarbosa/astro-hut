@@ -37,7 +37,6 @@ void solver(DOUBLE t0, DOUBLE tmax, DOUBLE dt, const char *dir)
         }
         tree = init_tree();
         force(tree);
-
         // Leapfrog
         #pragma omp parallel for
         for(i=0; i<N; i++)
@@ -58,9 +57,6 @@ void solver(DOUBLE t0, DOUBLE tmax, DOUBLE dt, const char *dir)
             speed_x[i] = v_hx[i] + 0.5*acc_x[i]*dt;
             speed_y[i] = v_hy[i] + 0.5*acc_y[i]*dt;
             speed_z[i] = v_hz[i] + 0.5*acc_z[i]*dt;
-            // energy[i] += 0.5*M*(speed_x[i]*speed_x[i]
-                                // + speed_y[i]*speed_y[i]
-                                // + speed_z[i]*speed_z[i]);
         }
         print_status(dir, cont+1);
         t0 += dt;
@@ -87,19 +83,15 @@ void single_particle_force(int i, box *tree)
         r = sqrt(r2);
         theta = cs/r;
         r2 += EPSILON;
-        if(theta > TOLERANCE)
+        if(tree-> number_of_points == 1)
         {
-            if(tree-> number_of_points == 1)
-            {
-                acc_x[i] += x*mass/pow(r2, 1.5);
-                acc_y[i] += y*mass/pow(r2, 1.5);
-                acc_z[i] += z*mass/pow(r2, 1.5);
-                // acc_x[i] += (x/fabs(x))*mass/r;
-                // acc_y[i] += (y/fabs(y))*mass/r;
-                // acc_z[i] += (z/fabs(z))*mass/r;
-                // energy[i] += mass/r;
-            }
-            else
+            acc_x[i] += x*mass/pow(r2, 1.5);
+            acc_y[i] += y*mass/pow(r2, 1.5);
+            acc_z[i] += z*mass/pow(r2, 1.5);
+        }
+        else
+        {
+            if(theta > TOLERANCE)
             {
                 box sub;
                 for(j = 0; j < tree-> number_of_subs; j++)
@@ -108,16 +100,12 @@ void single_particle_force(int i, box *tree)
                     single_particle_force(i, &sub);
                 }
             }
-        }
-        else
-        {
-            acc_x[i] += x*mass/pow(r2, 1.5);
-            acc_y[i] += y*mass/pow(r2, 1.5);
-            acc_z[i] += z*mass/pow(r2, 1.5);
-            // acc_x[i] += (x/fabs(x))*mass/r2;
-            // acc_y[i] += (y/fabs(y))*mass/r2;
-            // acc_z[i] += (z/fabs(z))*mass/r2;
-            // energy[i] += mass/r;
+            else
+            {
+                acc_x[i] += x*mass/pow(r2, 1.5);
+                acc_y[i] += y*mass/pow(r2, 1.5);
+                acc_z[i] += z*mass/pow(r2, 1.5);
+            }
         }
     }
 }
@@ -125,19 +113,16 @@ void single_particle_force(int i, box *tree)
 void force(box *tree)
 {
     int i;
-    // DOUBLE x, y, z, r, *a;
     #pragma omp parallel for
     for(i=0; i<N; i++)
     {
         acc_x[i] = 0;
         acc_y[i] = 0;
         acc_z[i] = 0;
-        // energy[i] = 0;
         single_particle_force(i, tree);
         acc_x[i] *= G;
         acc_y[i] *= G;
         acc_z[i] *= G;
-        // energy[i] *= 0.5*G*M;
     }
 }
 
@@ -146,48 +131,55 @@ void print_status(const char *dir, int contador)
     int i;
     char buff_pos[256];
     char buff_sp[256];
-    char buff_en[256];
 
     sprintf(buff_pos, "%s%d_instant.dat", dir, contador);
     sprintf(buff_sp, "%s%d_speed.dat", dir, contador);
-    // sprintf(buff_en, "%s%d_energy.dat", dir, contador);
     FILE *pos = fopen(buff_pos, "w");
     FILE *speeds = fopen(buff_sp, "w");
-    // FILE *energies = fopen(buff_en, "w");
 
     for(i=0; i<N; i++)
     {
         fprintf(pos, "%f %f %f\n", pos_x[i], pos_y[i], pos_z[i]);
         fprintf(speeds, "%f %f %f\n", speed_x[i], speed_y[i], speed_z[i]);
-        // fprintf(energies, "%f \n", energy[i]);
-        
+    }
+
+    if(print_energy == 1)
+    {
+        char buff_en[256];
+        sprintf(buff_en, "%s%d_energy.dat", dir, contador);
+        FILE *energies = fopen(buff_en, "w");
+        calculateEnergy();
+        fprintf(energies, "%f \n", energy);
+        fclose(energies);
     }
     fclose(pos);
     fclose(speeds);
-    // fclose(energies);
 }
 
-// void calculateEnergy()
-// {
-//     int i, j;
-//     DOUBLE x, y, z;
-//     #pragma omp parallel for private(i, j, x, y, z)
-//     for(i = 0; i<N; i++)
-//     {
-//         kinetic[i] = 0.5*M*(speed_x[i]*speed_x[i]
-//                             +speed_y[i]*speed_y[i]
-//                             +speed_z[i]*speed_z[i]);
-//
-//         for(j = 0; j<N; j++)
-//         {
-//             if(i != j)
-//             {
-//                 x = pos_x[i] - pos_x[j];
-//                 y = pos_y[i] - pos_y[j];
-//                 z = pos_z[i] - pos_z[j];
-//
-//             }
-//         }
-//
-//     }
-// }
+void calculateEnergy()
+{
+    int i, j;
+    DOUBLE x, y, z;
+    energy = 0;
+    #pragma omp parallel for private(i, j, x, y, z)
+    for(i = 0; i<N; i++)
+    {
+        energy += 0.5*M*(speed_x[i]*speed_x[i]
+                            +speed_y[i]*speed_y[i]
+                            +speed_z[i]*speed_z[i]);
+
+        for(j = 0; j<N; j++)
+        {
+            if(i != j)
+            {
+                x = pos_x[i] - pos_x[j];
+                y = pos_y[i] - pos_y[j];
+                z = pos_z[i] - pos_z[j];
+
+                x = x*x + y*y + z*z;
+                energy += -0.5*G*M*M/pow(x, 0.5);
+            }
+        }
+
+    }
+}
