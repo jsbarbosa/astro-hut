@@ -156,7 +156,7 @@ void print_status(const char *dir, int contador)
     fclose(speeds);
 }
 
-void calculateEnergy()
+void calculateEnergy(void)
 {
     int i, j;
     DOUBLE x, y, z;
@@ -180,6 +180,5 @@ void calculateEnergy()
                 energy += -0.5*G*M*M/pow(x, 0.5);
             }
         }
-
     }
 }

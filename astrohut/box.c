@@ -24,7 +24,7 @@ void clean_tree(box *tree)
     }
 }
 
-box *init_tree()
+box *init_tree(void)
 {
     int n = N, i;
     int *points = malloc(sizeof(int)*n);

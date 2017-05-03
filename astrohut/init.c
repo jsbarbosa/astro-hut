@@ -1,8 +1,9 @@
 #include "init.h"
+#include "omp.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-void init_conditions(int n, DOUBLE m, DOUBLE g, DOUBLE epsilon, DOUBLE tolerance, int energy_print)
+void init_conditions(int n, DOUBLE m, DOUBLE g, DOUBLE epsilon, DOUBLE tolerance, int energy_print, int threads)
 {
     N = n;
     M = m;
@@ -10,9 +11,13 @@ void init_conditions(int n, DOUBLE m, DOUBLE g, DOUBLE epsilon, DOUBLE tolerance
     EPSILON = epsilon;
     TOLERANCE = tolerance;
     print_energy = energy_print;
+    if (threads >= 1)
+    {
+        omp_set_num_threads(threads);
+    }
 }
 
-void allocate_space()
+void allocate_space(void)
 {
     pos_x = malloc(N*sizeof(DOUBLE));
     pos_y = malloc(N*sizeof(DOUBLE));

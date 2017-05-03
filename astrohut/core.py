@@ -6,8 +6,9 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
 
-class simulation:
-    def __init__(self, M, G, epsilon = 0.01, tolerance = 1, pos = None, speeds = None, output="Data/", print_energy = False):
+class Simulation:
+    def __init__(self, M, G, pos, speeds, epsilon = 0.01, tolerance = 1,
+                        output="Data/", print_energy = False, threads = -1):
         self.M = M
         self.G = G
         self.epsilon = epsilon
@@ -15,7 +16,7 @@ class simulation:
         self.pos = pos
         self.speeds = speeds
         self.N = self.pos.shape[1]
-
+        self.threads = threads
         self.print_energy = int(print_energy)
         """
         c init
@@ -44,12 +45,14 @@ class simulation:
         self.lib = ctypes.CDLL(self.path)
 
         self.lib.init_conditions.argtypes = (ctypes.c_int, ctypes.c_double,
-                            ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_int)
+                            ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_int, ctypes.c_int)
         self.lib.solver.argtypes = (ctypes.c_double, ctypes.c_double,
                             ctypes.c_double, ctypes.c_char_p)
 
-        self.lib.init_conditions(self.N, self.M, self.G, self.epsilon, self.tolerance, self.print_energy)
-        self.lib.init_from_ram.argtypes = (self.c_double_p, self.c_double_p, self.c_double_p, self.c_double_p, self.c_double_p, self.c_double_p)
+        self.lib.init_conditions(self.N, self.M, self.G, self.epsilon,
+                            self.tolerance, self.print_energy, self.threads)
+        self.lib.init_from_ram.argtypes = (self.c_double_p, self.c_double_p,
+                self.c_double_p, self.c_double_p, self.c_double_p, self.c_double_p)
 
         self.lib.init_from_ram(self.x, self.y, self.z, self.vx, self.vy, self.vz)
 
@@ -107,7 +110,7 @@ def speeds_generator(galaxy, G, m = 1):
     for i in range(n):
         my_pos = distances[:, i]
         others_pos = np.array([(distances[0, :] - my_pos[i])**2 for i in range(3)]).sum(axis=0)
-        speed_mag = np.sqrt(G*m*(1/np.sqrt(others_pos)).sum())
+        # speed_mag = np.sqrt(G*m*(1/np.sqrt(others_pos)).sum())
         pos = np.where(r < r[i])[0]
         M = m*pos.shape[0]
         theta = np.arctan2(distances[1, i], distances[0, i])
@@ -116,8 +119,8 @@ def speeds_generator(galaxy, G, m = 1):
             s[:2, i] = -r[i]*np.sin(theta), r[i]*np.cos(theta)
             s[:2, i] *= 1/np.sqrt(np.dot(s[:, i], s[:, i]))
             s[:2, i] *= mag
-            if speed_mag > mag:
-                s[2, i] = (speed_mag - mag)*(np.random.random() - 0.5)
+            # if speed_mag > mag:
+            #     s[2, i] = (speed_mag - mag)*(np.random.random() - 0.5)
         else:
             s[:, i] = 0
     return 0.93*s
@@ -153,7 +156,7 @@ def example(N, M, G):
     speeds[:, :N_first] = speeds1
     speeds[:, N_first:] = speeds2
 
-    return system, speeds
+    return galaxy1, galaxy2, system, speeds
 
 def systemEnergy(directory = "Data/"):
     files = glob("%s*_energy.dat"%directory)
@@ -200,5 +203,5 @@ def animate(data, N, dt = 0.01):
     ax1.set_zlim(min_value, max_value)
     ax2.set_xlim(min_value, max_value)
     ax2.set_ylim(min_value, max_value)
-    ani = FuncAnimation(fig, update, frames=len(data), interval=0.1)
+    ani = FuncAnimation(fig, update, frames=len(data), interval=0.01)
     return ani

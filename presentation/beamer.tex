@@ -1,5 +1,5 @@
-%\documentclass{beamer}
-\documentclass[handout]{beamer}
+\documentclass{beamer}
+%\documentclass[handout]{beamer}
 \usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
@@ -163,21 +163,21 @@
 	\end{columns}
 \end{frame}
 \begin{frame}{Funcionamiento}
-	La construcci\'on del arbol se realiza para cada instante de tiempo.
+	La construcci\'on del \'arbol se realiza para cada instante de tiempo.
 	\centering
 	\movie[height = 0.55\textwidth, width = 0.8\textwidth, poster, showcontrols]{}{sources/animations/boxes_points.mp4}
 	\\
 	Observaci\'on
 \end{frame}
 \begin{frame}{Funcionamiento}
-	La construcci\'on del arbol se realiza para cada instante de tiempo.
+	La construcci\'on del \'arbol se realiza para cada instante de tiempo.
 	\centering
 	\movie[height = 0.55\textwidth, width = 0.8\textwidth,poster, showcontrols]{}{sources/animations/boxes.mp4}
 	\\
 	Todas las cajas
 \end{frame}
 \begin{frame}{Funcionamiento}
-	La construcci\'on del arbol se realiza para cada instante de tiempo.
+	La construcci\'on del \'arbol se realiza para cada instante de tiempo.
 	\centering
 	\movie[height = 0.55\textwidth, width = 0.8\textwidth, poster, showcontrols]{}{sources/animations/boxes_child_only.mp4}
 	\\
@@ -194,11 +194,11 @@
 \begin{frame}{Descripci\'on del sistema}
 	Usando la ley de gravitaci\'on universal:
 	\begin{equation}
-		\vec{F_i} = m_i\vec{a}_i = - \sum\limits_{j\neq i}^N G\dfrac{m_im_j}{|\vec{r}_{ij}|^3}\left(\vec{r}_i - \vec{r}_j\right)
+		\vec{F_i} = m_i\vec{a}_i = - \sum\limits_{j\neq i}^N G\dfrac{m_im_j}{|\vec{r}_i - \vec{r}_j|^3}\left(\vec{r}_i - \vec{r}_j\right)
 	\end{equation}\pause
 	es posible obtener las ecuaciones que describen la din\'amica del sistema.\pause
 	\begin{equation}
-		\vec{\ddot{r}}_i = - \sum\limits_{j\neq i}^N G\dfrac{m_j}{\left(|\vec{r}_{ij}|^2 + \epsilon^2\right)^{3/2}}\left(\vec{r}_i - \vec{r}_j\right)
+		\vec{\ddot{r}}_i = - \sum\limits_{j\neq i}^N G\dfrac{m_j}{\left(|\vec{r}_i - \vec{r}_j|^2 + \epsilon^2\right)^{3/2}}\left(\vec{r}_i - \vec{r}_j\right)
 	\end{equation}
 	
 	donde $\epsilon$ corresponde con el \textit{softening length}.
@@ -225,11 +225,21 @@
 			\includegraphics[height=0.35\textheight]{sources/images/rotation_curve.pdf}\pause
 		\end{column}
 		\begin{column}{0.65\textwidth}
-			\includegraphics[width=\linewidth]{sources/images/galaxy_distribution.pdf}\\\pause
+			\includegraphics[height=0.75\textheight]{sources/images/galaxy_distribution.pdf}\\
+		\end{column}
+	\end{columns}
+\end{frame}
+\begin{frame}{Condiciones iniciales}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\includegraphics[height=0.35\textheight]{sources/images/galaxy_shape.pdf}\\
+			\includegraphics[height=0.35\textheight]{sources/images/rotation_curve.pdf}
+		\end{column}
+		\begin{column}{0.65\textwidth}
 			\footnotesize
 			\begin{itemize}
 				\item $G$ = 44.97 (10$^7$ M$_{\odot}^{-1}$kpc$^3$Gy$^{-2}$)
-				\item Tama\~no = 55 (kpc)
+				\item Tama\~no $\approx$ 80 (kpc)
 				\item $m$ = 2.44 (10$^7$M$_{\odot}$)
 				\item $N$ = 4096
 				\item $\epsilon$ = 0.055
@@ -250,15 +260,7 @@
 \end{frame}
 
 \begin{frame}{Visualizaci\'on}
-	La visualizaci\'on de los resultados puede ser \textit{cualitativa} o cuantitativa.
-	\begin{columns}
-		\begin{column}{0.5\textwidth}
-			\includegraphics[height=0.35\textheight]{sources/images/galaxy_shape.pdf}
-		\end{column}
-		\begin{column}{0.5\textwidth}
-			\includegraphics[height=0.35\textheight]{sources/images/rotation_curve.pdf}
-		\end{column}
-	\end{columns} 
+	La visualizaci\'on de los resultados se realiza usando animaciones de las posiciones en funci\'on del tiempo. Tambi\'en se obtiene informaci\'on de las curvas de rotaci\'on, distribuci\'on de masa y velocidades.
 \end{frame}
 \begin{frame}{Implementaci\'on}
 	Binding de \texttt{bruteforce.c} para Python.
@@ -273,7 +275,7 @@
 \begin{frame}{Implementaci\'on}
 	\begin{tcolorbox}[colback=blue!5,colframe=blue!40!black,title=Python]
 		\begin{itemize}
-			\item \texttt{core.py}: contiene la clase \texttt{Galaxy} y \texttt{Simulation}, las cuales generan condiciones iniciales y realizan la interf\'az con C.
+			\item \texttt{core.py}: contiene la clase \texttt{Galaxy} y \texttt{Simulation}, las cuales generan condiciones iniciales y realizan la interfaz con C.
 		\end{itemize}
 	\end{tcolorbox}
 \end{frame}
@@ -286,9 +288,10 @@
 			Python script
 		\end{column}
 	\end{columns}
+	\footnotesize
 	\begin{enumerate}
-		\item \texttt{system, speeds = example(N, M, G)} \pause
-		\item {\footnotesize\texttt{sim = simulation(M, G, epsilon, tolerance = 1.0, pos = system, speeds = speeds)}} \pause
+		\item \texttt{galaxy1, galaxy2, system, speeds = example(N, M, G)} \pause
+		\item \texttt{sim = Simulation(M, G, system, speeds, epsilon, tolerance = 1.0, threads = -1)} \pause
 		\item \texttt{sim.start(0.0, 1.0, 0.01)}
 	\end{enumerate}
 \end{frame}
@@ -327,7 +330,19 @@
 		\end{column}
 	\end{columns}
 \end{frame}
+
+\begin{frame}{Resultados}
+	Conservaci\'on de la energ\'ia para $\tau = 1.0$.
+	\centering
+	\includegraphics[width=0.8\linewidth]{sources/images/energy.pdf}
+\end{frame}
 \begin{frame}{Conclusiones}
-	Funciona.
+	\begin{itemize}
+		\item El m\'etodo de Barnes y Hut constituye una buena aproximaci\'on para las interacciones gravitacionales de $N$ cuerpos.
+		
+		\item El \'orden del algoritmo es $\mathcal{O}(N\log N)$.
+		
+		\item El costo computacional disminuye exponencialmente con el valor de $\tau$.
+	\end{itemize}
 \end{frame}
 \end{document}

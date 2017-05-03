@@ -9,7 +9,7 @@ import time
 
 def run_simulation(system, speeds, M, G, epsilon, tolerance):
     start = time.time()
-    sim = simulation(M, G, epsilon, tolerance = tolerance, pos = system, speeds = speeds)
+    sim = Simulation(M, G, epsilon, tolerance = tolerance, pos = system, speeds = speeds)
     sim.start(0, 0.1, 0.01)
     return time.time() - start
 
@@ -29,11 +29,11 @@ def test_tolerance(N_tests = 10):
     for i in range(N_tests):
         time_used = run_simulation(system, speeds, M, G, epsilon, tolerances[i])
         results[i] = tolerances[i], time_used
-    
+
     return results
 
 def test_particles(N_tests = 10):
-    
+
     particles = np.logspace(1, 4, N_tests)
     results = np.zeros((N_tests, 3))
 
@@ -50,7 +50,7 @@ def test_particles(N_tests = 10):
         time_used0 = run_simulation(system, speeds, M, G, epsilon, 0.0)
         time_used1 = run_simulation(system, speeds, M, G, epsilon, 1.0)
         results[i] = N, time_used0, time_used1
-    
+
     return results
 
 tolerance_results = test_tolerance()

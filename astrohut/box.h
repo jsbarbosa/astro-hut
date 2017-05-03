@@ -14,7 +14,7 @@ typedef struct box_str
     struct box_str *subBoxes;
 } box;
 
-box *init_tree();
+box *init_tree(void);
 void clean_tree(box *tree);
 void bounds(DOUBLE *low_bounds, DOUBLE *size);
 DOUBLE *calc_center_of_mass(int n, int *pos);
