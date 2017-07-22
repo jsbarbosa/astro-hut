@@ -12,7 +12,7 @@ sim = Simulation(M, G, system, speeds, epsilon = epsilon,
         tolerance = 1.0, threads = -1)
 sim.start(0, 10.0, 0.01)
 
-data = read_output()
-ani = animate(data, N)
-plt.show()
+#data = read_output()
+#ani = animate(data, N)
+#plt.show()
 #ani.save("approx.mp4", writer = "ffmpeg", fps = 24, dpi = 120)

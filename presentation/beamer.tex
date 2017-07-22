@@ -1,5 +1,5 @@
-\documentclass{beamer}
-%\documentclass[handout]{beamer}
+%\documentclass{beamer}
+\documentclass[handout]{beamer}
 \usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
@@ -107,8 +107,8 @@
 \begin{frame}{Funcionamiento}
 	Pasos en el c\'alculo de la fuerza sobre un cuerpo. El proceso empieza desde el nodo superior.
 	\begin{enumerate}
-		\item Se calcula la distancia entre el centro de masa del nodo y el cuerpo.
-		\item Si la distancia es lo suficientemente grande, los cuerpos contenidos en el nodo se toman como un solo cuerpo.
+		\item Se calcula la distancia entre el centro de masa del nodo y el cuerpo. \pause
+		\item Si la distancia es lo suficientemente grande, los cuerpos contenidos en el nodo se toman como un solo cuerpo. \pause
 		\item De lo contrario el proceso se repite con los nodos inferiores.
 	\end{enumerate}
 \end{frame}
@@ -118,7 +118,7 @@
 		\tau' = \dfrac{s}{d}
 	\end{equation}
 	
-	Donde $s$ corresponde con la longitud de la caja, y $d$ con la distancia.
+	Donde $s$ corresponde con la longitud de la caja, y $d$ con la distancia. \pause
 	
 	Se define un coeficiente de precisi\'on $\tau$ para la simulaci\'on tal que:
 	\begin{itemize}
