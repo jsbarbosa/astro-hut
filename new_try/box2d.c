@@ -1,43 +1,123 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
+#include "math.h"
 #include "box2d.h"
 
 DOUBLE MASS_UNIT = 1.0;
+DOUBLE G = 1.0;
+DOUBLE TAU = 0.1;
+DOUBLE dt = 0.001;
+DOUBLE EPSILON = 0.001;
 
 int main(int argc, char const *argv[])
 {
-    time_t t;
-    int i, N = 500;
-    DOUBLE *xs, *ys;
-    
-    srand((unsigned) time(&t));
+    int i, N = 100, Nt = 100;
 
-    xs = malloc(N*sizeof(DOUBLE));
-    ys = malloc(N*sizeof(DOUBLE));
+    body2d *bodies = loadFile2d("initial.csv", " ", N);
+    node2d *node = initFirstNode2d(N, bodies);
 
-    point2d *positions = randomPos(N);
-
-    for(i = 0; i < N; i++)
-    {
-        xs[i] = positions[i].x;
-        ys[i] = positions[i].y;
-    }
-
-    node2d *node = initFirstNode2d(N, xs, ys);
-
-    FILE *file;
-    file = fopen("single_boxes.dat", "w");
-    printNode2d(file, node);
-    fclose(file);
+    body2d *last = solveInterval(Nt, &node, bodies);
 
     freeNodes2d(node);
     free(node);
-    free(positions);
-    free(xs);
-    free(ys);
-
+    free(last);
+    free(bodies);
     return 0;
+}
+
+body2d *solveInterval(int N, node2d **node, body2d *bodies)
+{
+    int i;
+
+    body2d *new = solveInstant2d(node, bodies);
+
+    char *prefix = "single_boxes";
+    char filename[20]; // to store the filename
+    char number[20];
+
+    for(i = 0; i<N-1; i++)
+    {
+        FILE *file;
+        sprintf(number, "%d", i);
+        strcpy(filename, prefix);
+        strcat(filename, number);
+        strcat(filename, ".dat");
+        file = fopen(filename, "w");
+        printNode2d(file, *node);
+        fclose(file);
+
+        body2d *new2 = solveInstant2d(node, new);
+
+        swapBody2d(&new2, &new);
+        free(new2);
+    }
+    return new;
+}
+void swapBody2d(body2d **b1, body2d **b2)
+{
+    body2d *temp = *b1;
+    *b1 = *b2;
+    *b2 = temp;
+}
+
+void printBody2d(FILE *file, body2d body)
+{
+    fprintf(file, "%f %f %f %f \n", body.p.x, body.p.y, body.v.x, body.v.y);
+}
+
+body2d *solveInstant2d(node2d **node, body2d *bodies)
+{
+    int i, N = (*node)->Nbodies;
+    DOUBLE dth = dt*0.5;
+
+    body2d *new = calloc(N, sizeof(body2d));
+
+    DOUBLE *vxh, *vyh;
+    vxh = calloc(N, sizeof(DOUBLE));
+    vyh = calloc(N, sizeof(DOUBLE));
+    for(i = 0; i < N; i++)
+    {
+        bodies[i].a.x = 0;
+        bodies[i].a.y = 0;
+        acceleration2d(*node, &(bodies[i]));
+    }
+    for(i = 0; i < N; i++)
+    {
+        vxh[i] = bodies[i].v.x + dth*bodies[i].a.x;
+        vyh[i] = bodies[i].v.y + dth*bodies[i].a.y;
+
+        new[i].p.x = bodies[i].p.x + dth*bodies[i].a.x;
+        new[i].p.y = bodies[i].p.y + dth*bodies[i].a.y;
+    }
+
+    //swapping
+    node2d *temp = *node;
+    node2d *new_node = initFirstNode2d(N, new);
+    *node = new_node;
+    new_node = temp;
+
+    freeNodes2d(new_node);
+    free(new_node);
+
+    for(i = 0; i < N; i++)
+    {
+        new[i].a.x = 0;
+        new[i].a.y = 0;
+        acceleration2d(*node, &(new[i]));
+    }
+
+    for(i = 0; i < N; i++)
+    {
+        new[i].v.x = vxh[i] + dth*new[i].a.x;
+        new[i].v.y = vyh[i] + dth*new[i].a.y;
+    }
+
+    free(vxh);
+    free(vyh);
+
+    return new;
 }
 
 DOUBLE min(int n, DOUBLE *values)
@@ -198,13 +278,22 @@ node2d *calculateNode2d(node2d *mother_node)
         n3 = mother_node->subnode3->Nbodies;
         n4 = mother_node->subnode4->Nbodies;
 
-        calculateNode2d(mother_node->subnode1);
-
-        calculateNode2d(mother_node->subnode2);
-
-        calculateNode2d(mother_node->subnode3);
-
-        calculateNode2d(mother_node->subnode4);
+        if(n1 > 0)
+        {
+            calculateNode2d(mother_node->subnode1);
+        }
+        if(n2 > 0)
+        {
+            calculateNode2d(mother_node->subnode2);
+        }
+        if(n3 > 0)
+        {
+            calculateNode2d(mother_node->subnode3);
+        }
+        if(n4 > 0)
+        {
+            calculateNode2d(mother_node->subnode4);
+        }
     }
 
     return mother_node;
@@ -212,36 +301,34 @@ node2d *calculateNode2d(node2d *mother_node)
 
 node2d *createNode2d(int Nbodies, node2d *node, DOUBLE *xs, DOUBLE *ys)
 {
-    int i;
-    if(node == NULL)
-    {
-        node = calloc(1, sizeof(node2d));
-    }
-
-    node->Nbodies = Nbodies;
-    node->mass = Nbodies*MASS_UNIT;
-
-    node->subnode1 = calloc(1, sizeof(node2d));
-    node->subnode2 = calloc(1, sizeof(node2d));
-    node->subnode3 = calloc(1, sizeof(node2d));
-    node->subnode4 = calloc(1, sizeof(node2d));
-
     if(Nbodies > 0)
     {
+        int i;
+        if(node == NULL)
+        {
+            node = calloc(1, sizeof(node2d));
+        }
+
+        node->Nbodies = Nbodies;
+        node->mass = Nbodies*MASS_UNIT;
+        node->subnode1 = calloc(1, sizeof(node2d));
+        node->subnode2 = calloc(1, sizeof(node2d));
+        node->subnode3 = calloc(1, sizeof(node2d));
+        node->subnode4 = calloc(1, sizeof(node2d));
+
         node->xs = calloc(Nbodies, sizeof(DOUBLE));
         node->ys = calloc(Nbodies, sizeof(DOUBLE));
-    }
-    for(i = 0; i < Nbodies; i++)
-    {
-        node->xs[i] = xs[i];
-        node->ys[i] = ys[i];
-        node->cmass.x += xs[i];
-        node->cmass.y += ys[i];
-    }
+        for(i = 0; i < Nbodies; i++)
+        {
+            node->xs[i] = xs[i];
+            node->ys[i] = ys[i];
+            node->cmass.x += xs[i];
+            node->cmass.y += ys[i];
+        }
 
-    node->cmass.x *= 1.0/node->Nbodies;
-    node->cmass.y *= 1.0/node->Nbodies;
-
+        node->cmass.x *= 1.0/node->Nbodies;
+        node->cmass.y *= 1.0/node->Nbodies;
+    }
     return node;
 }
 
@@ -261,7 +348,10 @@ node2d *createSubNode2d(int Nbodies, node2d *node, DOUBLE *xs, DOUBLE *ys, int *
             indexedYs[i] = ys[index[i]];
         }
 
-        createNode2d(n, node, indexedXs, indexedYs);
+        if(n > 0)
+        {
+            createNode2d(n, node, indexedXs, indexedYs);
+        }
 
         free(index);
         free(indexedXs);
@@ -285,9 +375,19 @@ point2d *randomPos(int Nbodies)
     return pos;
 }
 
-node2d *initFirstNode2d(int Nbodies, DOUBLE *xs, DOUBLE *ys)
+node2d *initFirstNode2d(int Nbodies, body2d *bodies)
 {
     int i;
+
+    DOUBLE *xs, *ys;
+    xs = calloc(Nbodies, sizeof(DOUBLE));
+    ys = calloc(Nbodies, sizeof(DOUBLE));
+
+    for(i = 0; i < Nbodies; i++)
+    {
+        xs[i] = bodies[i].p.x;
+        ys[i] = bodies[i].p.y;
+    }
 
     node2d *node = createNode2d(Nbodies, NULL, xs, ys);
     DOUBLE xmin, ymin, xmax, ymax;
@@ -303,6 +403,9 @@ node2d *initFirstNode2d(int Nbodies, DOUBLE *xs, DOUBLE *ys)
     node->center.y = 0.5*(ymin + ymax);
 
     calculateNode2d(node);
+
+    free(xs);
+    free(ys);
     return node;
 }
 
@@ -354,4 +457,76 @@ void freeNodes2d(node2d *node)
     free(node->subnode3);
     free(node->subnode4);
 
+}
+
+body2d *loadFile2d(const char *name, const char *delim, int N)
+{
+    int i = 0, j = 0;
+    int length = 250;
+
+    char line_buffer[length];
+    char *split_buffer;
+
+    body2d *bodies = calloc(N, sizeof(body2d));
+
+    FILE *dataFile;
+    dataFile = fopen(name, "r");
+
+    if (dataFile == NULL)
+    {
+        printf("Error Reading File\n");
+        exit(0);
+    }
+
+    while(fgets(line_buffer, length, dataFile) != NULL)
+    {
+        j = 0;
+        split_buffer = strtok(line_buffer, delim);
+
+        while (split_buffer != NULL)
+        {
+            if(j == 0){bodies[i].p.x = atof(split_buffer);}
+            else if(j == 1){bodies[i].p.y = atof(split_buffer);}
+            else if(j == 2){bodies[i].v.x = atof(split_buffer);}
+            else if(j == 3){bodies[i].v.y = atof(split_buffer);}
+            split_buffer = strtok(NULL, delim);
+            j += 1;
+        }
+        i += 1;
+    }
+
+    fclose(dataFile);
+
+    return bodies;
+}
+
+void acceleration2d(node2d *node, body2d *object)
+{
+    if(node->Nbodies > 0)
+    {
+        DOUBLE dx, dy, r, r2, prime;
+        dx = node->cmass.x - object->p.x;
+        dy = node->cmass.y - object->p.y;
+        r2 = dx*dx + dy*dy;
+        prime = sqrt(pow(node->width, 2.0) + pow(node->width, 2.0))/pow(r2, 0.5);
+        if((node->Nbodies == 1) && (r2 != 0))
+        {
+            r2 += EPSILON;
+            object->a.x += G*node->mass*dx/pow(r2, 1.5);
+            object->a.y += G*node->mass*dy/pow(r2, 1.5);
+        }
+        else if(prime >= TAU)
+        {
+            acceleration2d(node->subnode1, object);
+            acceleration2d(node->subnode2, object);
+            acceleration2d(node->subnode3, object);
+            acceleration2d(node->subnode4, object);
+        }
+        else
+        {
+            r2 += EPSILON;
+            object->a.x += G*node->mass*dx/pow(r2, 1.5);
+            object->a.y += G*node->mass*dy/pow(r2, 1.5);
+        }
+    }
 }
