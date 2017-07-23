@@ -3,7 +3,7 @@ from glob import glob
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-BOXES = True
+BOXES = False
 
 files = glob("*.dat")
 Nt = len(files)
@@ -44,5 +44,5 @@ def animate(i):
     return tuple(squares + points)
 
 ani = FuncAnimation(fig, animate, frames=Nt, interval=25)
-ani.save("aniBoxes.gif", writer="imagemagick")
-plt.show()
+ani.save("ani.gif", writer="imagemagick")
+# plt.show()

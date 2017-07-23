@@ -1,7 +1,7 @@
-# single_boxes.png : plot.py single_boxes.dat
-# 	python $<
+*.gif : plot.py *.dat
+	python $<
 
-single_boxes.dat : a.out initial.csv
+*.dat : a.out initial.csv
 	./$<
 
 a.out : box2d.c box2d.h

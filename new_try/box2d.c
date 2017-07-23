@@ -8,8 +8,8 @@
 DOUBLE MASS_UNIT = 1.0;
 DOUBLE G = 1.0;
 DOUBLE TAU = 0.1;
-DOUBLE dt = 0.001;
-DOUBLE EPSILON = 0.001;
+DOUBLE dt = 0.0001;
+DOUBLE EPSILON = 1e-5;
 
 int main(int argc, char const *argv[])
 {
