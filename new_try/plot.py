@@ -4,10 +4,13 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
 BOXES = False
+COLORS = False
+SAVE = True
+AXES = False
 
 files = glob("*.dat")
 Nt = len(files)
-N = 100
+N = np.genfromtxt("initial.csv").shape[0]
 cornersX = np.zeros((Nt, N, 5))
 cornersY = np.zeros((Nt, N, 5))
 
@@ -26,7 +29,10 @@ fig = plt.figure()
 squares = []
 points = []
 for j in range(data.shape[0]):
-    plot = plt.plot([], [])[0]
+    if COLORS:
+        plot = plt.plot([], [])[0]
+    else:
+        plot = plt.plot([], [], "k")[0]
     if BOXES:
         squares.append(plot)
     points.append(plt.plot([], [], "o", alpha = 0.5, c = plot.get_color())[0])
@@ -43,6 +49,18 @@ def animate(i):
 
     return tuple(squares + points)
 
+name = "ani"
+if BOXES:
+    name += "Boxes"
+name += ".gif"
+
+if not AXES:
+    plt.axis('off')
+
 ani = FuncAnimation(fig, animate, frames=Nt, interval=25)
-ani.save("ani.gif", writer="imagemagick")
-# plt.show()
+
+if SAVE:
+    ani.save(name, writer="imagemagick")
+
+else:
+    plt.show()

@@ -54,6 +54,7 @@ void freeNodes2d(node2d *node);
 void swapBody2d(body2d **b1, body2d **b2);
 
 // FORCES
+void resetAcceleration2d(int N, body2d *bodies);
 void acceleration2d(node2d *node, body2d *object);
 body2d *solveInstant2d(node2d **node, body2d *bodies);
 body2d *solveInterval(int N, node2d **node, body2d *bodies);

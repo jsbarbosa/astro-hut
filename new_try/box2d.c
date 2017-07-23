@@ -3,17 +3,20 @@
 #include <string.h>
 #include <time.h>
 #include "math.h"
+#include "omp.h"
 #include "box2d.h"
 
 DOUBLE MASS_UNIT = 1.0;
 DOUBLE G = 1.0;
 DOUBLE TAU = 0.1;
 DOUBLE dt = 0.0001;
-DOUBLE EPSILON = 1e-5;
+DOUBLE EPSILON = 1e-4;
+
+int SKIP = 100;
 
 int main(int argc, char const *argv[])
 {
-    int i, N = 100, Nt = 100;
+    int N = 100, Nt = 10000;
 
     body2d *bodies = loadFile2d("initial.csv", " ", N);
     node2d *node = initFirstNode2d(N, bodies);
@@ -29,7 +32,7 @@ int main(int argc, char const *argv[])
 
 body2d *solveInterval(int N, node2d **node, body2d *bodies)
 {
-    int i;
+    int i, j = 0;
 
     body2d *new = solveInstant2d(node, bodies);
 
@@ -39,14 +42,18 @@ body2d *solveInterval(int N, node2d **node, body2d *bodies)
 
     for(i = 0; i<N-1; i++)
     {
-        FILE *file;
-        sprintf(number, "%d", i);
-        strcpy(filename, prefix);
-        strcat(filename, number);
-        strcat(filename, ".dat");
-        file = fopen(filename, "w");
-        printNode2d(file, *node);
-        fclose(file);
+        if(i%SKIP == 0)
+        {
+            FILE *file;
+            sprintf(number, "%d", j);
+            strcpy(filename, prefix);
+            strcat(filename, number);
+            strcat(filename, ".dat");
+            file = fopen(filename, "w");
+            printNode2d(file, *node);
+            fclose(file);
+            j += 1;
+        }
 
         body2d *new2 = solveInstant2d(node, new);
 
@@ -55,6 +62,7 @@ body2d *solveInterval(int N, node2d **node, body2d *bodies)
     }
     return new;
 }
+
 void swapBody2d(body2d **b1, body2d **b2)
 {
     body2d *temp = *b1;
@@ -67,6 +75,17 @@ void printBody2d(FILE *file, body2d body)
     fprintf(file, "%f %f %f %f \n", body.p.x, body.p.y, body.v.x, body.v.y);
 }
 
+void resetAcceleration2d(int N, body2d *bodies)
+{
+    int i;
+    # pragma omp parallel for
+    for(i = 0; i < N; i ++)
+    {
+        bodies[i].a.x = 0;
+        bodies[i].a.y = 0;
+    }
+}
+
 body2d *solveInstant2d(node2d **node, body2d *bodies)
 {
     int i, N = (*node)->Nbodies;
@@ -77,19 +96,25 @@ body2d *solveInstant2d(node2d **node, body2d *bodies)
     DOUBLE *vxh, *vyh;
     vxh = calloc(N, sizeof(DOUBLE));
     vyh = calloc(N, sizeof(DOUBLE));
+
+    resetAcceleration2d(N, bodies);
+
+    # pragma omp parallel for
     for(i = 0; i < N; i++)
     {
-        bodies[i].a.x = 0;
-        bodies[i].a.y = 0;
         acceleration2d(*node, &(bodies[i]));
+        bodies[i].a.x *= G;
+        bodies[i].a.y *= G;
     }
+
+    # pragma omp parallel for
     for(i = 0; i < N; i++)
     {
         vxh[i] = bodies[i].v.x + dth*bodies[i].a.x;
         vyh[i] = bodies[i].v.y + dth*bodies[i].a.y;
 
-        new[i].p.x = bodies[i].p.x + dth*bodies[i].a.x;
-        new[i].p.y = bodies[i].p.y + dth*bodies[i].a.y;
+        new[i].p.x = bodies[i].p.x + dt*vxh[i];
+        new[i].p.y = bodies[i].p.y + dt*vyh[i];
     }
 
     //swapping
@@ -101,13 +126,16 @@ body2d *solveInstant2d(node2d **node, body2d *bodies)
     freeNodes2d(new_node);
     free(new_node);
 
+    resetAcceleration2d(N, new);
+    # pragma omp parallel for
     for(i = 0; i < N; i++)
     {
-        new[i].a.x = 0;
-        new[i].a.y = 0;
         acceleration2d(*node, &(new[i]));
+        new[i].a.x *= G;
+        new[i].a.y *= G;
     }
 
+    # pragma omp parallel for
     for(i = 0; i < N; i++)
     {
         new[i].v.x = vxh[i] + dth*new[i].a.x;
@@ -216,7 +244,6 @@ node2d *calculateNode2d(node2d *mother_node)
 {
     if(mother_node->Nbodies > 1)
     {
-        int i;
         int *xg, *xl, *yg, *yl;
         xg = whereGreater(mother_node->Nbodies, mother_node->xs, mother_node->center.x);
         yg = whereGreater(mother_node->Nbodies, mother_node->ys, mother_node->center.y);
@@ -504,16 +531,16 @@ void acceleration2d(node2d *node, body2d *object)
 {
     if(node->Nbodies > 0)
     {
-        DOUBLE dx, dy, r, r2, prime;
+        DOUBLE dx, dy, r2, prime;
         dx = node->cmass.x - object->p.x;
         dy = node->cmass.y - object->p.y;
         r2 = dx*dx + dy*dy;
-        prime = sqrt(pow(node->width, 2.0) + pow(node->width, 2.0))/pow(r2, 0.5);
+        prime = sqrt((pow(node->width, 2.0) + pow(node->width, 2.0))/r2);
         if((node->Nbodies == 1) && (r2 != 0))
         {
             r2 += EPSILON;
-            object->a.x += G*node->mass*dx/pow(r2, 1.5);
-            object->a.y += G*node->mass*dy/pow(r2, 1.5);
+            object->a.x += node->mass*dx/pow(r2, 1.5);
+            object->a.y += node->mass*dy/pow(r2, 1.5);
         }
         else if(prime >= TAU)
         {
@@ -525,8 +552,8 @@ void acceleration2d(node2d *node, body2d *object)
         else
         {
             r2 += EPSILON;
-            object->a.x += G*node->mass*dx/pow(r2, 1.5);
-            object->a.y += G*node->mass*dy/pow(r2, 1.5);
+            object->a.x += node->mass*dx/pow(r2, 1.5);
+            object->a.y += node->mass*dy/pow(r2, 1.5);
         }
     }
 }
