@@ -7,7 +7,7 @@ module1 = Extension('astrohut/astrohutc',
 
 setup(
     name = "astrohut",
-    version = "0.0.0",
+    version = "0.0.2",
     author = "Juan Barbosa",
     author_email = "js.barbosa10@uniandes.edu.co",
     description = ('Barnes-Hut NBody simulation library.'),
@@ -22,4 +22,5 @@ setup(
         "Topic :: Utilities",
         "License :: OSI Approved :: GNU General Public License (GPL)",
     ],
+    headers = ["astrohut/box2d.h"],
 )
