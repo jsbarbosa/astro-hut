@@ -12,7 +12,7 @@ DOUBLE TAU = 0.5;
 DOUBLE dt = 0.0001;
 DOUBLE EPSILON = 1e-4;
 
-char *FILE_PREFIX = "single_boxes";
+char FILE_PREFIX[100];
 
 int FRAMES_EVERY = 100;
 

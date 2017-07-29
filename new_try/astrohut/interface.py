@@ -1,4 +1,5 @@
 import os
+import sys
 import ctypes
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,11 +7,9 @@ from matplotlib.animation import FuncAnimation
 from ctypes import POINTER, c_char_p, c_int, pointer
 
 DOUBLE = ctypes.c_float
-DNAME = "name"
-DARGS = "args"
 
-NAME = "shared.so"
-PATH = os.path.join(os.getcwd(), NAME)
+NAME = "astrohutc.cpython-%d%dm.so"%sys.version_info[:2]
+PATH = os.path.join(os.path.abspath(os.path.dirname(__file__)), NAME)
 LIB = ctypes.CDLL(PATH)
 
 class point2d(ctypes.Structure):
@@ -80,6 +79,8 @@ LIB.solveInstant2d.restype = POINTER(body2d)
 
 LIB.setPrint.argtypes = c_char_p, c_int
 
+LIB.omp_set_num_threads.argtypes = c_int,
+
 def __setPrint__(prefix = "", frames_every = 0):
     LIB.setPrint(prefix.encode(), frames_every)
 
@@ -93,17 +94,25 @@ def fromBodiesToArray(bodies, N, dim = 2):
 def __setConstants__(mass_unit, G, tau, dt, epsilon):
     LIB.setConstants(mass_unit, G, tau, dt, epsilon)
 
-def fromArraytoBodies(array):
-    rows = array.shape[0]
+def fromArrayToBodies(array, dim = 2):
+    rows, cols = array.shape[:2]
     bodies = LIB.malloc(rows * ctypes.sizeof(body2d))
     bodies = ctypes.cast(bodies, POINTER(body2d))
-    for i in range(rows):
-        bodies[i] = body2d(point2d(*array[i, :2]), point2d(*array[i, 2:4]),
-                            point2d(*array[i, 4:]))
+
+    if cols//dim == 3:
+        for i in range(rows):
+            bodies[i] = body2d(point2d(*array[i, :2]), point2d(*array[i, 2:4]),
+                                point2d(*array[i, 4:]))
+    elif cols//dim == 2:
+        for i in range(rows):
+            bodies[i] = body2d(point2d(*array[i, :2]), point2d(*array[i, 2:4]))
+    else:
+        raise(Exception("Input file has wrong data format."))
     return rows, bodies
 
 class Simulation():
-    def __init__(self, data, mass_unit = 1.0, G = 1.0, tau = 0.5, dt = 1e-4, epsilon = 1e-4):
+    def __init__(self, data, mass_unit = 1.0, G = 1.0, tau = 0.5, dt = 1e-4, epsilon = 1e-4,
+                read_kwargs = {}):
         self.data = data
         self.mass_unit = mass_unit
         self.G = G
@@ -112,12 +121,14 @@ class Simulation():
         self.epsilon = epsilon
 
         if type(self.data) is str:
-            self.data = np.genfromtxt(data)
+            self.data = np.genfromtxt(data, **read_kwargs)
 
-        self.Nbodies, self.bodies = fromArraytoBodies(self.data)
+        self.Nbodies, self.bodies = fromArrayToBodies(self.data)
         self.node = None
         self.results = None
         self.setConstants()
+
+        self.file_number = 0
 
     def setConstants(self):
         __setConstants__(self.mass_unit, self.G, self.tau, self.dt, self.epsilon)
@@ -125,14 +136,19 @@ class Simulation():
     def setFilePrefix(self, prefix):
         __setPrint__(prefix)
 
-    def start(self, Ninstants, save_to_file_every = 0, save_to_array_every = 1):
+    def start(self, Ninstants, threads = 0, save_to_file_every = 0, save_to_array_every = 1):#, save_to_file_last = True):
         if type(self.node) == type(None):
             self.node = LIB.initFirstNode2d(self.Nbodies, self.bodies)
 
+        if threads > 0:
+            LIB.omp_set_num_threads(threads)
+
+        Ninstants = int(Ninstants)
         new = LIB.solveInstant2d(ctypes.byref(self.node), self.bodies)
-        file_number = 0
         array_number = 0
-        instant_points = np.zeros((Ninstants//save_to_array_every, self.Nbodies, 6))
+
+        if save_to_array_every != 0:
+            instant_points = np.zeros((Ninstants//save_to_array_every, self.Nbodies, 6))
 
         for i in range(Ninstants):
             new2 = LIB.solveInstant2d(ctypes.byref(self.node), new)
@@ -140,7 +156,7 @@ class Simulation():
             if save_to_file_every > 0:
                 if i%save_to_file_every == 0:
                     LIB.printInstant2d(self.node, file_number)
-                    file_number += 1
+                    self.file_number += 1
 
             if save_to_array_every > 0:
                 if i%save_to_array_every == 0:
@@ -150,8 +166,23 @@ class Simulation():
             LIB.swapBody2d(ctypes.byref(new2), ctypes.byref(new))
             LIB.free(new2)
 
-        self.results = instant_points
-        return self.results
+        # if save_to_file_last:
+        #     if save_to_file_every != 0:
+        #         if i%save_to_file_every != 0:
+        #             LIB.printInstant2d(self.node, self.file_number)
+        #             self.file_number += 1
+        #     else:
+        #         LIB.printInstant2d(self.node, self.file_number)
+        #         self.file_number += 1
+
+        if save_to_array_every != 0:
+            if type(self.results) == type(None):
+                self.results = instant_points
+            else:
+                self.results = np.vstack((self.results, instant_points))
+            return self.results
+        else:
+            return fromBodiesToArray(new, self.Nbodies)
 
     def animate(self, i, values, points):
         for j in range(len(points)):
@@ -179,9 +210,3 @@ class Simulation():
                             interval = 25, fargs=(data, points))
 
         return ani
-
-sim = Simulation(np.random.random((100, 6)))
-# sim.setFilePrefix("temp")
-results = sim.start(1000, save_to_array_every = 10, save_to_file_every=100)
-ani = sim.makeAnimation()
-plt.show()
