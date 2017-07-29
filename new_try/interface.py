@@ -139,7 +139,7 @@ class Simulation():
 
             if save_to_file_every > 0:
                 if i%save_to_file_every == 0:
-                    printInstant2d(self.node, file_number)
+                    LIB.printInstant2d(self.node, file_number)
                     file_number += 1
 
             if save_to_array_every > 0:
@@ -153,11 +153,11 @@ class Simulation():
         self.results = instant_points
         return self.results
 
-    def animate(i, values, points):
+    def animate(self, i, values, points):
         for j in range(len(points)):
             body = values[i, j]
             points[j].set_data(body[0], body[1])
-        return points,
+        return points
 
     def makeAnimation(self, data = None):
         if type(data) == type(None):
@@ -175,13 +175,13 @@ class Simulation():
         plt.xlim(data[:, :, 0].min(), data[:, :, 0].max())
         plt.ylim(data[:, :, 1].min(), data[:, :, 1].max())
 
-        ani = FuncAnimation(fig, self.animate, frames=Ninstants,
+        ani = FuncAnimation(fig, self.animate, frames = Ninstants,
                             interval = 25, fargs=(data, points))
 
         return ani
 
-sim = Simulation("initial.csv")#np.random.random((100, 6)))
-results = sim.start(1000, save_to_array_every = 100)
-
-sim.makeAnimation()
+sim = Simulation(np.random.random((100, 6)))
+# sim.setFilePrefix("temp")
+results = sim.start(1000, save_to_array_every = 10, save_to_file_every=100)
+ani = sim.makeAnimation()
 plt.show()
