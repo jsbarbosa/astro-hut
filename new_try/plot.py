@@ -5,12 +5,12 @@ from matplotlib.animation import FuncAnimation
 
 BOXES = False
 COLORS = False
-SAVE = True
+SAVE = False
 AXES = False
 
 files = glob("*.dat")
 Nt = len(files)
-N = np.genfromtxt("initial.csv").shape[0]
+N = np.genfromtxt(files[0]).shape[0]
 cornersX = np.zeros((Nt, N, 5))
 cornersY = np.zeros((Nt, N, 5))
 
@@ -59,8 +59,8 @@ if not AXES:
 
 ani = FuncAnimation(fig, animate, frames=Nt, interval=25)
 
-if SAVE:
-    ani.save(name, writer="imagemagick")
-
-else:
-    plt.show()
+# if SAVE:
+#     ani.save(name, writer="imagemagick")
+#
+# else:
+#     plt.show()

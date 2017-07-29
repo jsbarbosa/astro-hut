@@ -8,20 +8,22 @@
 
 DOUBLE MASS_UNIT = 1.0;
 DOUBLE G = 1.0;
-DOUBLE TAU = 0.1;
+DOUBLE TAU = 0.5;
 DOUBLE dt = 0.0001;
 DOUBLE EPSILON = 1e-4;
 
-int SKIP = 100;
+char *FILE_PREFIX = "single_boxes";
+
+int FRAMES_EVERY = 100;
 
 int main(int argc, char const *argv[])
 {
-    int N = 100, Nt = 10000;
+    int N = 100, Nt = 1000;
 
     body2d *bodies = loadFile2d("initial.csv", " ", N);
     node2d *node = initFirstNode2d(N, bodies);
 
-    body2d *last = solveInterval(Nt, &node, bodies);
+    body2d *last = solveInterval2d(Nt, &node, bodies);
 
     freeNodes2d(node);
     free(node);
@@ -30,29 +32,57 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-body2d *solveInterval(int N, node2d **node, body2d *bodies)
+void setConstants(DOUBLE mass_unit, DOUBLE g, DOUBLE tau, DOUBLE dt_, DOUBLE epsilon)
+{
+    MASS_UNIT = mass_unit;
+    G = g;
+    TAU = tau;
+    dt = dt_;
+    EPSILON = epsilon;
+}
+
+void setPrint(const char *prefix, int frames_every)
+{
+    strcpy(FILE_PREFIX, prefix);
+    FRAMES_EVERY = frames_every;
+}
+
+void printInstant2d(node2d *node, int t)
+{
+    char filename[200]; // to store the filename
+    char number[20];
+
+    FILE *file;
+    sprintf(number, "%d", t);
+    strcpy(filename, FILE_PREFIX);
+    strcat(filename, number);
+    strcat(filename, ".dat");
+    file = fopen(filename, "w");
+
+    if (file == NULL)
+    {
+        printf("Error Reading File\n");
+        exit(0);
+    }
+    printNode2d(file, node);
+    fclose(file);
+}
+
+body2d *solveInterval2d(int N, node2d **node, body2d *bodies)
 {
     int i, j = 0;
 
     body2d *new = solveInstant2d(node, bodies);
 
-    char *prefix = "single_boxes";
-    char filename[20]; // to store the filename
-    char number[20];
-
-    for(i = 0; i<N-1; i++)
+    for(i = 0; i<=N; i++)
     {
-        if(i%SKIP == 0)
+        if(FRAMES_EVERY > 0)
         {
-            FILE *file;
-            sprintf(number, "%d", j);
-            strcpy(filename, prefix);
-            strcat(filename, number);
-            strcat(filename, ".dat");
-            file = fopen(filename, "w");
-            printNode2d(file, *node);
-            fclose(file);
-            j += 1;
+            if(i%FRAMES_EVERY == 0)
+            {
+                printInstant2d(*node, j);
+                j += 1;
+            }
         }
 
         body2d *new2 = solveInstant2d(node, new);

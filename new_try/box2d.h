@@ -32,6 +32,9 @@ typedef struct node2d_str
 
 } node2d;
 
+
+void setConstants(DOUBLE mass_unit, DOUBLE g, DOUBLE tau, DOUBLE dt_, DOUBLE epsilon);
+
 // GENERAL PURPOSE
 point2d *randomPos(int Nbodies);
 DOUBLE min(int n, DOUBLE *values);
@@ -39,7 +42,9 @@ DOUBLE max(int n, DOUBLE *values);
 body2d *loadFile2d(const char *name, const char *delim, int N);
 
 // PRINTING
+void printInstant2d(node2d *node, int t);
 void printNode2d(FILE *file, node2d *node);
+void setPrint(const char *prefix, int frames_every);
 
 // BOXES
 node2d *calculateNode2d(node2d *mother_node);
@@ -57,4 +62,4 @@ void swapBody2d(body2d **b1, body2d **b2);
 void resetAcceleration2d(int N, body2d *bodies);
 void acceleration2d(node2d *node, body2d *object);
 body2d *solveInstant2d(node2d **node, body2d *bodies);
-body2d *solveInterval(int N, node2d **node, body2d *bodies);
+body2d *solveInterval2d(int N, node2d **node, body2d *bodies);
