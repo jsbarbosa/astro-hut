@@ -47,7 +47,7 @@ void setPrint(const char *prefix, int frames_every)
     FRAMES_EVERY = frames_every;
 }
 
-void printInstant2d(node2d *node, int t)
+void printInstantNode2d(node2d *node, int t)
 {
     char filename[200]; // to store the filename
     char number[20];
@@ -55,6 +55,7 @@ void printInstant2d(node2d *node, int t)
     FILE *file;
     sprintf(number, "%d", t);
     strcpy(filename, FILE_PREFIX);
+    strcat(filename, "_node_");
     strcat(filename, number);
     strcat(filename, ".dat");
     file = fopen(filename, "w");
@@ -66,6 +67,42 @@ void printInstant2d(node2d *node, int t)
     }
     printNode2d(file, node);
     fclose(file);
+}
+
+void printInstantBodies2d(int N, int t, body2d *bodies)
+{
+    int i;
+
+    char filename[200]; // to store the filename
+    char number[20];
+
+    FILE *file;
+    sprintf(number, "%d", t);
+    strcpy(filename, FILE_PREFIX);
+    strcat(filename, "_bodies_");
+    strcat(filename, number);
+    strcat(filename, ".dat");
+    file = fopen(filename, "w");
+
+    if (file == NULL)
+    {
+        printf("Error Reading File\n");
+        exit(0);
+    }
+
+    for(i = 0; i < N; i++)
+    {
+        fprintf(file, "%f %f %f %f %f %f\n", bodies[i].p.x, bodies[i].p.y, bodies[i].v.x,
+                                    bodies[i].v.y, bodies[i].a.x, bodies[i].a.y);
+    }
+
+    fclose(file);
+}
+
+void printInstant2d(node2d *node, body2d *bodies, int t)
+{
+    printInstantNode2d(node, t);
+    printInstantBodies2d(node->Nbodies, t, bodies);
 }
 
 body2d *solveInterval2d(int N, node2d **node, body2d *bodies)
@@ -80,7 +117,7 @@ body2d *solveInterval2d(int N, node2d **node, body2d *bodies)
         {
             if(i%FRAMES_EVERY == 0)
             {
-                printInstant2d(*node, j);
+                printInstant2d(*node, new, j);
                 j += 1;
             }
         }
@@ -98,11 +135,6 @@ void swapBody2d(body2d **b1, body2d **b2)
     body2d *temp = *b1;
     *b1 = *b2;
     *b2 = temp;
-}
-
-void printBody2d(FILE *file, body2d body)
-{
-    fprintf(file, "%f %f %f %f \n", body.p.x, body.p.y, body.v.x, body.v.y);
 }
 
 void resetAcceleration2d(int N, body2d *bodies)

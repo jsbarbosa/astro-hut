@@ -1,1 +1,1 @@
-from .interface import Simulation, fromBodiesToArray, fromArrayToBodies
+from .interface import Simulation, fromBodiesToArray, fromArrayToBodies, fromNodeToArray

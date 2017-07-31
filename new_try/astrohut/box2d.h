@@ -42,9 +42,11 @@ DOUBLE max(int n, DOUBLE *values);
 body2d *loadFile2d(const char *name, const char *delim, int N);
 
 // PRINTING
-void printInstant2d(node2d *node, int t);
 void printNode2d(FILE *file, node2d *node);
+void printInstantNode2d(node2d *node, int t);
 void setPrint(const char *prefix, int frames_every);
+void printInstantBodies2d(int N, int t, body2d *bodies);
+void printInstant2d(node2d *node, body2d *bodies, int t);
 
 // BOXES
 node2d *calculateNode2d(node2d *mother_node);
