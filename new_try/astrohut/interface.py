@@ -76,7 +76,7 @@ class Simulation():
 
         if save_to_array_every != 0:
             instant_points = np.zeros((Ninstants//save_to_array_every, self.Nbodies, 3*self.dim))
-            instant_nodes = np.zeros((Ninstants//save_to_array_every, self.Nbodies, 6))
+            instant_nodes = np.zeros((Ninstants//save_to_array_every, self.Nbodies, 12))
 
         for i in range(Ninstants):
             new2 = LIB.solveInstant2d(ctypes.byref(self.node), new)
@@ -89,43 +89,73 @@ class Simulation():
             if save_to_array_every > 0:
                 if i%save_to_array_every == 0:
                     instant_points[array_number] = fromBodiesToArray(new, self.Nbodies)
+                    instant_nodes[array_number] = fromNodeToArray(self.node, self.dim)
                     array_number += 1
 
             LIB.swapBody2d(ctypes.byref(new2), ctypes.byref(new))
             LIB.free(new2)
 
         if save_to_array_every != 0:
-            if type(self.results) == type(None):
-                self.results = instant_points
+            if type(self.results_bodies) == type(None):
+                self.results_bodies = instant_points
+            if type(self.results_nodes) == type(None):
+                self.results_nodes = instant_nodes
             else:
-                self.results = np.vstack((self.results, instant_points))
-            return self.results
+                self.results_bodies = np.vstack((self.results_bodies, instant_points))
+                self.results_nodes = np.vstack((self.results_nodes, instant_nodes))
+            return self.results_bodies, self.results_nodes
         else:
-            return fromBodiesToArray(new, self.Nbodies)
+            return fromBodiesToArray(new, self.Nbodies), fromNodeToArray(self.node)
 
-    def animate(self, i, values, points):
-        for j in range(len(points)):
+    def animate2d(self, i, values, points, boxes):
+        nboxes = len(boxes)
+        npoints = len(points)
+        if len(boxes) > 0:
+            for j in range(nboxes):
+                box = values[i, j, 2:]
+                boxes[j].set_data(box[:5], box[5:])
+
+        for j in range(npoints):
             body = values[i, j]
             points[j].set_data(body[0], body[1])
-        return points
 
-    def makeAnimation(self, data = None):
+        if nboxes > 0:
+            return points, boxes
+        else:
+            return points,
+
+    def makeAnimation(self, data = None, boxed = False, color = None, alpha = 0.5):
         if type(data) == type(None):
-            if type(self.results) == type(None):
-                self.start(100)
+            if boxed:
+                data_to_use = self.results_nodes
             else:
-                data = self.results
+                data_to_use = self.results_bodies
+
+            if type(data_to_use) == type(None):
+                self.start(100)
+
+        data = data_to_use
 
         Ninstants = data.shape[0]
 
         fig = plt.figure()
 
-        points = [plt.plot([], [], "o", alpha = 0.5)[0] for i in range(self.Nbodies)]
+        if color == None:
+            points = [plt.plot([], [], "o", alpha = alpha)[0] for i in range(self.Nbodies)]
+        else:
+            points = [plt.plot([], [], "o", color = color, alpha = alpha)[0] for i in range(self.Nbodies)]
+        boxes = []
+
+        if boxed:
+            boxes = [plt.plot([], [], c = points[i].get_color(), alpha = alpha)[0] for i in range(self.Nbodies)]
 
         plt.xlim(data[:, :, 0].min(), data[:, :, 0].max())
         plt.ylim(data[:, :, 1].min(), data[:, :, 1].max())
 
-        ani = FuncAnimation(fig, self.animate, frames = Ninstants,
-                            interval = 25, fargs=(data, points))
+        if self.dim == 2:
+            animation = self.animate2d
+
+        ani = FuncAnimation(fig, animation, frames = Ninstants,
+                            interval = 25, fargs=(data, points, boxes))
 
         return ani

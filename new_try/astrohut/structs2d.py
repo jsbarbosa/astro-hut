@@ -28,23 +28,37 @@ class body2d(ctypes.Structure):
 
 class node2d(ctypes.Structure):
     pass
-
-class node2d(ctypes.Structure):
-    _fields_ = [('xs', ctypes.POINTER(DOUBLE)),
-                ('ys', ctypes.POINTER(DOUBLE)),
-                ('Nbodies', ctypes.c_int),
-                ('mass', DOUBLE),
-                ('width', DOUBLE),
-                ('height', DOUBLE),
-                ('cmass', point2d),
-                ('center', point2d),
-
-                ('subnode1', ctypes.POINTER(node2d)),
-                ('subnode2', ctypes.POINTER(node2d)),
-                ('subnode3', ctypes.POINTER(node2d)),
-                ('subnode4', ctypes.POINTER(node2d))]
+#
+# class node2d(ctypes.Structure):
+    # _fields_ = [('xs', ctypes.POINTER(DOUBLE)),
+    #             ('ys', ctypes.POINTER(DOUBLE)),
+    #             ('Nbodies', ctypes.c_int),
+    #             ('mass', DOUBLE),
+    #             ('width', DOUBLE),
+    #             ('height', DOUBLE),
+    #             ('cmass', point2d),
+    #             ('center', point2d),
+    #             ('subnode1', ctypes.POINTER(node2d)),
+    #             ('subnode2', ctypes.POINTER(node2d)),
+    #             ('subnode3', ctypes.POINTER(node2d)),
+    #             ('subnode4', ctypes.POINTER(node2d))]
 
     def __str__(self):
         toprint = ["Nbodies", "mass", "width", "height", "center", "cmass"]
         values = ["%s: %s"%(item, str(getattr(self, item))) for item in toprint]
         return "\n".join(values)
+
+node2d._fields_ = [('xs', ctypes.POINTER(DOUBLE)),
+            ('ys', ctypes.POINTER(DOUBLE)),
+
+            ('subnode1', ctypes.POINTER(node2d)),
+            ('subnode2', ctypes.POINTER(node2d)),
+            ('subnode3', ctypes.POINTER(node2d)),
+            ('subnode4', ctypes.POINTER(node2d)),
+
+            ('Nbodies', ctypes.c_int),
+            ('mass', DOUBLE),
+            ('width', DOUBLE),
+            ('height', DOUBLE),
+            ('cmass', point2d),
+            ('center', point2d)]

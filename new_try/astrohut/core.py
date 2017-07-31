@@ -35,38 +35,44 @@ def fromArrayToBodies(array, dim = 2):
 
 def fromNodeToArray(node, dim = 2):
     def internalNode(node, dim):
-        if node.contents.Nbodies == 1:
-            c1 = point2d()
-            c2 = point2d()
-            c3 = point2d()
-            c4 = point2d()
+        try:
+            if node.contents.Nbodies == 1:
+                c1 = point2d()
+                c2 = point2d()
+                c3 = point2d()
+                c4 = point2d()
 
-            c1.x = node.contents.center.x - node.contents.width*0.5
-            c1.y = node.contents.center.y + node.contents.height*0.5
+                c1.x = node.contents.center.x - node.contents.width*0.5
+                c1.y = node.contents.center.y + node.contents.height*0.5
 
-            c2.x = node.contents.center.x + node.contents.width*0.5
-            c2.y = node.contents.center.y + node.contents.height*0.5
+                c2.x = node.contents.center.x + node.contents.width*0.5
+                c2.y = node.contents.center.y + node.contents.height*0.5
 
-            c3.x = node.contents.center.x + node.contents.width*0.5
-            c3.y = node.contents.center.y - node.contents.height*0.5
+                c3.x = node.contents.center.x + node.contents.width*0.5
+                c3.y = node.contents.center.y - node.contents.height*0.5
 
-            c4.x = node.contents.center.x - node.contents.width*0.5
-            c4.y = node.contents.center.y - node.contents.height*0.5
+                c4.x = node.contents.center.x - node.contents.width*0.5
+                c4.y = node.contents.center.y - node.contents.height*0.5
 
-            return [node.contents.xs[0], node.contents.ys[0], c1.x, c2.x, c3.x, c4.x, c1.x,
-                    c1.y, c2.y, c3.y, c4.y, c1.y]
+                return [node.contents.xs[0], node.contents.ys[0], c1.x, c2.x, c3.x, c4.x, c1.x,
+                        c1.y, c2.y, c3.y, c4.y, c1.y]
+        except ValueError:
+            return None
 
         else:
             answer = []
             if dim == 2:
-                answer.append(internalNode(node.contents.subnode1, dim))
-                answer.append(internalNode(node.contents.subnode2, dim))
-                answer.append(internalNode(node.contents.subnode3, dim))
-                answer.append(internalNode(node.contents.subnode4, dim))
+                nodes = [node.contents.subnode1, node.contents.subnode2, node.contents.subnode3, node.contents.subnode4]
+                for item in nodes:
+                    ans = internalNode(item, dim)
+                    if ans != None:
+                        answer += ans
             else:
                 raise(Exception("Not implemented yet"))
 
             return answer
 
     answer = internalNode(node, dim)
-    print(answer)
+    answer = np.array(answer).reshape(node.contents.Nbodies, len(answer)//node.contents.Nbodies)
+
+    return answer

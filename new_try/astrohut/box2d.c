@@ -16,6 +16,12 @@ char FILE_PREFIX[100];
 
 int FRAMES_EVERY = 100;
 
+node2d printNode(node2d *node)
+{
+    printf("%d\n", node->Nbodies);
+    return *node;
+}
+
 int main(int argc, char const *argv[])
 {
     int N = 100, Nt = 1000;
