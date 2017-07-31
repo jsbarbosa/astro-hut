@@ -11,6 +11,8 @@ typedef struct body2d_str
     point2d p;
     point2d v;
     point2d a;
+
+    DOUBLE E;
 } body2d;
 
 typedef struct node2d_str

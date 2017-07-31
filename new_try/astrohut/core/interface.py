@@ -75,7 +75,7 @@ class Simulation():
         array_number = 0
 
         if save_to_array_every != 0:
-            instant_points = np.zeros((Ninstants//save_to_array_every, self.Nbodies, 3*self.dim))
+            instant_points = np.zeros((Ninstants//save_to_array_every, self.Nbodies, 3*self.dim + 1))
             instant_nodes = np.zeros((Ninstants//save_to_array_every, self.Nbodies, 12))
 
         for i in range(Ninstants):
@@ -159,3 +159,9 @@ class Simulation():
                             interval = 25, fargs=(data, points, boxes))
 
         return ani
+
+    def getEnergies(self):
+        if type(self.results_bodies) != type(None):
+            return self.results_bodies[:, :, -1].sum(axis=1)
+        else:
+            raise(Exception("No simulation has been started."))

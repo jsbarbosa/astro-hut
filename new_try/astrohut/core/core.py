@@ -6,7 +6,7 @@ from .constants import DOUBLE, LIB
 from .structs2d import body2d, node2d, point2d
 
 def fromBodiesToArray(bodies, N, dim = 2):
-    array = np.zeros((N, dim*3))
+    array = np.zeros((N, dim*3 + 1))
     for i in range(N):
         array[i] = bodies[i].asList()
 

@@ -151,6 +151,7 @@ void resetAcceleration2d(int N, body2d *bodies)
     {
         bodies[i].a.x = 0;
         bodies[i].a.y = 0;
+        bodies[i].E = 0;
     }
 }
 
@@ -173,6 +174,7 @@ body2d *solveInstant2d(node2d **node, body2d *bodies)
         acceleration2d(*node, &(bodies[i]));
         bodies[i].a.x *= G;
         bodies[i].a.y *= G;
+        bodies[i].E *= G;
     }
 
     # pragma omp parallel for
@@ -201,6 +203,7 @@ body2d *solveInstant2d(node2d **node, body2d *bodies)
         acceleration2d(*node, &(new[i]));
         new[i].a.x *= G;
         new[i].a.y *= G;
+        bodies[i].E *= G;
     }
 
     # pragma omp parallel for
@@ -208,6 +211,7 @@ body2d *solveInstant2d(node2d **node, body2d *bodies)
     {
         new[i].v.x = vxh[i] + dth*new[i].a.x;
         new[i].v.y = vyh[i] + dth*new[i].a.y;
+        bodies[i].E += 0.5*MASS_UNIT*(new[i].v.x*new[i].v.x + new[i].v.y*new[i].v.y);
     }
 
     free(vxh);
@@ -609,6 +613,7 @@ void acceleration2d(node2d *node, body2d *object)
             r2 += EPSILON;
             object->a.x += node->mass*dx/pow(r2, 1.5);
             object->a.y += node->mass*dy/pow(r2, 1.5);
+            object->E += node->mass*MASS_UNIT/sqrt(r2);
         }
         else if(prime >= TAU)
         {
@@ -622,6 +627,7 @@ void acceleration2d(node2d *node, body2d *object)
             r2 += EPSILON;
             object->a.x += node->mass*dx/pow(r2, 1.5);
             object->a.y += node->mass*dy/pow(r2, 1.5);
+            object->E += node->mass*MASS_UNIT/sqrt(r2);
         }
     }
 }
