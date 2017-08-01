@@ -2,6 +2,9 @@ import ctypes
 from .constants import DOUBLE
 
 class point2d(ctypes.Structure):
+    """
+        Defines a point2d structure.
+    """
     _fields_ = [('x', DOUBLE),
                 ('y', DOUBLE)]
 
@@ -12,6 +15,9 @@ class point2d(ctypes.Structure):
         return self.x
 
 class body2d(ctypes.Structure):
+    """
+        Defines a body2d structure.
+    """
     _fields_ = [('p', point2d),
                 ('v', point2d),
                 ('a', point2d),
@@ -28,6 +34,9 @@ class body2d(ctypes.Structure):
         return np.array(self.asList())
 
 class node2d(ctypes.Structure):
+    """
+        Defines a node2d structure.
+    """
     def __str__(self):
         toprint = ["Nbodies", "mass", "width", "height", "center", "cmass"]
         values = ["%s: %s"%(item, str(getattr(self, item))) for item in toprint]

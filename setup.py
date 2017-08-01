@@ -17,7 +17,7 @@ setup(
     packages=['astrohut', 'astrohut/core', 'astrohut/data', 'astrohut/testing'],
     install_requires=['matplotlib', 'numpy'],
     ext_modules = [module],
-    long_description="https://github.com/jsbarbosa/astro-hut/",
+    long_description="https://github.com/jsbarbosa/astrohut/",
     classifiers=[
         "Development Status :: 1 - Planning",
         "Topic :: Utilities",

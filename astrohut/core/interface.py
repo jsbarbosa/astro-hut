@@ -178,11 +178,12 @@ class Simulation():
         """
             Makes an animation of `data`.
 
-            Params:
-                boxed: boolean. If True draws the boxes frames.
-                color: string. If None, multiplecolors are used.
-                        If string is passed a monochrome color is used.
-                alpha: float. Alpha channel argument.
+            Args:
+                boxed (bool): If True draws the boxes frames.
+
+                color (string):If None, multiplecolors are used. If string is passed a monochrome color is used.
+
+                alpha (float): Alpha channel argument.
 
             Returns:
                 matplotlib.animation.FuncAnimation: animation of the data.
