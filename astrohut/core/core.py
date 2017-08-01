@@ -76,3 +76,43 @@ def fromNodeToArray(node, dim = 2):
     answer = np.array(answer).reshape(node.contents.Nbodies, len(answer)//node.contents.Nbodies)
 
     return answer
+
+def generateSpeeds(positions, G, mass_unit):
+    N, dim = positions.shape
+
+    xs = positions[:, 0]
+    ys = positions[:, 1]
+
+    x0 = xs.mean()
+    y0 = ys.mean()
+
+    xs = xs - x0
+    ys = ys - y0
+
+    if dim == 3:
+        zs = positions[:, 2]
+        z0 = zs.mean()
+
+    speeds = np.zeros_like(positions)
+
+    if dim == 2:
+        d = np.sqrt(xs**2 + ys**2)
+        for i in range(N):
+            n = sum(d < d[i])
+            mag = 0.9*np.sqrt(G*n*mass_unit/d[i])
+            speeds[i, 0] = -ys[i]*mag/d[i]
+            speeds[i, 1] = xs[i]*mag/d[i]
+
+    return speeds
+
+def createArray(pos, speeds, acc = None):
+    N, dim = pos.shape
+    array = np.zeros((N, dim*3))
+
+    array[:, :dim] = pos
+    array[:, dim:2*dim] = speeds
+
+    if type(acc) != type(None):
+        array[:, 2*dim:] = acc
+
+    return array    

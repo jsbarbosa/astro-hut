@@ -1,3 +1,4 @@
+import os
 import ctypes
 import numpy as np
 import matplotlib.pyplot as plt
@@ -54,14 +55,15 @@ class Simulation():
         self.results_nodes = None
         self.results_bodies = None
         self.setConstants()
+        self.setFilePrefix()
 
         self.file_number = 0
 
     def setConstants(self):
         __setConstants__(self.mass_unit, self.G, self.tau, self.dt, self.epsilon)
 
-    def setFilePrefix(self, prefix):
-        __setPrint__(prefix)
+    def setFilePrefix(self, prefix = ""):
+        __setPrint__(os.path.join(os.getcwd(), prefix))
 
     def start(self, Ninstants, threads = 0, save_to_file_every = 0, save_to_array_every = 1):
         if type(self.node) == type(None):
@@ -75,10 +77,10 @@ class Simulation():
         array_number = 0
 
         if save_to_array_every != 0:
-            instant_points = np.zeros((Ninstants//save_to_array_every, self.Nbodies, 3*self.dim + 1))
-            instant_nodes = np.zeros((Ninstants//save_to_array_every, self.Nbodies, 12))
+            instant_points = np.zeros((Ninstants//save_to_array_every + 1, self.Nbodies, 3*self.dim + 1))
+            instant_nodes = np.zeros((Ninstants//save_to_array_every + 1, self.Nbodies, 12))
 
-        for i in range(Ninstants):
+        for i in range(Ninstants + 1):
             new2 = LIB.solveInstant2d(ctypes.byref(self.node), new)
 
             if save_to_file_every > 0:
@@ -165,3 +167,18 @@ class Simulation():
             return self.results_bodies[:, :, -1].sum(axis=1)
         else:
             raise(Exception("No simulation has been started."))
+
+    def calcRelaxationTime(self):
+        if self.dim == 2:
+            r = ((self.data[:, 0] - self.data[:, 0].mean())**2 + \
+                (self.data[:, 1] - self.data[:, 1].mean())**2)**0.5
+
+        elif self.dim == 3:
+            r = ((self.data[:, 0] - self.data[:, 0].mean())**2 + \
+                (self.data[:, 1] - self.data[:, 1].mean())**2 + \
+                (self.data[:, 2] - self.data[:, 2].mean())**2)**0.5
+
+        n = self.Nbodies/(r.max() - r.min())**3
+        tcr = 1/np.sqrt(self.G*self.mass_unit*n)
+
+        return self.Nbodies/(10*np.log10(self.Nbodies)) * tcr

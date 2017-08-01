@@ -1,1 +1,4 @@
-from .interface import Simulation, fromBodiesToArray, fromArrayToBodies, fromNodeToArray
+from .interface import Simulation
+
+from .core import fromBodiesToArray, fromArrayToBodies, fromNodeToArray, \
+                     generateSpeeds, createArray

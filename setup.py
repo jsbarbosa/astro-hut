@@ -1,19 +1,19 @@
 from setuptools import setup
 from setuptools.extension import Extension
 
-module = Extension('astrohut/astrohutc',
-                    sources = ['astrohut/core/box2d.c'], include_dirs=['astrohut'], extra_compile_args=["-fopenmp"],
-                     extra_link_args=["-fopenmp"])
+module = Extension('astrohut/core/astrohutc',
+                    sources = ['astrohut/core/box2d.c'], include_dirs=['astrohut'], extra_compile_args=["-fopenmp", "-O2"],
+                     extra_link_args=["-fopenmp", "-O2"])
 
 setup(
     name = "astrohut",
-    version = "0.0.3",
+    version = "0.0.4",
     author = "Juan Barbosa",
     author_email = "js.barbosa10@uniandes.edu.co",
     description = ('Barnes-Hut NBody simulation library.'),
     license = "GPL",
     keywords = "example documentation tutorial",
-    packages=['astrohut'],
+    packages=['astrohut', 'astrohut/core', 'astrohut/data', 'astrohut/testing'],
     install_requires=['matplotlib', 'numpy'],
     ext_modules = [module],
     long_description="https://github.com/jsbarbosa/astro-hut/",

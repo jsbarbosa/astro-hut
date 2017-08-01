@@ -1,4 +1,8 @@
 ### Barnes - Hut implementation
 
-To install:
+#### Installation
+Development version:
 `python setup.py install`
+
+From PyPi:
+`pip install astrohut`
