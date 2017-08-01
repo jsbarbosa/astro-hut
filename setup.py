@@ -2,12 +2,12 @@ from setuptools import setup
 from setuptools.extension import Extension
 
 module = Extension('astrohut/core/astrohutc',
-                    sources = ['astrohut/core/box2d.c'], include_dirs=['astrohut'], extra_compile_args=["-fopenmp", "-O2"],
+                    sources = ['astrohut/core/box2d.c'], include_dirs=['astrohut/core'], extra_compile_args=["-fopenmp", "-O2"],
                      extra_link_args=["-fopenmp", "-O2"])
 
 setup(
     name = "astrohut",
-    version = "0.0.5",
+    version = "0.0.6",
     author = "Juan Barbosa",
     author_email = "js.barbosa10@uniandes.edu.co",
     description = ('Barnes-Hut NBody simulation library.'),
@@ -22,5 +22,5 @@ setup(
         "Topic :: Utilities",
         "License :: OSI Approved :: GNU General Public License (GPL)",
     ],
-    headers = ["astrohut/core/box2d.h"],
+    headers = ['astrohut/core/box2d.h'],
 )
