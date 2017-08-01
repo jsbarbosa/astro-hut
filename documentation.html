@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Documentation &#8212; astrohut 0.0.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to astrohut!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-astrohut.core.constants">
+<span id="constants"></span><h2>constants<a class="headerlink" href="#module-astrohut.core.constants" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt id="astrohut.core.constants.DOUBLE">
+<code class="descclassname">astrohut.core.constants.</code><code class="descname">DOUBLE</code><a class="headerlink" href="#astrohut.core.constants.DOUBLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>floating point precision</p>
+<p>alias of <code class="xref py py-class docutils literal"><span class="pre">c_float</span></code></p>
+</dd></dl>
+
+<dl class="data">
+<dt id="astrohut.core.constants.LIB">
+<code class="descclassname">astrohut.core.constants.</code><code class="descname">LIB</code><em class="property"> = &lt;CDLL '/home/juan/.anaconda3/lib/python3.4/site-packages/astrohut-0.0.7-py3.4-linux-x86_64.egg/astrohut/core/astrohutc.cpython-34m.so', handle 1ac6ef0 at 7efc8dc1b080&gt;</em><a class="headerlink" href="#astrohut.core.constants.LIB" title="Permalink to this definition">¶</a></dt>
+<dd><p>CDLL instance of the shared library</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="astrohut.core.constants.PATH">
+<code class="descclassname">astrohut.core.constants.</code><code class="descname">PATH</code><em class="property"> = '/home/juan/.anaconda3/lib/python3.4/site-packages/astrohut-0.0.7-py3.4-linux-x86_64.egg/astrohut/core/astrohutc.cpython-34m.so'</em><a class="headerlink" href="#astrohut.core.constants.PATH" title="Permalink to this definition">¶</a></dt>
+<dd><p>path to the C shared library</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-astrohut.core.core">
+<span id="core"></span><h2>core<a class="headerlink" href="#module-astrohut.core.core" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="astrohut.core.core.createArray">
+<code class="descclassname">astrohut.core.core.</code><code class="descname">createArray</code><span class="sig-paren">(</span><em>pos</em>, <em>speeds</em>, <em>acc=None</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.core.createArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and array containing the whole properties of the system.</p>
+<p>np.ndarray: appends pos, speeds and acc if any.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="astrohut.core.core.generateSpeeds">
+<code class="descclassname">astrohut.core.core.</code><code class="descname">generateSpeeds</code><span class="sig-paren">(</span><em>positions</em>, <em>G</em>, <em>mass_unit</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.core.generateSpeeds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates rotation speeds based on positions, G constants and mass_unit value.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>np.ndarray: array like positions.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-astrohut.core.interface">
+<span id="interface"></span><h2>interface<a class="headerlink" href="#module-astrohut.core.interface" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="astrohut.core.interface.Simulation">
+<em class="property">class </em><code class="descclassname">astrohut.core.interface.</code><code class="descname">Simulation</code><span class="sig-paren">(</span><em>data</em>, <em>dim=2</em>, <em>mass_unit=1.0</em>, <em>G=1.0</em>, <em>tau=0.5</em>, <em>dt=0.0001</em>, <em>epsilon=0.0001</em>, <em>read_kwargs={}</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main class of astrohut. In order to evolve a system and study them a simulation instance
+must be launch.</p>
+<dl class="method">
+<dt id="astrohut.core.interface.Simulation.animate2d">
+<code class="descname">animate2d</code><span class="sig-paren">(</span><em>i</em>, <em>values</em>, <em>points</em>, <em>boxes</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.animate2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to be used with matplotlib FuncAnimation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astrohut.core.interface.Simulation.calcRelaxationTime">
+<code class="descname">calcRelaxationTime</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.calcRelaxationTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the relaxation time required for the simulation to reach equilibrium.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>float: relaxation time of the system.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astrohut.core.interface.Simulation.configPlot">
+<code class="descname">configPlot</code><span class="sig-paren">(</span><em>figsize=(6</em>, <em>4.5)</em>, <em>xlabel=None</em>, <em>ylabel=None</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.configPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configures the plot.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>matplotlib.figure: figure containing the main plot.
+matplotlib.axes: axes containing all the dots and boxes frames (if boxed).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astrohut.core.interface.Simulation.getEnergies">
+<code class="descname">getEnergies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.getEnergies" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns:</dt>
+<dd>np.ndarray: contains the energy of the system at every saved instant of time.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astrohut.core.interface.Simulation.makeAnimation">
+<code class="descname">makeAnimation</code><span class="sig-paren">(</span><em>boxed=False</em>, <em>color=None</em>, <em>alpha=0.5</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.makeAnimation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes an animation of <cite>data</cite>.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">boxed (bool): If True draws the boxes frames.</p>
+<p>color (string):If None, multiplecolors are used. If string is passed a monochrome color is used.</p>
+<p class="last">alpha (float): Alpha channel argument.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>matplotlib.animation.FuncAnimation: animation of the data.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="astrohut.core.interface.Simulation.setConstants">
+<code class="descname">setConstants</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.setConstants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the current constants at the C shared library.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astrohut.core.interface.Simulation.setFilePrefix">
+<code class="descname">setFilePrefix</code><span class="sig-paren">(</span><em>prefix=''</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.setFilePrefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the file prefix at the C shared library.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astrohut.core.interface.Simulation.start">
+<code class="descname">start</code><span class="sig-paren">(</span><em>Ninstants</em>, <em>threads=0</em>, <em>save_to_file_every=0</em>, <em>save_to_array_every=1</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts a simulation, evolves the system N Ninstants of time.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt>np.ndarray: 3d array of the form (instants, Nbodies, properties).</dt>
+<dd>Properties are positions, speeds, accelerations and energy.
+Non scalar properties are arranged as components.</dd>
+<dt>np.ndarray: 3d array of the form (instants, Nboxes, (center, box)).</dt>
+<dd>For every instant there are Nboxes rows, describing each box.
+First two or three columns are the coordinates of the center
+of the box. Next columns describe the corners of the box,
+first the x components, then y, and finally z if dim is 3.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-astrohut.core.structs2d">
+<span id="structs2d"></span><h2>structs2d<a class="headerlink" href="#module-astrohut.core.structs2d" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="astrohut.core.structs2d.body2d">
+<em class="property">class </em><code class="descclassname">astrohut.core.structs2d.</code><code class="descname">body2d</code><a class="headerlink" href="#astrohut.core.structs2d.body2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a body2d structure.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="astrohut.core.structs2d.node2d">
+<em class="property">class </em><code class="descclassname">astrohut.core.structs2d.</code><code class="descname">node2d</code><a class="headerlink" href="#astrohut.core.structs2d.node2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a node2d structure.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="astrohut.core.structs2d.point2d">
+<em class="property">class </em><code class="descclassname">astrohut.core.structs2d.</code><code class="descname">point2d</code><a class="headerlink" href="#astrohut.core.structs2d.point2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a point2d structure.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-astrohut.data.data2d">
+<span id="data2d"></span><h2>data2d<a class="headerlink" href="#module-astrohut.data.data2d" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="astrohut.data.data2d.mediumGaussian">
+<code class="descclassname">astrohut.data.data2d.</code><code class="descname">mediumGaussian</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.data.data2d.mediumGaussian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relaxed 100 body, gaussian distribution initial conditions.</p>
+<p><cite>G = 1.0</cite></p>
+<p><cite>mass_unit = 1.0</cite></p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>np.ndarray: contains points properties.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="astrohut.data.data2d.smallGaussian">
+<code class="descclassname">astrohut.data.data2d.</code><code class="descname">smallGaussian</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.data.data2d.smallGaussian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relaxed 10 body, gaussian distribution initial conditions.</p>
+<p><cite>G = 1.0</cite></p>
+<p><cite>mass_unit = 1.0</cite></p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>np.ndarray: contains points properties.</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Documentation</a><ul>
+<li><a class="reference internal" href="#module-astrohut.core.constants">constants</a></li>
+<li><a class="reference internal" href="#module-astrohut.core.core">core</a></li>
+<li><a class="reference internal" href="#module-astrohut.core.interface">interface</a></li>
+<li><a class="reference internal" href="#module-astrohut.core.structs2d">structs2d</a></li>
+<li><a class="reference internal" href="#module-astrohut.data.data2d">data2d</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to astrohut!</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/documentation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Juan Barbosa.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/documentation.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
