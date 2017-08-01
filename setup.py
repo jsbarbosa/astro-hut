@@ -22,5 +22,5 @@ setup(
         "Topic :: Utilities",
         "License :: OSI Approved :: GNU General Public License (GPL)",
     ],
-    headers = ["astrohut/box2d.h"],
+    headers = ["astrohut/core/box2d.h"],
 )
