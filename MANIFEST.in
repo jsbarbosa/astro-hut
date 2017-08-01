@@ -1,1 +1,2 @@
 include astrohut/core/box2d.h
+include astrohut/data/*.dat

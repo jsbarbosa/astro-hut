@@ -37,6 +37,10 @@ def __setConstants__(mass_unit, G, tau, dt, epsilon):
     LIB.setConstants(mass_unit, G, tau, dt, epsilon)
 
 class Simulation():
+    """
+    Main class of astrohut. In order to evolve a system and study them a simulation instance
+    must be launch.
+    """
     def __init__(self, data, dim = 2, mass_unit = 1.0, G = 1.0, tau = 0.5, dt = 1e-4, epsilon = 1e-4,
                 read_kwargs = {}):
         self.data = data
@@ -57,15 +61,38 @@ class Simulation():
         self.setConstants()
         self.setFilePrefix()
 
+        self.ax = None
+        self.fig = None
+
         self.file_number = 0
 
     def setConstants(self):
+        """
+            Sets the current constants at the C shared library.
+        """
         __setConstants__(self.mass_unit, self.G, self.tau, self.dt, self.epsilon)
 
     def setFilePrefix(self, prefix = ""):
+        """
+            Sets the file prefix at the C shared library.
+        """
         __setPrint__(os.path.join(os.getcwd(), prefix))
 
     def start(self, Ninstants, threads = 0, save_to_file_every = 0, save_to_array_every = 1):
+        """
+            Starts a simulation, evolves the system N Ninstants of time.
+
+            Returns:
+                np.ndarray: 3d array of the form (instants, Nbodies, properties).
+                        Properties are positions, speeds, accelerations and energy.
+                        Non scalar properties are arranged as components.
+                np.ndarray: 3d array of the form (instants, Nboxes, (center, box)).
+                        For every instant there are Nboxes rows, describing each box.
+                        First two or three columns are the coordinates of the center
+                        of the box. Next columns describe the corners of the box,
+                        first the x components, then y, and finally z if dim is 3.
+
+        """
         if type(self.node) == type(None):
             self.node = LIB.initFirstNode2d(self.Nbodies, self.bodies)
 
@@ -110,6 +137,9 @@ class Simulation():
             return fromBodiesToArray(new, self.Nbodies), fromNodeToArray(self.node)
 
     def animate2d(self, i, values, points, boxes):
+        """
+            Method to be used with matplotlib FuncAnimation.
+        """
         nboxes = len(boxes)
         npoints = len(points)
         if len(boxes) > 0:
@@ -126,49 +156,89 @@ class Simulation():
         else:
             return points,
 
-    def makeAnimation(self, data = None, boxed = False, color = None, alpha = 0.5):
-        if type(data) == type(None):
-            if boxed:
-                data_to_use = self.results_nodes
-            else:
-                data_to_use = self.results_bodies
+    def configPlot(self, figsize=(6, 4.5), xlabel = None, ylabel = None):
+        """
+            Configures the plot.
 
-            if type(data_to_use) == type(None):
-                self.start(100)
+            Returns:
+                matplotlib.figure: figure containing the main plot.
+                matplotlib.axes: axes containing all the dots and boxes frames (if boxed).
+        """
+        self.fig, self.ax = plt.subplots(figsize = figsize)
+
+        if xlabel == None:
+            self.ax.set_xlabel("$x$")
+
+        if ylabel == None:
+            self.ax.set_xlabel("$y$")
+
+        return self.fig, self.ax
+
+    def makeAnimation(self, boxed = False, color = None, alpha = 0.5):
+        """
+            Makes an animation of `data`.
+
+            Params:
+                boxed: boolean. If True draws the boxes frames.
+                color: string. If None, multiplecolors are used.
+                        If string is passed a monochrome color is used.
+                alpha: float. Alpha channel argument.
+
+            Returns:
+                matplotlib.animation.FuncAnimation: animation of the data.
+        """
+        if boxed:
+            data_to_use = self.results_nodes
+        else:
+            data_to_use = self.results_bodies
+
+        if type(data_to_use) == type(None):
+            self.start(100)
 
         data = data_to_use
 
         Ninstants = data.shape[0]
 
-        fig = plt.figure()
+        if self.ax == None or self.fig == None:
+            self.configPlot()
 
         if color == None:
-            points = [plt.plot([], [], "o", alpha = alpha)[0] for i in range(self.Nbodies)]
+            points = [self.ax.plot([], [], "o", alpha = alpha)[0] for i in range(self.Nbodies)]
         else:
-            points = [plt.plot([], [], "o", color = color, alpha = alpha)[0] for i in range(self.Nbodies)]
+            points = [self.ax.plot([], [], "o", color = color, alpha = alpha)[0] for i in range(self.Nbodies)]
         boxes = []
 
         if boxed:
-            boxes = [plt.plot([], [], c = points[i].get_color(), alpha = alpha)[0] for i in range(self.Nbodies)]
+            boxes = [self.ax.plot([], [], c = points[i].get_color(), alpha = alpha)[0] for i in range(self.Nbodies)]
 
-        plt.xlim(data[:, :, 0].min(), data[:, :, 0].max())
-        plt.ylim(data[:, :, 1].min(), data[:, :, 1].max())
+        self.ax.set_xlim(data[:, :, 0].min(), data[:, :, 0].max())
+        self.ax.set_ylim(data[:, :, 1].min(), data[:, :, 1].max())
 
         if self.dim == 2:
             animation = self.animate2d
 
-        ani = FuncAnimation(fig, animation, frames = Ninstants,
+        ani = FuncAnimation(self.fig, animation, frames = Ninstants,
                             interval = 25, fargs=(data, points, boxes))
 
         return ani
 
     def getEnergies(self):
+        """
+            Returns:
+                np.ndarray: contains the energy of the system at every saved instant of time.
+        """
         if type(self.results_bodies) != type(None):
             return self.results_bodies[:, :, -1].sum(axis=1)
         else:
             raise(Exception("No simulation has been started."))
 
     def calcRelaxationTime(self):
+        """
+            Calculates the relaxation time required for the simulation to reach equilibrium.
+
+            Returns:
+                float: relaxation time of the system.
+        """
         if self.dim == 2:
             r = ((self.data[:, 0] - self.data[:, 0].mean())**2 + \
                 (self.data[:, 1] - self.data[:, 1].mean())**2)**0.5

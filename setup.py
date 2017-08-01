@@ -1,3 +1,4 @@
+import astrohut as ah
 from setuptools import setup
 from setuptools.extension import Extension
 
@@ -7,7 +8,7 @@ module = Extension('astrohut/core/astrohutc',
 
 setup(
     name = "astrohut",
-    version = "0.0.6",
+    version = ah.__version__,
     author = "Juan Barbosa",
     author_email = "js.barbosa10@uniandes.edu.co",
     description = ('Barnes-Hut NBody simulation library.'),
@@ -23,4 +24,5 @@ setup(
         "License :: OSI Approved :: GNU General Public License (GPL)",
     ],
     headers = ['astrohut/core/box2d.h'],
+    include_package_data = True,
 )

@@ -78,6 +78,12 @@ def fromNodeToArray(node, dim = 2):
     return answer
 
 def generateSpeeds(positions, G, mass_unit):
+    """
+        Generates rotation speeds based on positions, G constants and mass_unit value.
+
+        Returns:
+            np.ndarray: array like positions.
+    """
     N, dim = positions.shape
 
     xs = positions[:, 0]
@@ -106,6 +112,11 @@ def generateSpeeds(positions, G, mass_unit):
     return speeds
 
 def createArray(pos, speeds, acc = None):
+    """
+        Creates and array containing the whole properties of the system.
+
+        np.ndarray: appends pos, speeds and acc if any.
+    """
     N, dim = pos.shape
     array = np.zeros((N, dim*3))
 
@@ -115,4 +126,4 @@ def createArray(pos, speeds, acc = None):
     if type(acc) != type(None):
         array[:, 2*dim:] = acc
 
-    return array    
+    return array
