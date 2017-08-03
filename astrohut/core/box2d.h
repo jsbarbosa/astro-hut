@@ -35,18 +35,13 @@ typedef struct node2d_str
 } node2d;
 
 
-void setConstants(DOUBLE mass_unit, DOUBLE g, DOUBLE tau, DOUBLE dt_, DOUBLE epsilon);
-
 // GENERAL PURPOSE
-point2d *randomPos(int Nbodies);
-DOUBLE min(int n, DOUBLE *values);
-DOUBLE max(int n, DOUBLE *values);
+// point2d *randomPos(int Nbodies);
 body2d *loadFile2d(const char *name, const char *delim, int N);
 
 // PRINTING
 void printNode2d(FILE *file, node2d *node);
 void printInstantNode2d(node2d *node, int t);
-void setPrint(const char *prefix, int frames_every);
 void printInstantBodies2d(int N, int t, body2d *bodies);
 void printInstant2d(node2d *node, body2d *bodies, int t);
 

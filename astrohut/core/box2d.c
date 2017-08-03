@@ -5,47 +5,8 @@
 #include "math.h"
 #include "omp.h"
 #include "box2d.h"
-
-DOUBLE MASS_UNIT = 1.0;
-DOUBLE G = 1.0;
-DOUBLE TAU = 0.5;
-DOUBLE dt = 0.0001;
-DOUBLE EPSILON = 1e-4;
-
-char FILE_PREFIX[100];
-
-int FRAMES_EVERY = 100;
-
-int main(int argc, char const *argv[])
-{
-    int N = 100, Nt = 1000;
-
-    body2d *bodies = loadFile2d("initial.csv", " ", N);
-    node2d *node = initFirstNode2d(N, bodies);
-
-    body2d *last = solveInterval2d(Nt, &node, bodies);
-
-    freeNodes2d(node);
-    free(node);
-    free(last);
-    free(bodies);
-    return 0;
-}
-
-void setConstants(DOUBLE mass_unit, DOUBLE g, DOUBLE tau, DOUBLE dt_, DOUBLE epsilon)
-{
-    MASS_UNIT = mass_unit;
-    G = g;
-    TAU = tau;
-    dt = dt_;
-    EPSILON = epsilon;
-}
-
-void setPrint(const char *prefix, int frames_every)
-{
-    strcpy(FILE_PREFIX, prefix);
-    FRAMES_EVERY = frames_every;
-}
+#include "common.h"
+#include "constants.h"
 
 void printInstantNode2d(node2d *node, int t)
 {
@@ -197,7 +158,7 @@ body2d *solveInstant2d(node2d **node, body2d *bodies)
         acceleration2d(*node, &(new[i]));
         new[i].a.x *= G;
         new[i].a.y *= G;
-        bodies[i].E *= G;
+        new[i].E *= G;
     }
 
     # pragma omp parallel for
@@ -205,105 +166,13 @@ body2d *solveInstant2d(node2d **node, body2d *bodies)
     {
         new[i].v.x = vxh[i] + dth*new[i].a.x;
         new[i].v.y = vyh[i] + dth*new[i].a.y;
-        bodies[i].E += 0.5*MASS_UNIT*(new[i].v.x*new[i].v.x + new[i].v.y*new[i].v.y);
+        new[i].E += 0.5*MASS_UNIT*(new[i].v.x*new[i].v.x + new[i].v.y*new[i].v.y);
     }
 
     free(vxh);
     free(vyh);
 
     return new;
-}
-
-DOUBLE min(int n, DOUBLE *values)
-{
-    int i;
-    DOUBLE minV = values[0];
-    for(i = 1; i < n; i++)
-    {
-        if(values[i] < minV)
-        {
-            minV = values[i];
-        }
-    }
-    return minV;
-}
-
-DOUBLE max(int n, DOUBLE *values)
-{
-    int i;
-    DOUBLE maxV = values[0];
-    for(i = 1; i < n; i++)
-    {
-        if(values[i] > maxV)
-        {
-            maxV = values[i];
-        }
-    }
-    return maxV;
-}
-
-int *whereGreater(int n, DOUBLE *data, DOUBLE value)
-{
-    int i;
-    int *pos = malloc(n*sizeof(int));
-    for(i = 0; i < n; i++)
-    {
-        if (data[i] >= value)
-        {
-            pos[i] = 1;
-        }
-        else
-        {
-            pos[i] = 0.0;
-        }
-    }
-    return pos;
-}
-
-int *whereLess(int n, DOUBLE *data, DOUBLE value)
-{
-    int i;
-    int *pos = malloc(n*sizeof(int));
-    for(i = 0; i < n; i++)
-    {
-        if (data[i] < value)
-        {
-            pos[i] = 1;
-        }
-        else
-        {
-            pos[i] = 0.0;
-        }
-    }
-    return pos;
-}
-
-int *whereAnd(int n, int *data1, int *data2)
-{
-    int i, *pos = malloc(n*sizeof(int));
-    for(i = 0; i < n; i++)
-    {
-        pos[i] = data1[i] * data2[i];
-    }
-    return pos;
-}
-
-int *indexWhereTrue(int *n, int *data)
-{
-    int i, j = 0, *pos = malloc(*n*sizeof(int));
-    for(i = 0; i < *n; i++)
-    {
-        if(data[i] > 0)
-        {
-            pos[j] = i;
-            j += 1;
-        }
-    }
-
-    *n = j;
-    pos = realloc(pos, j*sizeof(int));
-
-    return pos;
 }
 
 node2d *calculateNode2d(node2d *mother_node)
@@ -454,19 +323,19 @@ node2d *createSubNode2d(int Nbodies, node2d *node, DOUBLE *xs, DOUBLE *ys, int *
     return node;
 }
 
-point2d *randomPos(int Nbodies)
-{
-    int i;
-    DOUBLE max = RAND_MAX;
-    point2d *pos = malloc(Nbodies*sizeof(point2d));
-
-    for(i = 0; i < Nbodies; i++)
-    {
-        pos[i].x = 2*(0.5 - rand()/max);
-        pos[i].y = 2*(0.5 - rand()/max);
-    }
-    return pos;
-}
+// point2d *randomPos(int Nbodies)
+// {
+//     int i;
+//     DOUBLE max = RAND_MAX;
+//     point2d *pos = malloc(Nbodies*sizeof(point2d));
+//
+//     for(i = 0; i < Nbodies; i++)
+//     {
+//         pos[i].x = 2*(0.5 - rand()/max);
+//         pos[i].y = 2*(0.5 - rand()/max);
+//     }
+//     return pos;
+// }
 
 node2d *initFirstNode2d(int Nbodies, body2d *bodies)
 {

@@ -10,11 +10,15 @@ speeds = ah.generateSpeeds(pos, G, m)
 
 system = ah.createArray(pos, speeds)
 
-sim = ah.Simulation(system, tau = 1.0, epsilon = 1e-2)
+sim = ah.Simulation(system, tau = 1.0, epsilon = 1e-5)
 
-nInstants = int(sim.calcRelaxationTime()/sim.dt)
+# nInstants = int(sim.calcRelaxationTime()/sim.dt)
+nInstants = 10000
 
-# sim.start(nInstants, save_to_array_every = nInstants//100, save_to_file_every = nInstants)
-# ani = sim.makeAnimation()
-#
-# plt.show()
+sim.start(nInstants, save_to_array_every = nInstants//100, save_to_file_every = nInstants)
+ani = sim.makeAnimation()
+
+plt.show()
+
+plt.plot(sim.getEnergies())
+plt.show()
