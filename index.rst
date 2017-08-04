@@ -16,8 +16,10 @@ Written in Python, with the core functions in C, astrohut depends on the followi
 .. _Matplotlib: http://matplotlib.org/
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Contents:
+
+   self
 
 Installing
 ----------

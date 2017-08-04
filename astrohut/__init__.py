@@ -1,4 +1,4 @@
 from .core import *
 from .data import data2d
 
-__version__ = '0.0.8'
+__version__ = '0.0.11'
