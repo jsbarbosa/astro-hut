@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "common.h"
-#include "constants.h"
+#include "cons.h"
 
 void setConstants(DOUBLE mass_unit, DOUBLE g, DOUBLE tau, DOUBLE dt_, DOUBLE epsilon)
 {

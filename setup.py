@@ -3,7 +3,7 @@ from setuptools import setup
 from setuptools.extension import Extension
 
 module = Extension('astrohut/core/astrohutc',
-                    sources = ['astrohut/core/constants.c', 'astrohut/core/common.c', 'astrohut/core/box2d.c', 'astrohut/core/box3d.c'], include_dirs=['astrohut/core'], extra_compile_args=["-fopenmp", "-O2"],
+                    sources = ['astrohut/core/cons.c', 'astrohut/core/common.c', 'astrohut/core/box2d.c', 'astrohut/core/box3d.c'], include_dirs=['astrohut/core'], extra_compile_args=["-fopenmp", "-O2"],
                      extra_link_args=["-fopenmp", "-O2"])
 
 setup(

@@ -1,4 +1,4 @@
-#include "constants.h"
+#include "cons.h"
 
 DOUBLE MASS_UNIT = 1.0;
 DOUBLE G = 1.0;

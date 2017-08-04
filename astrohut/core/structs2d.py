@@ -11,9 +11,6 @@ class point2d(ctypes.Structure):
     def __str__(self):
         return "x = %f, y = %f"%(self.x, self.y)
 
-    def getX(self):
-        return self.x
-
 class body2d(ctypes.Structure):
     """
         Defines a body2d structure.

@@ -2,18 +2,27 @@ import os
 import ctypes
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
 from ctypes import POINTER, c_char_p, c_int, pointer
 
 from .constants import DOUBLE, LIB
 from .structs2d import body2d, node2d
-from .core import fromArrayToBodies, fromBodiesToArray, fromNodeToArray
+from .structs3d import body3d, node3d
+from .core import fromArrayToBodies, fromBodiesToArray, fromNodeToArray, DimensionError
 
 LIB.malloc.restype = ctypes.c_void_p
 LIB.calloc.restype = ctypes.c_void_p
 
 LIB.setConstants.argtypes = DOUBLE, DOUBLE, DOUBLE, DOUBLE, DOUBLE
 
+LIB.setPrint.argtypes = c_char_p, c_int
+
+LIB.omp_set_num_threads.argtypes = c_int,
+
+"""
+    2d config
+"""
 LIB.loadFile2d.argtypes = c_char_p, c_char_p, c_int
 LIB.loadFile2d.restype = POINTER(body2d)
 
@@ -26,9 +35,20 @@ LIB.solveInterval2d.restype = POINTER(body2d)
 LIB.solveInstant2d.argtypes = POINTER(POINTER(node2d)), POINTER(body2d)
 LIB.solveInstant2d.restype = POINTER(body2d)
 
-LIB.setPrint.argtypes = c_char_p, c_int
+"""
+    3d config
+"""
+LIB.loadFile3d.argtypes = c_char_p, c_char_p, c_int
+LIB.loadFile3d.restype = POINTER(body3d)
 
-LIB.omp_set_num_threads.argtypes = c_int,
+LIB.initFirstNode3d.argtypes = c_int, POINTER(body3d)
+LIB.initFirstNode3d.restype = POINTER(node3d)
+
+LIB.solveInterval3d.argtypes = c_int, POINTER(POINTER(node3d)), POINTER(body3d)
+LIB.solveInterval3d.restype = POINTER(body3d)
+
+LIB.solveInstant3d.argtypes = POINTER(POINTER(node3d)), POINTER(body3d)
+LIB.solveInstant3d.restype = POINTER(body3d)
 
 def __setPrint__(prefix = "", frames_every = 0):
     LIB.setPrint(prefix.encode(), frames_every)
@@ -41,7 +61,7 @@ class Simulation():
     Main class of astrohut. In order to evolve a system and study them a simulation instance
     must be launch.
     """
-    def __init__(self, data, dim = 2, mass_unit = 1.0, G = 1.0, tau = 0.5, dt = 1e-4, epsilon = 1e-4,
+    def __init__(self, data, dim, mass_unit = 1.0, G = 1.0, tau = 0.5, dt = 1e-4, epsilon = 1e-4,
                 read_kwargs = {}):
         self.data = data
         self.dim = dim
@@ -65,6 +85,21 @@ class Simulation():
         self.fig = None
 
         self.file_number = 0
+
+        if self.dim == 2:
+            self.initFirstNode = LIB.initFirstNode2d
+            self.solveInstant = LIB.solveInstant2d
+            self.printInstant = LIB.printInstant2d
+            self.swapBody = LIB.swapBody2d
+
+        elif self.dim == 3:
+            self.initFirstNode = LIB.initFirstNode3d
+            self.solveInstant = LIB.solveInstant3d
+            self.printInstant = LIB.printInstant3d
+            self.swapBody = LIB.swapBody3d
+
+        else:
+            raise(DimensionError())
 
     def setConstants(self):
         """
@@ -94,34 +129,39 @@ class Simulation():
 
         """
         if type(self.node) == type(None):
-            self.node = LIB.initFirstNode2d(self.Nbodies, self.bodies)
+            self.node = self.initFirstNode(self.Nbodies, self.bodies)
 
         if threads > 0:
             LIB.omp_set_num_threads(threads)
 
         Ninstants = int(Ninstants)
-        new = LIB.solveInstant2d(ctypes.byref(self.node), self.bodies)
+
+        new = self.solveInstant(ctypes.byref(self.node), self.bodies)
         array_number = 0
 
         if save_to_array_every != 0:
             instant_points = np.zeros((Ninstants//save_to_array_every + 1, self.Nbodies, 3*self.dim + 1))
-            instant_nodes = np.zeros((Ninstants//save_to_array_every + 1, self.Nbodies, 12))
+
+            if self.dim == 2:
+                instant_nodes = np.zeros((Ninstants//save_to_array_every + 1, self.Nbodies, 12))
+            else:
+                instant_nodes =  np.zeros((Ninstants//save_to_array_every + 1, self.Nbodies, 93))
 
         for i in range(Ninstants + 1):
-            new2 = LIB.solveInstant2d(ctypes.byref(self.node), new)
+            new2 = self.solveInstant(ctypes.byref(self.node), new)
 
             if save_to_file_every > 0:
                 if i%save_to_file_every == 0:
-                    LIB.printInstant2d(self.node, new, self.file_number)
+                    self.printInstant(self.node, new, self.file_number)
                     self.file_number += 1
 
             if save_to_array_every > 0:
                 if i%save_to_array_every == 0:
-                    instant_points[array_number] = fromBodiesToArray(new, self.Nbodies)
+                    instant_points[array_number] = fromBodiesToArray(new, self.Nbodies, self.dim)
                     instant_nodes[array_number] = fromNodeToArray(self.node, self.dim)
                     array_number += 1
 
-            LIB.swapBody2d(ctypes.byref(new2), ctypes.byref(new))
+            self.swapBody(ctypes.byref(new2), ctypes.byref(new))
             LIB.free(new2)
 
         if save_to_array_every != 0:
@@ -134,7 +174,7 @@ class Simulation():
                 self.results_nodes = np.vstack((self.results_nodes, instant_nodes))
             return self.results_bodies, self.results_nodes
         else:
-            return fromBodiesToArray(new, self.Nbodies), fromNodeToArray(self.node)
+            return fromBodiesToArray(new, self.Nbodies, self.dim), fromNodeToArray(self.node)
 
     def animate2d(self, i, values, points, boxes):
         """
@@ -156,7 +196,31 @@ class Simulation():
         else:
             return points,
 
-    def configPlot(self, figsize=(6, 4.5), xlabel = None, ylabel = None):
+    def animate3d(self, i, values, points, boxes):
+        """
+            Method to be used with matplotlib FuncAnimation.
+        """
+        nboxes = len(boxes)
+        npoints = len(points)
+        if len(boxes) > 0:
+            step = (values.shape[-1] - 3)//3
+
+            for j in range(nboxes):
+                box = values[i, j, 3:]
+                boxes[j].set_data(box[:step], box[step:2*step])
+                boxes[j].set_3d_properties(box[2*step:])
+
+        for j in range(npoints):
+            body = values[i, j]
+            points[j].set_data(body[0], body[1])
+            points[j].set_3d_properties(body[2])
+
+        if nboxes > 0:
+            return points, boxes
+        else:
+            return points,
+
+    def configPlot(self, figsize=(6, 4.5), xlabel = None, ylabel = None, zlabel = None):
         """
             Configures the plot.
 
@@ -164,13 +228,28 @@ class Simulation():
                 matplotlib.figure: figure containing the main plot.
                 matplotlib.axes: axes containing all the dots and boxes frames (if boxed).
         """
-        self.fig, self.ax = plt.subplots(figsize = figsize)
+
+        if self.dim == 2:
+            self.fig, self.ax = plt.subplots(figsize = figsize)
+
+        elif self.dim == 3:
+            self.fig = plt.figure(figsize = figsize)
+            self.ax = self.fig.add_subplot(111, projection='3d')
+
+            if zlabel == None:
+                self.ax.set_zlabel("$z$")
+            else:
+                self.ax.set_zlabel(zlabel)
 
         if xlabel == None:
             self.ax.set_xlabel("$x$")
+        else:
+            self.ax.set_xlabel(xlabel)
 
         if ylabel == None:
-            self.ax.set_xlabel("$y$")
+            self.ax.set_ylabel("$y$")
+        else:
+            self.ax.set_ylabel(ylabel)
 
         return self.fig, self.ax
 
@@ -203,20 +282,33 @@ class Simulation():
         if self.ax == None or self.fig == None:
             self.configPlot()
 
-        if color == None:
-            points = [self.ax.plot([], [], "o", alpha = alpha)[0] for i in range(self.Nbodies)]
-        else:
-            points = [self.ax.plot([], [], "o", color = color, alpha = alpha)[0] for i in range(self.Nbodies)]
-        boxes = []
+        if self.dim == 2:
+            if color == None:
+                points = [self.ax.plot([], [], "o", alpha = alpha)[0] for i in range(self.Nbodies)]
+            else:
+                points = [self.ax.plot([], [], "o", color = color, alpha = alpha)[0] for i in range(self.Nbodies)]
+            boxes = []
 
-        if boxed:
-            boxes = [self.ax.plot([], [], c = points[i].get_color(), alpha = alpha)[0] for i in range(self.Nbodies)]
+            if boxed:
+                boxes = [self.ax.plot([], [], c = points[i].get_color(), alpha = alpha)[0] for i in range(self.Nbodies)]
+
+            animation = self.animate2d
+
+        elif self.dim == 3:
+            if color == None:
+                points = [self.ax.plot([], [], [], "o", alpha = alpha)[0] for i in range(self.Nbodies)]
+            else:
+                points = [self.ax.plot([], [], [], "o", color = color, alpha = alpha)[0] for i in range(self.Nbodies)]
+            boxes = []
+
+            if boxed:
+                boxes = [self.ax.plot([], [], [], c = points[i].get_color(), alpha = alpha)[0] for i in range(self.Nbodies)]
+
+            self.ax.set_zlim(data[:, :, 2].min(), data[:, :, 2].max())
+            animation = self.animate3d
 
         self.ax.set_xlim(data[:, :, 0].min(), data[:, :, 0].max())
         self.ax.set_ylim(data[:, :, 1].min(), data[:, :, 1].max())
-
-        if self.dim == 2:
-            animation = self.animate2d
 
         ani = FuncAnimation(self.fig, animation, frames = Ninstants,
                             interval = 25, fargs=(data, points, boxes))

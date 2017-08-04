@@ -6,7 +6,7 @@
 #include "omp.h"
 #include "box3d.h"
 #include "common.h"
-#include "constants.h"
+#include "cons.h"
 
 void printInstantNode3d(node3d *node, int t)
 {
