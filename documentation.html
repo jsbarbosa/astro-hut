@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Documentation &#8212; astrohut 0.0.7 documentation</title>
+    <title>Documentation &#8212; astrohut 0.0.12 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.7',
+        VERSION:     '0.0.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -26,6 +26,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
     <link rel="prev" title="Welcome to astrohut!" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -44,6 +45,8 @@
             
   <div class="section" id="documentation">
 <h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
 <div class="section" id="module-astrohut.core.constants">
 <span id="constants"></span><h2>constants<a class="headerlink" href="#module-astrohut.core.constants" title="Permalink to this headline">¶</a></h2>
 <dl class="attribute">
@@ -55,13 +58,13 @@
 
 <dl class="data">
 <dt id="astrohut.core.constants.LIB">
-<code class="descclassname">astrohut.core.constants.</code><code class="descname">LIB</code><em class="property"> = &lt;CDLL '/home/juan/.anaconda3/lib/python3.4/site-packages/astrohut-0.0.7-py3.4-linux-x86_64.egg/astrohut/core/astrohutc.cpython-34m.so', handle 1ac6ef0 at 7efc8dc1b080&gt;</em><a class="headerlink" href="#astrohut.core.constants.LIB" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">astrohut.core.constants.</code><code class="descname">LIB</code><em class="property"> = &lt;CDLL '/home/juan/.anaconda3/lib/python3.4/site-packages/astrohut-0.0.12-py3.4-linux-x86_64.egg/astrohut/core/astrohutc.cpython-34m.so', handle 1f9ae80 at 7f5ad555dfd0&gt;</em><a class="headerlink" href="#astrohut.core.constants.LIB" title="Permalink to this definition">¶</a></dt>
 <dd><p>CDLL instance of the shared library</p>
 </dd></dl>
 
 <dl class="data">
 <dt id="astrohut.core.constants.PATH">
-<code class="descclassname">astrohut.core.constants.</code><code class="descname">PATH</code><em class="property"> = '/home/juan/.anaconda3/lib/python3.4/site-packages/astrohut-0.0.7-py3.4-linux-x86_64.egg/astrohut/core/astrohutc.cpython-34m.so'</em><a class="headerlink" href="#astrohut.core.constants.PATH" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">astrohut.core.constants.</code><code class="descname">PATH</code><em class="property"> = '/home/juan/.anaconda3/lib/python3.4/site-packages/astrohut-0.0.12-py3.4-linux-x86_64.egg/astrohut/core/astrohutc.cpython-34m.so'</em><a class="headerlink" href="#astrohut.core.constants.PATH" title="Permalink to this definition">¶</a></dt>
 <dd><p>path to the C shared library</p>
 </dd></dl>
 
@@ -90,12 +93,18 @@
 <span id="interface"></span><h2>interface<a class="headerlink" href="#module-astrohut.core.interface" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="astrohut.core.interface.Simulation">
-<em class="property">class </em><code class="descclassname">astrohut.core.interface.</code><code class="descname">Simulation</code><span class="sig-paren">(</span><em>data</em>, <em>dim=2</em>, <em>mass_unit=1.0</em>, <em>G=1.0</em>, <em>tau=0.5</em>, <em>dt=0.0001</em>, <em>epsilon=0.0001</em>, <em>read_kwargs={}</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">astrohut.core.interface.</code><code class="descname">Simulation</code><span class="sig-paren">(</span><em>data</em>, <em>dim</em>, <em>mass_unit=1.0</em>, <em>G=1.0</em>, <em>tau=0.5</em>, <em>dt=0.0001</em>, <em>epsilon=0.0001</em>, <em>read_kwargs={}</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main class of astrohut. In order to evolve a system and study them a simulation instance
 must be launch.</p>
 <dl class="method">
 <dt id="astrohut.core.interface.Simulation.animate2d">
 <code class="descname">animate2d</code><span class="sig-paren">(</span><em>i</em>, <em>values</em>, <em>points</em>, <em>boxes</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.animate2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to be used with matplotlib FuncAnimation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astrohut.core.interface.Simulation.animate3d">
+<code class="descname">animate3d</code><span class="sig-paren">(</span><em>i</em>, <em>values</em>, <em>points</em>, <em>boxes</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.animate3d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to be used with matplotlib FuncAnimation.</p>
 </dd></dl>
 
@@ -111,7 +120,7 @@ must be launch.</p>
 
 <dl class="method">
 <dt id="astrohut.core.interface.Simulation.configPlot">
-<code class="descname">configPlot</code><span class="sig-paren">(</span><em>figsize=(6</em>, <em>4.5)</em>, <em>xlabel=None</em>, <em>ylabel=None</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.configPlot" title="Permalink to this definition">¶</a></dt>
+<code class="descname">configPlot</code><span class="sig-paren">(</span><em>figsize=(6</em>, <em>4.5)</em>, <em>xlabel=None</em>, <em>ylabel=None</em>, <em>zlabel=None</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.configPlot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Configures the plot.</p>
 <dl class="docutils">
 <dt>Returns:</dt>
@@ -158,7 +167,7 @@ matplotlib.axes: axes containing all the dots and boxes frames (if boxed).</dd>
 
 <dl class="method">
 <dt id="astrohut.core.interface.Simulation.start">
-<code class="descname">start</code><span class="sig-paren">(</span><em>Ninstants</em>, <em>threads=0</em>, <em>save_to_file_every=0</em>, <em>save_to_array_every=1</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.start" title="Permalink to this definition">¶</a></dt>
+<code class="descname">start</code><span class="sig-paren">(</span><em>Ninstants</em>, <em>threads=0</em>, <em>save_to_file_every=0</em>, <em>save_to_array_every=1</em>, <em>print_progress=False</em><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.core.interface.Simulation.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Starts a simulation, evolves the system N Ninstants of time.</p>
 <dl class="docutils">
 <dt>Returns:</dt>
@@ -251,6 +260,7 @@ first the x components, then y, and finally z if dim is 3.</dd>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">Welcome to astrohut!</a></li>
+      <li>Next: <a href="examples.html" title="next chapter">Examples</a></li>
   </ul></li>
 </ul>
 </div>

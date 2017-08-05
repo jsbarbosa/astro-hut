@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Examples &#8212; astrohut 0.0.12 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.12',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Documentation" href="documentation.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="d-examples">
+<h2>2d examples<a class="headerlink" href="#d-examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="random2d">
+<h3>random2d<a class="headerlink" href="#random2d" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/random2d.gif"><img alt="_images/random2d.gif" src="_images/random2d.gif" style="width: 324.0px; height: 243.0px;" /></a>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astrohut</span> <span class="k">as</span> <span class="nn">ah</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="n">speeds</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">generateSpeeds</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+<span class="n">system</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">createArray</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">speeds</span><span class="p">)</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">Simulation</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">G</span><span class="p">,</span> <span class="n">mass_unit</span> <span class="o">=</span> <span class="n">m</span><span class="p">)</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">save_to_array_every</span> <span class="o">=</span> <span class="mi">25</span><span class="p">)</span>
+
+<span class="c1"># if boxes are wanted: boxed = True, else: boxed = False</span>
+<span class="n">ani</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">makeAnimation</span><span class="p">(</span><span class="n">boxed</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># ani.save(&quot;random2d.gif&quot;, writer=&quot;imagemagick&quot;, dpi = 72, fps = 12)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>3d examples<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="random3d">
+<h3>random3d<a class="headerlink" href="#random3d" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/random3d.gif"><img alt="_images/random3d.gif" src="_images/random3d.gif" style="width: 324.0px; height: 243.0px;" /></a>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astrohut</span> <span class="k">as</span> <span class="nn">ah</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="k">import</span> <span class="n">Axes3D</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">speeds</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">generateSpeeds</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+<span class="n">system</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">createArray</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">speeds</span><span class="p">)</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">Simulation</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">G</span><span class="p">,</span> <span class="n">mass_unit</span> <span class="o">=</span> <span class="n">m</span><span class="p">)</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">save_to_array_every</span> <span class="o">=</span> <span class="mi">25</span><span class="p">)</span>
+
+<span class="c1"># if boxes are wanted: boxed = True, else: boxed = False</span>
+<span class="n">ani</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">makeAnimation</span><span class="p">(</span><span class="n">boxed</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># ani.save(&quot;random3d.gif&quot;, writer=&quot;imagemagick&quot;, dpi = 72, fps = 12)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="disk3d">
+<h3>disk3d<a class="headerlink" href="#disk3d" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/disk3d.gif"><img alt="_images/disk3d.gif" src="_images/disk3d.gif" style="width: 324.0px; height: 243.0px;" /></a>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astrohut</span> <span class="k">as</span> <span class="nn">ah</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="k">import</span> <span class="n">Axes3D</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">25</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">pos</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">speeds</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">generateSpeeds</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+<span class="n">system</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">createArray</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">speeds</span><span class="p">)</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">Simulation</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">G</span><span class="p">,</span> <span class="n">mass_unit</span> <span class="o">=</span> <span class="n">m</span><span class="p">)</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">save_to_array_every</span> <span class="o">=</span> <span class="mi">25</span><span class="p">)</span>
+
+<span class="c1"># if boxes are wanted: boxed = True, else: boxed = False</span>
+<span class="n">ani</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">makeAnimation</span><span class="p">(</span><span class="n">boxed</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># ani.save(&quot;disk3d.gif&quot;, writer=&quot;imagemagick&quot;, dpi = 72, fps = 12)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="collision3d">
+<h3>collision3d<a class="headerlink" href="#collision3d" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/collision3d.gif"><img alt="_images/collision3d.gif" src="_images/collision3d.gif" style="width: 324.0px; height: 243.0px;" /></a>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astrohut</span> <span class="k">as</span> <span class="nn">ah</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="k">import</span> <span class="n">Axes3D</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="n">pos1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">pos2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">pos1</span><span class="p">)</span>
+
+<span class="n">pos1</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="n">pos2</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">pos2</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.0</span>
+
+<span class="n">speeds1</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">generateSpeeds</span><span class="p">(</span><span class="n">pos1</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+<span class="n">speeds2</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">generateSpeeds</span><span class="p">(</span><span class="n">pos2</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">))</span>
+<span class="n">speeds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">speeds1</span><span class="p">,</span> <span class="n">speeds2</span><span class="p">))</span>
+
+<span class="n">system</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">createArray</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">speeds</span><span class="p">)</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">Simulation</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">G</span><span class="p">,</span> <span class="n">mass_unit</span> <span class="o">=</span> <span class="n">m</span><span class="p">,</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">save_to_array_every</span> <span class="o">=</span> <span class="mi">125</span><span class="p">,</span> <span class="n">print_progress</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># if boxes are wanted: boxed = True</span>
+<span class="n">ani</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">makeAnimation</span><span class="p">()</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># ani.save(&quot;collision3d.gif&quot;, writer=&quot;imagemagick&quot;, dpi = 72, fps = 12)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Examples</a><ul>
+<li><a class="reference internal" href="#d-examples">2d examples</a><ul>
+<li><a class="reference internal" href="#random2d">random2d</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id1">3d examples</a><ul>
+<li><a class="reference internal" href="#random3d">random3d</a></li>
+<li><a class="reference internal" href="#disk3d">disk3d</a></li>
+<li><a class="reference internal" href="#collision3d">collision3d</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="documentation.html" title="previous chapter">Documentation</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/examples.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Juan Barbosa.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/examples.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
