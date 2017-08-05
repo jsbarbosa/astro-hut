@@ -51,21 +51,12 @@ Written in Python, with the core functions in C, astrohut depends on the followi
 <li><a class="reference external" href="http://www.numpy.org/">NumPy</a></li>
 <li><a class="reference external" href="http://matplotlib.org/">Matplotlib</a></li>
 </ul>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Welcome to astrohut!</a></li>
-</ul>
-</div>
 <div class="section" id="installing">
 <h2>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h2>
 <p>astrohut is freely available on PyPI, thus can be easily installed with pip:</p>
 <p><code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">astrohut</span></code></p>
 <p>The development version is hosted on <a class="reference external" href="http://github.com/jsbarbosa/astrohut">GitHub</a>, and can be installed by running the <cite>setup.py</cite>.</p>
 <p><code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></p>
-</div>
-<div class="section" id="how-it-works">
-<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 <div class="section" id="documentation">
@@ -80,7 +71,7 @@ They contain the definition of the <cite>Simulation</cite> class, as well as the
 <li class="toctree-l2"><a class="reference internal" href="documentation.html#module-astrohut.core.core">core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="documentation.html#module-astrohut.core.interface">interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="documentation.html#module-astrohut.core.structs2d">structs2d</a></li>
-<li class="toctree-l2"><a class="reference internal" href="documentation.html#module-astrohut.data.data2d">data2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="documentation.html#module-astrohut.core.structs3d">structs3d</a></li>
 </ul>
 </li>
 </ul>
@@ -88,9 +79,12 @@ They contain the definition of the <cite>Simulation</cite> class, as well as the
 </div>
 <div class="section" id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<a class="reference internal image-reference" href="_images/random2d.gif"><img alt="_images/random2d.gif" src="_images/random2d.gif" style="width: 45%;" /></a>
+<a class="reference internal image-reference" href="_images/collision3d.gif"><img alt="_images/collision3d.gif" src="_images/collision3d.gif" style="width: 45%;" /></a>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#energy-measurment">Energy measurment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#d-examples">2d examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#id1">3d examples</a></li>
 </ul>
@@ -117,7 +111,6 @@ They contain the definition of the <cite>Simulation</cite> class, as well as the
   <ul>
 <li><a class="reference internal" href="#">Welcome to astrohut!</a><ul>
 <li><a class="reference internal" href="#installing">Installing</a></li>
-<li><a class="reference internal" href="#how-it-works">How it works</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#documentation">Documentation</a></li>

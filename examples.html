@@ -46,6 +46,36 @@
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
+<div class="section" id="energy-measurment">
+<h2>Energy measurment<a class="headerlink" href="#energy-measurment" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/energy.png"><img alt="_images/energy.png" src="_images/energy.png" style="width: 480.0px; height: 360.0px;" /></a>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astrohut</span> <span class="k">as</span> <span class="nn">ah</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="n">speeds</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">generateSpeeds</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+<span class="n">system</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">createArray</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">speeds</span><span class="p">)</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">ah</span><span class="o">.</span><span class="n">Simulation</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="n">G</span> <span class="o">=</span> <span class="n">G</span><span class="p">,</span> <span class="n">mass_unit</span> <span class="o">=</span> <span class="n">m</span><span class="p">)</span>
+
+<span class="n">sim</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">save_to_array_every</span> <span class="o">=</span> <span class="mi">250</span><span class="p">,</span> <span class="n">print_progress</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">getEnergies</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Saved instants of time&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Energy&quot;</span><span class="p">)</span>
+
+<span class="c1"># plt.savefig(&quot;energy.png&quot;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="d-examples">
 <h2>2d examples<a class="headerlink" href="#d-examples" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="random2d">
@@ -198,6 +228,7 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Examples</a><ul>
+<li><a class="reference internal" href="#energy-measurment">Energy measurment</a></li>
 <li><a class="reference internal" href="#d-examples">2d examples</a><ul>
 <li><a class="reference internal" href="#random2d">random2d</a></li>
 </ul>

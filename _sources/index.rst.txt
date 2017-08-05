@@ -15,12 +15,6 @@ Written in Python, with the core functions in C, astrohut depends on the followi
 .. _NumPy: http://www.numpy.org/
 .. _Matplotlib: http://matplotlib.org/
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   self
-
 Installing
 ----------
 astrohut is freely available on PyPI, thus can be easily installed with pip:
@@ -30,9 +24,6 @@ astrohut is freely available on PyPI, thus can be easily installed with pip:
 The development version is hosted on `GitHub <http://github.com/jsbarbosa/astrohut>`_, and can be installed by running the `setup.py`.
 
 ``python setup.py install``
-
-How it works
-------------
 
 Documentation
 =============
@@ -48,6 +39,10 @@ Root class is `Simulation` which defines the system in which the simulation will
 
 Examples
 ========
+.. image:: astrohut/examples/random2d.gif
+   :width: 45%
+.. image:: astrohut/examples/collision3d.gif
+   :width: 45%
 
 .. toctree::
     :maxdepth: 2

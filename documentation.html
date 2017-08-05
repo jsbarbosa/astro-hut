@@ -58,7 +58,7 @@
 
 <dl class="data">
 <dt id="astrohut.core.constants.LIB">
-<code class="descclassname">astrohut.core.constants.</code><code class="descname">LIB</code><em class="property"> = &lt;CDLL '/home/juan/.anaconda3/lib/python3.4/site-packages/astrohut-0.0.12-py3.4-linux-x86_64.egg/astrohut/core/astrohutc.cpython-34m.so', handle 1f9ae80 at 7f5ad555dfd0&gt;</em><a class="headerlink" href="#astrohut.core.constants.LIB" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">astrohut.core.constants.</code><code class="descname">LIB</code><em class="property"> = &lt;CDLL '/home/juan/.anaconda3/lib/python3.4/site-packages/astrohut-0.0.12-py3.4-linux-x86_64.egg/astrohut/core/astrohutc.cpython-34m.so', handle 2726280 at 7f534f0f2128&gt;</em><a class="headerlink" href="#astrohut.core.constants.LIB" title="Permalink to this definition">¶</a></dt>
 <dd><p>CDLL instance of the shared library</p>
 </dd></dl>
 
@@ -209,30 +209,24 @@ first the x components, then y, and finally z if dim is 3.</dd>
 </dd></dl>
 
 </div>
-<div class="section" id="module-astrohut.data.data2d">
-<span id="data2d"></span><h2>data2d<a class="headerlink" href="#module-astrohut.data.data2d" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="astrohut.data.data2d.mediumGaussian">
-<code class="descclassname">astrohut.data.data2d.</code><code class="descname">mediumGaussian</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.data.data2d.mediumGaussian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Relaxed 100 body, gaussian distribution initial conditions.</p>
-<p><cite>G = 1.0</cite></p>
-<p><cite>mass_unit = 1.0</cite></p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd>np.ndarray: contains points properties.</dd>
-</dl>
+<div class="section" id="module-astrohut.core.structs3d">
+<span id="structs3d"></span><h2>structs3d<a class="headerlink" href="#module-astrohut.core.structs3d" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="astrohut.core.structs3d.body3d">
+<em class="property">class </em><code class="descclassname">astrohut.core.structs3d.</code><code class="descname">body3d</code><a class="headerlink" href="#astrohut.core.structs3d.body3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a body2d structure.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="astrohut.data.data2d.smallGaussian">
-<code class="descclassname">astrohut.data.data2d.</code><code class="descname">smallGaussian</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#astrohut.data.data2d.smallGaussian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Relaxed 10 body, gaussian distribution initial conditions.</p>
-<p><cite>G = 1.0</cite></p>
-<p><cite>mass_unit = 1.0</cite></p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd>np.ndarray: contains points properties.</dd>
-</dl>
+<dl class="class">
+<dt id="astrohut.core.structs3d.node3d">
+<em class="property">class </em><code class="descclassname">astrohut.core.structs3d.</code><code class="descname">node3d</code><a class="headerlink" href="#astrohut.core.structs3d.node3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a node2d structure.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="astrohut.core.structs3d.point3d">
+<em class="property">class </em><code class="descclassname">astrohut.core.structs3d.</code><code class="descname">point3d</code><a class="headerlink" href="#astrohut.core.structs3d.point3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a point2d structure.</p>
 </dd></dl>
 
 </div>
@@ -251,7 +245,7 @@ first the x components, then y, and finally z if dim is 3.</dd>
 <li><a class="reference internal" href="#module-astrohut.core.core">core</a></li>
 <li><a class="reference internal" href="#module-astrohut.core.interface">interface</a></li>
 <li><a class="reference internal" href="#module-astrohut.core.structs2d">structs2d</a></li>
-<li><a class="reference internal" href="#module-astrohut.data.data2d">data2d</a></li>
+<li><a class="reference internal" href="#module-astrohut.core.structs3d">structs3d</a></li>
 </ul>
 </li>
 </ul>
