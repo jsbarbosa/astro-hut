@@ -17,5 +17,5 @@ sim.start(1000, save_to_array_every = 25)
 # if boxes are wanted: boxed = True, else: boxed = False
 ani = sim.makeAnimation(boxed = True)
 
-ani.save("random2d.gif", writer="imagemagick", dpi = 72, fps = 12)
+# ani.save("random2d.gif", writer="imagemagick", dpi = 72, fps = 12)
 plt.show()
