@@ -5,8 +5,8 @@ Examples
 .. toctree::
     :maxdepth: 2
 
-Energy measurment
-*****************
+Energy measurement
+******************
 .. figure:: astrohut/examples/energy.png
    :scale: 75 %
    :align: center
