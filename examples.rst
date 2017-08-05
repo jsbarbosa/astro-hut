@@ -5,6 +5,14 @@ Examples
 .. toctree::
     :maxdepth: 2
 
+Energy measurment
+*****************
+.. figure:: astrohut/examples/energy.png
+   :scale: 75 %
+   :align: center
+
+.. literalinclude:: astrohut/examples/energy.py
+
 2d examples
 ***********
 
