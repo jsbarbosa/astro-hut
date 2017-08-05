@@ -24,7 +24,8 @@ structs2d
 .. automodule:: astrohut.core.structs2d
     :members:
 
-data2d
-^^^^^^
-.. automodule:: astrohut.data.data2d
+
+structs3d
+^^^^^^^^^
+.. automodule:: astrohut.core.structs2d
     :members:

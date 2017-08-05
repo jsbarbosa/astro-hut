@@ -3,7 +3,7 @@ from .constants import DOUBLE
 
 class point3d(ctypes.Structure):
     """
-        Defines a point2d structure.
+        Defines a point3d structure.
     """
     _fields_ = [('x', DOUBLE),
                 ('y', DOUBLE),
@@ -14,7 +14,7 @@ class point3d(ctypes.Structure):
 
 class body3d(ctypes.Structure):
     """
-        Defines a body2d structure.
+        Defines a body3d structure.
     """
     _fields_ = [('p', point3d),
                 ('v', point3d),
@@ -33,7 +33,7 @@ class body3d(ctypes.Structure):
 
 class node3d(ctypes.Structure):
     """
-        Defines a node2d structure.
+        Defines a node3d structure.
     """
     def __str__(self):
         toprint = ["Nbodies", "mass", "width", "height", "center", "cmass"]

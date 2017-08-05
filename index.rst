@@ -15,12 +15,6 @@ Written in Python, with the core functions in C, astrohut depends on the followi
 .. _NumPy: http://www.numpy.org/
 .. _Matplotlib: http://matplotlib.org/
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   self
-
 Installing
 ----------
 astrohut is freely available on PyPI, thus can be easily installed with pip:
