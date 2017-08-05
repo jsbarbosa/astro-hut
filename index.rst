@@ -15,6 +15,9 @@ Written in Python, with the core functions in C, astrohut depends on the followi
 .. _NumPy: http://www.numpy.org/
 .. _Matplotlib: http://matplotlib.org/
 
+astrohut implements a `Barnes-Hut tree <https://github.com/jsbarbosa/astrohut/raw/old/presentation/beamer.pdf>`_ to calculate forces.
+
+
 Installing
 ----------
 astrohut is freely available on PyPI, thus can be easily installed with pip:
