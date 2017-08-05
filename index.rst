@@ -49,6 +49,11 @@ Root class is `Simulation` which defines the system in which the simulation will
 Examples
 ========
 
+.. toctree::
+    :maxdepth: 2
+
+    examples
+
 Indices and tables
 ==================
 
