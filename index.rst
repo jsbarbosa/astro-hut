@@ -31,9 +31,6 @@ The development version is hosted on `GitHub <http://github.com/jsbarbosa/astroh
 
 ``python setup.py install``
 
-How it works
-------------
-
 Documentation
 =============
 astrohut is divided in five scripts: `core/constants.py`, `core/core.py`, `core/interface.py`, `core/structs2d.py`.
@@ -48,6 +45,10 @@ Root class is `Simulation` which defines the system in which the simulation will
 
 Examples
 ========
+.. image:: astrohut/examples/random2d.gif
+   :width: 45%
+.. image:: astrohut/examples/collision3d.gif
+   :width: 45%
 
 .. toctree::
     :maxdepth: 2
