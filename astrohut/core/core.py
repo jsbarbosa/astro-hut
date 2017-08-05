@@ -23,7 +23,7 @@ def fromArrayToBodies(array, dim = 2):
 
     if dim == 2:
         body = body2d
-        point = poin2d
+        point = point2d
 
     elif dim == 3:
         body = body3d
@@ -185,6 +185,7 @@ def generateSpeeds(positions, G, mass_unit):
     if dim == 3:
         zs = positions[:, 2]
         z0 = zs.mean()
+        zs = zs - z0
 
     speeds = np.zeros_like(positions)
 

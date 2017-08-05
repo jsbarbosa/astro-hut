@@ -223,7 +223,7 @@ node3d *calculateNode3d(node3d *mother_node)
         createSubNode3d(mother_node->Nbodies, mother_node->subnode1,
                             mother_node->xs, mother_node->ys, mother_node->zs, cc1);
         createSubNode3d(mother_node->Nbodies, mother_node->subnode2,
-                            mother_node->xs, mother_node->ys, mother_node->zs,cc2);
+                            mother_node->xs, mother_node->ys, mother_node->zs, cc2);
         createSubNode3d(mother_node->Nbodies, mother_node->subnode3,
                             mother_node->xs, mother_node->ys, mother_node->zs, cc3);
         createSubNode3d(mother_node->Nbodies, mother_node->subnode4,
@@ -596,9 +596,9 @@ void acceleration3d(node3d *node, body3d *object)
         DOUBLE dx, dy, dz, r2, prime;
         dx = node->cmass.x - object->p.x;
         dy = node->cmass.y - object->p.y;
-        dz = node->cmass.y - object->p.z;
+        dz = node->cmass.z - object->p.z;
         r2 = dx*dx + dy*dy + dz*dz;
-        prime = sqrt((pow(node->width, 2.0) + pow(node->width, 2.0) + pow(node->large, 2.0))/r2);
+        prime = sqrt((pow(node->height, 2.0) + pow(node->width, 2.0) + pow(node->large, 2.0))/r2);
         if((node->Nbodies == 1) && (r2 != 0))
         {
             r2 += EPSILON;

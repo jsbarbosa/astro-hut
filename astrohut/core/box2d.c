@@ -470,7 +470,7 @@ void acceleration2d(node2d *node, body2d *object)
         dx = node->cmass.x - object->p.x;
         dy = node->cmass.y - object->p.y;
         r2 = dx*dx + dy*dy;
-        prime = sqrt((pow(node->width, 2.0) + pow(node->width, 2.0))/r2);
+        prime = sqrt((pow(node->height, 2.0) + pow(node->width, 2.0))/r2);
         if((node->Nbodies == 1) && (r2 != 0))
         {
             r2 += EPSILON;

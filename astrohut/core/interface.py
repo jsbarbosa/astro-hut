@@ -113,7 +113,7 @@ class Simulation():
         """
         __setPrint__(os.path.join(os.getcwd(), prefix))
 
-    def start(self, Ninstants, threads = 0, save_to_file_every = 0, save_to_array_every = 1):
+    def start(self, Ninstants, threads = 0, save_to_file_every = 0, save_to_array_every = 1, print_progress = False):
         """
             Starts a simulation, evolves the system N Ninstants of time.
 
@@ -154,12 +154,16 @@ class Simulation():
                 if i%save_to_file_every == 0:
                     self.printInstant(self.node, new, self.file_number)
                     self.file_number += 1
+                    if print_progress:
+                        print("File %d saved"%self.file_number)
 
             if save_to_array_every > 0:
                 if i%save_to_array_every == 0:
                     instant_points[array_number] = fromBodiesToArray(new, self.Nbodies, self.dim)
                     instant_nodes[array_number] = fromNodeToArray(self.node, self.dim)
                     array_number += 1
+                    if print_progress:
+                        print("Array %d/%d"%(array_number, Ninstants//save_to_array_every + 1))
 
             self.swapBody(ctypes.byref(new2), ctypes.byref(new))
             LIB.free(new2)
@@ -304,7 +308,10 @@ class Simulation():
             if boxed:
                 boxes = [self.ax.plot([], [], [], c = points[i].get_color(), alpha = alpha)[0] for i in range(self.Nbodies)]
 
-            self.ax.set_zlim(data[:, :, 2].min(), data[:, :, 2].max())
+            min_ = data[:, :, 2].min()
+            max_ = data[:, :, 2].max()
+            if min_ != max_:
+                self.ax.set_zlim(min_, max_)
             animation = self.animate3d
 
         self.ax.set_xlim(data[:, :, 0].min(), data[:, :, 0].max())

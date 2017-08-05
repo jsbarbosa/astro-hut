@@ -14,7 +14,7 @@ setup(
     description = ('Barnes-Hut NBody simulation library.'),
     license = "GPL",
     keywords = "example documentation tutorial",
-    packages=['astrohut', 'astrohut/core', 'astrohut/data', 'astrohut/testing'],
+    packages=['astrohut', 'astrohut/core', 'astrohut/examples'],
     install_requires=['matplotlib', 'numpy'],
     ext_modules = [module],
     long_description="https://github.com/jsbarbosa/astrohut/",

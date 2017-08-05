@@ -3,4 +3,3 @@ include astrohut/core/cons.h
 include astrohut/core/box2d.h
 include astrohut/core/box3d.h
 include astrohut/core/astrohutc.cpython-34m.so
-include astrohut/data/*.dat

@@ -9,4 +9,4 @@ From PyPi:
 
 #### Compile shared library
 
-`gcc common.c constants.c box2d.c box3d.c -O2 -lm -shared -fPIC -fopenmp -o astrohutc.cpython-34m.so`
+`gcc common.c cons.c box2d.c box3d.c -O2 -lm -shared -fPIC -fopenmp -o astrohutc.cpython-34m.so`
