@@ -23,6 +23,6 @@ setup(
         "Topic :: Utilities",
         "License :: OSI Approved :: GNU General Public License (GPL)",
     ],
-    headers = ['astrohut/core/box3d.h', 'astrohut/core/box2d.h', 'astrohut/core/common.h', 'astrohut/core/constants.h'],
+    headers = ['astrohut/core/box3d.h', 'astrohut/core/box2d.h', 'astrohut/core/common.h', 'astrohut/core/cons.h'],
     include_package_data = True,
 )
