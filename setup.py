@@ -7,7 +7,7 @@ module = Extension('astrohut/core/astrohutc',
 
 setup(
     name = "astrohut",
-    version = "0.1.1",
+    version = "0.1.2",
     author = "Juan Barbosa",
     author_email = "js.barbosa10@uniandes.edu.co",
     description = ('Barnes-Hut NBody simulation library.'),
