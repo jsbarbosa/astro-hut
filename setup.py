@@ -1,4 +1,3 @@
-import astrohut as ah
 from setuptools import setup
 from setuptools.extension import Extension
 
@@ -8,7 +7,7 @@ module = Extension('astrohut/core/astrohutc',
 
 setup(
     name = "astrohut",
-    version = ah.__version__,
+    version = "0.1.1",
     author = "Juan Barbosa",
     author_email = "js.barbosa10@uniandes.edu.co",
     description = ('Barnes-Hut NBody simulation library.'),
